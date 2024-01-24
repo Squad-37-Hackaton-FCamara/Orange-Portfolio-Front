@@ -1,6 +1,6 @@
 function FeedPage() {
     return(
-        <div>Feed</div>
+        <div className="bg-color-info-90">Feed</div>
     );
 }
 
