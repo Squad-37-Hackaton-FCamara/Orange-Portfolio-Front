@@ -1,7 +1,5 @@
 function FeedPage() {
-    return(
-        <div className="bg-color-info-90">Feed</div>
-    );
+  return <div className="bg-color-info-90">Feed</div>
 }
 
-export default FeedPage;
+export default FeedPage
