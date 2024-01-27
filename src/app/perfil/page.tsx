@@ -5,11 +5,12 @@ import Modal from "@/app/_helpers/modal";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
+import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
 
 function PerfilPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
-    "editado" | "adicionado" | "deletado" | ""
+    "editado" | "adicionado" | "deletado" | "confirmar_deletar" | ""
   >("");
 
   function definirModal(modal: "editado" | "adicionado" | "deletado" | "") {
@@ -62,8 +63,23 @@ function PerfilPage() {
         >
           <p>Abrir modal de adicionar</p>
         </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            setModal("confirmar_deletar");
+            setIsOpen(true);
+          }}
+          className="text-black"
+        >
+          <p>Abrir modal de confirmar deletar</p>
+        </Button>
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <ConteudoModalSucesso titulo={definirModal(modal)} />
+          {modal == "confirmar_deletar" ? (
+            <ConteudoModalConfirmarDeletar />
+          ) : (
+            <ConteudoModalSucesso titulo={definirModal(modal)} />
+          )}
         </Modal>
       </div>
     </PerfilPageLayout>
