@@ -4,12 +4,26 @@ import PerfilPageLayout from "@/app/perfil/layout";
 import Modal from "@/app/_helpers/modal";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
 
 function PerfilPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
     "editado" | "adicionado" | "deletado" | ""
   >("");
+
+  function definirModal(modal: "editado" | "adicionado" | "deletado" | "") {
+    switch (modal) {
+      case "editado":
+        return "Edição concluída com sucesso!";
+      case "adicionado":
+        return "Projeto adicionado com sucesso!";
+      case "deletado":
+        return "Projeto deletado com sucesso!";
+      default:
+        return "";
+    }
+  }
 
   return (
     <PerfilPageLayout>
@@ -18,14 +32,38 @@ function PerfilPage() {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setModal("editado");
+            setIsOpen(true);
+          }}
           className="text-black"
         >
-          <p>Abrir modal</p>
+          <p>Abrir modal de edição</p>
         </Button>
-        <button onClick={() => setIsOpen(true)}>abrir modal</button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            setModal("deletado");
+            setIsOpen(true);
+          }}
+          className="text-black"
+        >
+          <p>Abrir modal de deletar</p>
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            setModal("adicionado");
+            setIsOpen(true);
+          }}
+          className="text-black"
+        >
+          <p>Abrir modal de adicionar</p>
+        </Button>
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <p>oi</p>
+          <ConteudoModalSucesso titulo={definirModal(modal)} />
         </Modal>
       </div>
     </PerfilPageLayout>
