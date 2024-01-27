@@ -1,7 +1,5 @@
 function CadastroPage() {
-    return(
-        <div>Cadastro</div>
-    );
+  return <div>Cadastro</div>;
 }
 
 export default CadastroPage;
