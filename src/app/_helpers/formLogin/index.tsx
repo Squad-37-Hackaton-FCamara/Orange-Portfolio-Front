@@ -2,21 +2,9 @@ import TextField from '@mui/material/TextField';
 import CampoSenha from '../campoSenha';
 import Link from 'next/link'
 import * as React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import clsx from "clsx"
 import { Typography } from '@mui/material';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#FF5522',
-      light: '#FF8833',
-      dark: '#FF5522',
-      contrastText: '#FFFFFF',
-    },
-  },
-});
 
 export default function FormularioLogin() {
   return (
@@ -39,7 +27,11 @@ export default function FormularioLogin() {
           required
         />
         <CampoSenha />
-        <ThemeProvider theme={theme}><Button variant="contained" color='primary'>ENTRAR</Button></ThemeProvider>
+        <Button variant="contained" color='secondary' className={clsx(
+          "bg-color-secondary-100 hover:bg-color-secondary-110",
+          "text-[15px] font-medium text-color-neutral-60"
+        )}
+        >ENTRAR</Button>
         <Link href="/cadastro" className='text-color-neutral-100 text-base'>Cadastre-se</Link>
       </div>
     </form>

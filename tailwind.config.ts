@@ -1,3 +1,4 @@
+import { Roboto } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -91,6 +92,9 @@ const config: Config = {
           120: "#0F2477",
           130: "#091862",
         },
+      },
+      fontFamily: {
+        'roboto': ['Roboto', 'sans-serif'],
       },
     },
   },
