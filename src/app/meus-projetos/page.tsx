@@ -1,19 +1,52 @@
 "use client";
 
-import PerfilPageLayout from "@/app/perfil/layout";
-import Modal from "@/app/_helpers/modal";
+import PerfilPageLayout from "@/app/meus-projetos/layout";
+import ComponenteModal from "@/app/_helpers/modal";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
 import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
+import { ConteudoModalAddProjeto } from "../_helpers/modal/conteudo_modal/adicionar_projeto";
 
 function PerfilPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
-    "editado" | "adicionado" | "deletado" | "confirmar_deletar" | ""
+    | "editado"
+    | "adicionado"
+    | "deletado"
+    | "confirmar_deletar"
+    | "add_projeto"
+    | ""
   >("");
 
-  function definirModal(modal: "editado" | "adicionado" | "deletado" | "") {
+  function defModal(
+    modal:
+      | "editado"
+      | "adicionado"
+      | "deletado"
+      | "confirmar_deletar"
+      | "add_projeto"
+      | ""
+  ) {
+    switch (modal) {
+      case "editado":
+        return <ConteudoModalSucesso titulo={defTituloModalSucesso(modal)} />;
+      case "adicionado":
+        return <ConteudoModalSucesso titulo={defTituloModalSucesso(modal)} />;
+      case "deletado":
+        return <ConteudoModalSucesso titulo={defTituloModalSucesso(modal)} />;
+      case "confirmar_deletar":
+        return <ConteudoModalConfirmarDeletar />;
+      case "add_projeto":
+        return <ConteudoModalAddProjeto />;
+      default:
+        return <></>;
+    }
+  }
+
+  function defTituloModalSucesso(
+    modal: "editado" | "adicionado" | "deletado" | ""
+  ) {
     switch (modal) {
       case "editado":
         return "Edição concluída com sucesso!";
@@ -74,13 +107,20 @@ function PerfilPage() {
         >
           <p>Abrir modal de confirmar deletar</p>
         </Button>
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          {modal == "confirmar_deletar" ? (
-            <ConteudoModalConfirmarDeletar />
-          ) : (
-            <ConteudoModalSucesso titulo={definirModal(modal)} />
-          )}
-        </Modal>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            setModal("add_projeto");
+            setIsOpen(true);
+          }}
+          className="text-black"
+        >
+          <p>Abrir modal de adicionar projeto</p>
+        </Button>
+        <ComponenteModal isOpen={isOpen} setIsOpen={setIsOpen}>
+          {defModal(modal)}
+        </ComponenteModal>
       </div>
     </PerfilPageLayout>
   );

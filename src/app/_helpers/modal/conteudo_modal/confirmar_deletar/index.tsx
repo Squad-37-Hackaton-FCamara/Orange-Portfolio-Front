@@ -1,5 +1,5 @@
 import { CheckIcon } from "@/app/_helpers/svg/checkIcon";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import clsx from "clsx";
 
 export function ConteudoModalConfirmarDeletar() {
@@ -9,12 +9,12 @@ export function ConteudoModalConfirmarDeletar() {
 
   return (
     <div className="flex flex-col gap-6 ">
-      <h1 className={clsx("text-2xl", "text-color-neutral-110")}>
+      <Typography component="h1" className="text-2xl text-color-neutral-110">
         Deseja excluir?
-      </h1>
-      <p className="text-neutral-110 max-w-[337px]">
+      </Typography>
+      <Typography component="p" className="text-neutral-110 max-w-[337px]">
         Se você prosseguir irá excluir o projeto do seu portfólio
-      </p>
+      </Typography>
       <div className="flex gap-4">
         <Button
           size="large"

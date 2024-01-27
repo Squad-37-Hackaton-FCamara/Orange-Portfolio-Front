@@ -1,5 +1,5 @@
 import { CheckIcon } from "@/app/_helpers/svg/checkIcon";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import clsx from "clsx";
 
 export function ConteudoModalSucesso({ titulo }: { titulo: string }) {
@@ -9,9 +9,12 @@ export function ConteudoModalSucesso({ titulo }: { titulo: string }) {
 
   return (
     <div className="flex flex-col gap-6 items-center">
-      <h1 className={clsx("text-2xl text-center", "text-color-neutral-110")}>
+      <Typography
+        component="h1"
+        className={clsx("text-2xl text-center", "text-color-neutral-110")}
+      >
         {titulo}
-      </h1>
+      </Typography>
       <div
         className={clsx(
           "w-fit h-fit flex items-center justify-center",

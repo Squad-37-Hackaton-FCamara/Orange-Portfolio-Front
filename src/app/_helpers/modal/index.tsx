@@ -13,7 +13,7 @@ const style = {
   p: 4,
 };
 
-export default function ModalSucesso({
+export default function ComponentModal({
   children,
   isOpen,
   setIsOpen,
@@ -27,15 +27,13 @@ export default function ModalSucesso({
   }
 
   return (
-    <div>
-      <Modal open={isOpen} onClose={handleClose}>
-        <Box
-          sx={style}
-          className="flex flex-col justify-center gap-6 items-center px-8 py-10"
-        >
-          {children}
-        </Box>
-      </Modal>
-    </div>
+    <Modal open={isOpen} onClose={handleClose}>
+      <Box
+        sx={style}
+        className="flex flex-col justify-center gap-6 items-center px-8 py-10"
+      >
+        {children}
+      </Box>
+    </Modal>
   );
 }
