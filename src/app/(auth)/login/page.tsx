@@ -1,7 +1,7 @@
 "use client"
-import FormularioLogin from "@/app/_helpers/form";
+import FormularioLogin from "@/app/_helpers/formLogin";
 import Image from 'next/image'
-import ImgLogin from '../../assets/img_login.png'
+import ImgLogin from '../../_helpers/assets/img_login.png'
 
 export default function LoginPage() {
   return (
