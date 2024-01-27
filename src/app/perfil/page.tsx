@@ -1,6 +1,6 @@
 "use client";
 
-import ModalSucesso from "@/app/_helpers/modal_sucesso_edicao";
+import Modal from "@/app/_helpers/modal";
 import { useState } from "react";
 
 function PerfilPage() {
@@ -13,9 +13,9 @@ function PerfilPage() {
     <div className="flex flex-col gap-4">
       Perfil
       <button onClick={() => setIsOpen(true)}>abrir modal</button>
-      <ModalSucesso isOpen={isOpen} setIsOpen={setIsOpen}>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <p>oi</p>
-      </ModalSucesso>
+      </Modal>
     </div>
   );
 }
