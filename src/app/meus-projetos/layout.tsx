@@ -1,14 +1,18 @@
-// PerfilPageLayout.tsx
 import { ReactNode } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "@/app/theme";
+import { Header } from "../_helpers/header";
 
-interface PerfilPageLayoutProps {
+interface MeusProjetosPageLayoutProps {
   children: ReactNode;
 }
 
-const PerfilPageLayout = ({ children }: PerfilPageLayoutProps) => {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+const MeusProjetosPageLayout = ({ children }: MeusProjetosPageLayoutProps) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <main>{children}</main>
+    </ThemeProvider>
+  );
 };
 
-export default PerfilPageLayout;
+export default MeusProjetosPageLayout;
