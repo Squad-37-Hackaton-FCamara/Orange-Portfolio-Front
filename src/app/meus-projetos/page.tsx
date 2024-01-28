@@ -1,15 +1,14 @@
 "use client";
 
-import MeusProjetosPageLayout from "@/app/meus-projetos/layout";
+import PerfilPageLayout from "@/app/meus-projetos/layout";
 import ComponenteModal from "@/app/_helpers/modal";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
 import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
 import { ConteudoModalAddProjeto } from "../_helpers/modal/conteudo_modal/adicionar_projeto";
-import { Header } from "../_helpers/header";
 
-function MeusProjetosPage() {
+function PerfilPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
     | "editado"
@@ -61,10 +60,9 @@ function MeusProjetosPage() {
   }
 
   return (
-    <MeusProjetosPageLayout>
-      <Header />
-      <div className="flex flex-col gap-4">
-        MeusProjetos
+    <PerfilPageLayout>
+      <main className="flex flex-col gap-4">
+        Perfil
         <Button
           variant="contained"
           color="secondary"
@@ -123,9 +121,8 @@ function MeusProjetosPage() {
         <ComponenteModal isOpen={isOpen} setIsOpen={setIsOpen}>
           {defModal(modal)}
         </ComponenteModal>
-      </div>
-    </MeusProjetosPageLayout>
+      </main>
+    </PerfilPageLayout>
   );
 }
 
-export default MeusProjetosPage;

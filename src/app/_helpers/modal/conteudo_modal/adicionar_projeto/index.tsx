@@ -1,5 +1,11 @@
 import { CheckIcon } from "@/app/_helpers/svg/checkIcon";
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
+<<<<<<< HEAD
+import { Button, TextField, Typography } from "@mui/material";
+import clsx from "clsx";
+
+export function ConteudoModalAddProjeto() {
+=======
 import { Button, TextField, Typography, styled } from "@mui/material";
 import clsx from "clsx";
 
@@ -16,6 +22,7 @@ export function ConteudoModalAddProjeto() {
     width: 1,
   });
 
+>>>>>>> 6e744ac57723f0c6e3ab129426f713699efe4cb8
   return (
     <div className="flex flex-col gap-6">
       <Typography component="h1" className="text-2xl text-color-neutral-110">
@@ -23,6 +30,18 @@ export function ConteudoModalAddProjeto() {
       </Typography>
       <div className="flex gap-4">
         <div className="flex flex-col gap-4">
+<<<<<<< HEAD
+          <label>Selecione o conteúdo que você deseja fazer upload</label>
+          <div className="w-fit flex flex-col items-center px-[60px] py-[91px] bg-color-neutral-70">
+            <ColecoesIcon size={46} />
+            <Typography
+              component="p"
+              className="text-sm text-color-neutral-120"
+            >
+              Compartilhe seu talento com milhares de pessoas
+            </Typography>
+          </div>
+=======
           <Typography component="p" className="text-color-neutral-110">
             Selecione o conteúdo que você deseja fazer upload
           </Typography>
@@ -40,6 +59,7 @@ export function ConteudoModalAddProjeto() {
               </div>
             </div>
           </Button>
+>>>>>>> 6e744ac57723f0c6e3ab129426f713699efe4cb8
         </div>
         <div className="w-1/2 flex flex-col justify-between">
           <TextField
