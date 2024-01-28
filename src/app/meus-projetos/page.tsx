@@ -1,14 +1,18 @@
 "use client";
 
-import PerfilPageLayout from "@/app/meus-projetos/layout";
+import MeusProjetosPageLayout from "@/app/meus-projetos/layout";
 import ComponenteModal from "@/app/_helpers/modal";
-import { Button } from "@mui/material";
 import { useState } from "react";
 import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
 import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
 import { ConteudoModalAddProjeto } from "../_helpers/modal/conteudo_modal/adicionar_projeto";
+import { Header } from "../_helpers/header";
+import { Cabecalho } from "../_helpers/meus-projetos/cabecalho";
+import clsx from "clsx";
+import { Projetos } from "../_helpers/meus-projetos/projetos";
 
-function PerfilPage() {
+function MeusProjetosPage() {
+  const projetos: any[] = [];
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
     | "editado"
@@ -60,70 +64,26 @@ function PerfilPage() {
   }
 
   return (
-    <PerfilPageLayout>
-      <div className="flex flex-col gap-4">
-        Perfil
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setModal("editado");
-            setIsOpen(true);
-          }}
-          className="text-black"
-        >
-          <p>Abrir modal de edição</p>
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setModal("deletado");
-            setIsOpen(true);
-          }}
-          className="text-black"
-        >
-          <p>Abrir modal de deletar</p>
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setModal("adicionado");
-            setIsOpen(true);
-          }}
-          className="text-black"
-        >
-          <p>Abrir modal de adicionar</p>
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setModal("confirmar_deletar");
-            setIsOpen(true);
-          }}
-          className="text-black"
-        >
-          <p>Abrir modal de confirmar deletar</p>
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setModal("add_projeto");
-            setIsOpen(true);
-          }}
-          className="text-black"
-        >
-          <p>Abrir modal de adicionar projeto</p>
-        </Button>
-        <ComponenteModal isOpen={isOpen} setIsOpen={setIsOpen}>
-          {defModal(modal)}
-        </ComponenteModal>
+    <MeusProjetosPageLayout>
+      <Header />
+      <ComponenteModal isOpen={isOpen} setIsOpen={setIsOpen}>
+        {defModal(modal)}
+      </ComponenteModal>
+      <div
+        className={clsx(
+          "max-w-6xl w-full flex flex-col items-center justify-between gap-14",
+          "mx-auto py-4 lg:pt-4"
+        )}
+      >
+        <Cabecalho setIsOpen={setIsOpen} setModal={setModal} />
+        <Projetos
+          projetos={projetos}
+          setIsOpen={setIsOpen}
+          setModal={setModal}
+        />
       </div>
-    </PerfilPageLayout>
+    </MeusProjetosPageLayout>
   );
 }
 
-export default PerfilPage;
+export default MeusProjetosPage;
