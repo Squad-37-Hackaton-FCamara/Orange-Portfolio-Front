@@ -1,6 +1,6 @@
-"use client"
-import Image from 'next/image'
-import ImgCadastro from '../../assets/img_cadastro.png'
+"use client";
+import Image from 'next/image';
+import ImgCadastro from '../../_helpers/assets/img_cadastro.png';
 import FormularioCadastro from '@/app/_helpers/formCadastro';
 
 export default function CadastroPage() {

@@ -3,19 +3,19 @@ import CampoSenha from '../campoSenha';
 import Link from 'next/link'
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import clsx from "clsx"
+import clsx from "clsx";
 import { Typography } from '@mui/material';
 
 export default function FormularioLogin() {
   return (
     <form className='flex flex-col justify-center items-center w-[100vh] h-[100vh]'>
-      <Typography className={clsx(
+      <Typography component="h1" className={clsx(
         'text-5xl mb-5 md:text-2xl',
         'text-color-principal-90 '
       )}
       >Entre no Orange Portfólio</Typography>
       <div className='flex flex-col justify-between w-[517px] h-[271px] md:w-[312px]'>
-        <Typography className={clsx(
+        <Typography component="p" className={clsx(
           'text-2xl md:text-base',
           'text-color-neutral-110'
         )}
