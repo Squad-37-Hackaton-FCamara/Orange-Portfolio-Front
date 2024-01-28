@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
+import { Header } from "./_helpers/header";
 
 const roboto = Roboto({
   subsets: ["latin"],
