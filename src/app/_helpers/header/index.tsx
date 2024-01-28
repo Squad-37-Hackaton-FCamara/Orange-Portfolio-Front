@@ -28,7 +28,10 @@ export function Header() {
             >
               Meus projetos
             </Link>
-            <Link href={"/"} className="text-[20px] text-color-neutral-60">
+            <Link
+              href={"/descobrir"}
+              className="text-[20px] text-color-neutral-60"
+            >
               Descobrir
             </Link>
           </div>
