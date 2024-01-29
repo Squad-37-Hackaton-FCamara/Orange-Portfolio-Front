@@ -1,4 +1,3 @@
-import { CheckIcon } from "@/app/_helpers/svg/checkIcon";
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { Button, TextField, Typography } from "@mui/material";
 import clsx from "clsx";
