@@ -4,12 +4,33 @@ import { Grid, TextField, Typography } from "@mui/material";
 import clsx from "clsx";
 import { useState } from "react";
 import CartaoPortifolio from "../_helpers/components/CartaoClicavel";
+import ComponentModal from "../_helpers/modal";
+import { ConteudoModalDescobrirProjeto } from "../_helpers/modal/conteudo_modal/descobrir_projeto";
+
+interface IProjeto {
+  nomeUsuario: string;
+  imgUsuario: string;
+  tituloProjeto: string;
+  imgProjeto: string;
+  dataProjeto: string;
+  descricacao: string;
+  url: string;
+  tags: string[];
+}
 
 const descricacaoPagina =
   "Junte-se à comunidade de inovação, inspiração e descobertas, transformando experiências em conexões inesquecíveis";
 
 function PaginaDescobrir() {
-  const [projetos, setProjestos] = useState<any>([]); //! Tipagem temporária
+  const [projeto, setProjeto] = useState<any>(); //! Tipagem temporária
+  const [projetos, setProjetos] = useState<any>(); //! Tipagem temporária
+  const [expandirProjeto, setExpandirProjeto] = useState(false);
+
+  function funcaoExpandirProjeto(projeto: IProjeto) {
+    setExpandirProjeto(!expandirProjeto);
+    setProjeto(projeto);
+  }
+
   return (
     <div className="flex flex-col items-center">
       <div className="flex justify-center">
@@ -51,12 +72,19 @@ function PaginaDescobrir() {
                 imgProjeto={item.imgProjeto}
                 dataProjeto={item.dataProjeto}
                 tags={item.tags}
-                onClick={item.onClick}
+                onClick={() => funcaoExpandirProjeto(item)}
               />
             )
           )}
         </div>
       </div>
+      <ComponentModal
+        isOpen={expandirProjeto}
+        setIsOpen={setExpandirProjeto}
+        isClosable
+      >
+        <ConteudoModalDescobrirProjeto projeto {...projeto} />
+      </ComponentModal>
     </div>
   );
 }
