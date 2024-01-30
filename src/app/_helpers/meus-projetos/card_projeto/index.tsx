@@ -13,6 +13,7 @@ import { EditarIcon } from "../../svg/editarIcon";
 import { SetaIcon } from "../../svg/setaIcon";
 import { Dispatch, SetStateAction, useState } from "react";
 import { MenuEditar } from "./menu_editar";
+import { useWindowDimensions } from "@/services/window_size";
 
 interface ICartaoPortfolioMeusProjetos {
   nomeUsuario: string;
@@ -39,9 +40,10 @@ export default function CartaoPortifolioMeusProjetos({
   ...rest
 }: ICartaoPortfolioMeusProjetos) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const { width } = useWindowDimensions();
 
   return (
-    <Card sx={{ width: 389, height: 290 }} className="relative">
+    <Card className="relative w-full">
       <CardActionArea>
         <div
           className={clsx(

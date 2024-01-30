@@ -1,8 +1,25 @@
 import { CheckIcon } from "@/app/_helpers/svg/checkIcon";
 import { Button, Typography } from "@mui/material";
 import clsx from "clsx";
+import { Dispatch, SetStateAction } from "react";
 
-export function ConteudoModalConfirmarDeletar() {
+export function ConteudoModalConfirmarDeletar({
+  setIsOpen,
+  setModal,
+}: {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setModal: Dispatch<
+    SetStateAction<
+      | ""
+      | "editado"
+      | "adicionado"
+      | "deletado"
+      | "confirmar_deletar"
+      | "add_projeto"
+      | "editar_projeto"
+    >
+  >;
+}) {
   function handleClose() {
     window.location.reload();
   }
@@ -24,7 +41,10 @@ export function ConteudoModalConfirmarDeletar() {
             "bg-color-secondary-100 hover:bg-color-secondary-110",
             "text-[15px] font-medium text-color-neutral-60"
           )}
-          onClick={() => handleClose()}
+          onClick={() => {
+            setModal("deletado");
+            setIsOpen(true);
+          }}
         >
           EXCLUIR
         </Button>

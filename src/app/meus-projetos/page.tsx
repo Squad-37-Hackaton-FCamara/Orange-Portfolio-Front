@@ -54,6 +54,7 @@ function MeusProjetosPage() {
       tags: ["javascript", "next"],
     },
   ];
+  // const projetos: any[] = [];
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
     | "editado"
@@ -83,7 +84,12 @@ function MeusProjetosPage() {
       case "deletado":
         return <ConteudoModalSucesso titulo={defTituloModalSucesso(modal)} />;
       case "confirmar_deletar":
-        return <ConteudoModalConfirmarDeletar />;
+        return (
+          <ConteudoModalConfirmarDeletar
+            setIsOpen={setIsOpen}
+            setModal={setModal}
+          />
+        );
       case "add_projeto":
         return <ConteudoModalProjeto />;
       case "editar_projeto":
@@ -116,8 +122,8 @@ function MeusProjetosPage() {
       </ComponenteModal>
       <div
         className={clsx(
-          "max-w-8xl w-full flex flex-col items-center justify-between gap-14",
-          "mx-auto py-4 lg:pt-4"
+          "max-w-6xl w-full flex flex-col items-center justify-between gap-14",
+          "mx-auto py-4 lg:p-6"
         )}
       >
         <DadosPessoais setIsOpen={setIsOpen} setModal={setModal} />
