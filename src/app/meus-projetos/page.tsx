@@ -7,7 +7,7 @@ import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
 import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
 import { ConteudoModalProjeto } from "../_helpers/modal/conteudo_modal/add_editar_projeto";
 import { Header } from "../_helpers/header";
-import { Cabecalho } from "../_helpers/meus-projetos/cabecalho";
+import { DadosPessoais } from "../_helpers/meus-projetos/cabecalho";
 import clsx from "clsx";
 import { Projetos } from "../_helpers/meus-projetos/projetos";
 
@@ -90,7 +90,7 @@ function MeusProjetosPage() {
           "mx-auto py-4 lg:pt-4"
         )}
       >
-        <Cabecalho setIsOpen={setIsOpen} setModal={setModal} />
+        <DadosPessoais setIsOpen={setIsOpen} setModal={setModal} />
         <Projetos
           projetos={projetos}
           setIsOpen={setIsOpen}
