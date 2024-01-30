@@ -1,25 +1,33 @@
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { Button, TextField, Typography } from "@mui/material";
 import clsx from "clsx";
+import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
+import Image from "next/image";
 
-export function ConteudoModalAddProjeto() {
+export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="w-[890px] flex flex-col gap-6">
       <Typography component="h1" className="text-2xl text-color-neutral-110">
-        Adicionar projeto
+        {projeto ? "Editar projeto" : "Adicionar projeto"}
       </Typography>
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-4">
+      <div className="flex justify-between gap-4">
+        <div className="w-1/2 flex flex-col gap-4">
           <label>Selecione o conteúdo que você deseja fazer upload</label>
-          <div className="w-fit flex flex-col items-center px-[60px] py-[91px] bg-color-neutral-70">
-            <ColecoesIcon size={46} />
-            <Typography
-              component="p"
-              className="text-sm text-color-neutral-120"
-            >
-              Compartilhe seu talento com milhares de pessoas
-            </Typography>
-          </div>
+          {projeto ? (
+            <Image src={projeto_generico} alt="imagem projeto" />
+          ) : (
+            <>
+              <div className="w-fit flex flex-col items-center px-[60px] py-[91px] bg-color-neutral-70">
+                <ColecoesIcon size={46} />
+                <Typography
+                  component="p"
+                  className="text-sm text-color-neutral-120"
+                >
+                  Compartilhe seu talento com milhares de pessoas
+                </Typography>
+              </div>
+            </>
+          )}
         </div>
         <div className="w-1/2 flex flex-col justify-between">
           <TextField

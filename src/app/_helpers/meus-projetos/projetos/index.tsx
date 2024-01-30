@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import { ProjetoCard } from "../card_projeto";
+// import { ProjetoCard } from "../card_projeto";
+import CartaoPortfolioMeusProjetos from "../card_projeto";
 import { CardPrimeiroProjeto } from "../card_primeiro_projeto";
 import { TextField, Typography } from "@mui/material";
 
@@ -18,6 +19,7 @@ export function Projetos({
       | "deletado"
       | "confirmar_deletar"
       | "add_projeto"
+      | "editar_projeto"
     >
   >;
 }) {
@@ -56,7 +58,18 @@ export function Projetos({
         <div className="grid grid-cols-3 gap-6">
           {projetos.map((projeto, i) => {
             return (
-              <ProjetoCard setIsOpen={setIsOpen} setModal={setModal} key={i} />
+              // <ProjetoCard setIsOpen={setIsOpen} setModal={setModal} key={i} />
+              <CartaoPortfolioMeusProjetos
+                key={i}
+                setIsOpen={setIsOpen}
+                setModal={setModal}
+                nomeUsuario={projeto.nomeUsuario}
+                imgUsuario={projeto.imgUsuario}
+                tituloProjeto={projeto.tituloProjeto}
+                imgProjeto={projeto.imgProjeto}
+                dataProjeto={projeto.dataProjeto}
+                tags={projeto.tags}
+              />
             );
           })}
         </div>

@@ -1,16 +1,26 @@
-import { SetStateAction, useState } from "react";
-import { EditarIcon } from "../../svg/editarIcon";
-import Image from "next/image";
-import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
-import img_perfil from "@/app/_helpers/assets/perfil.png";
-import { Chip, Typography } from "@mui/material";
-import { Dispatch } from "react";
+import {
+  Avatar,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Chip,
+  Grid,
+  Typography,
+} from "@mui/material";
 import clsx from "clsx";
+import { EditarIcon } from "../../svg/editarIcon";
+import { SetaIcon } from "../../svg/setaIcon";
+import { Dispatch, SetStateAction, useState } from "react";
+import { MenuEditar } from "./menu_editar";
 
-export function ProjetoCard({
-  setIsOpen,
-  setModal,
-}: {
+interface ICartaoPortfolioMeusProjetos {
+  nomeUsuario: string;
+  imgUsuario?: string;
+  tituloProjeto: string;
+  imgProjeto: string;
+  dataProjeto: string;
+  tags: string[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setModal: Dispatch<
     SetStateAction<
@@ -20,47 +30,102 @@ export function ProjetoCard({
       | "deletado"
       | "confirmar_deletar"
       | "add_projeto"
+      | "editar_projeto"
     >
   >;
-}) {
-  const [projeto, setProjeto] = useState(true);
-  const tags = ["React", "Next", "TypeScript", "JavaScript", "HTML", "CSS"];
+}
+
+export default function CartaoPortifolioMeusProjetos({
+  ...rest
+}: ICartaoPortfolioMeusProjetos) {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   return (
-    <div className="relative w-full h-full">
-      <div className="flex flex-col gap-2">
+    <Card sx={{ width: 389, height: 290 }} className="relative">
+      <CardActionArea>
         <div
           className={clsx(
             "absolute right-4 top-4 flex items-center justify-center",
             "p-[2px] rounded-full",
             "bg-color-secondary-70"
           )}
+          onClick={() => setMenuIsOpen(!menuIsOpen)}
         >
           <EditarIcon />
         </div>
-        <Image
-          src={projeto_generico}
-          alt="Imagem do projeto"
-          className="w-full object-cover"
-        />
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
-            <Image
-              src={img_perfil}
-              alt="Imagem de perfil"
-              className="w-6 h-6 rounded-full"
+        {menuIsOpen && (
+          <MenuEditar setIsOpen={rest.setIsOpen} setModal={rest.setModal} />
+        )}
+      </CardActionArea>
+      <CardMedia
+        sx={{ height: 258 }}
+        component="img"
+        image={rest.imgProjeto}
+        alt={`imagem projeto ${rest.tituloProjeto}`}
+      />
+      <CardContent
+        sx={{
+          padding: 0,
+        }}
+      >
+        <Grid
+          container
+          overflow="hidden"
+          wrap="nowrap"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            marginBlock: "0.25rem",
+            gap: "0.5rem",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <Grid
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              width: "60%",
+            }}
+          >
+            <Avatar
+              sx={{ width: 24, height: 24 }}
+              src={rest.imgUsuario}
+              alt={`imagem usuario ${rest.nomeUsuario}`}
             />
-            <Typography variant="subtitle1" className="text-color-neutral-110">
-              Camila Soares • 12/23
-            </Typography>
-          </div>
-          <div className="flex gap-2 max-w-[150px] overflow-x-scroll">
-            {tags.map((tag, i) => {
-              return <Chip key={i} label={tag} />;
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
+            <Grid overflow="hidden">
+              <Typography
+                sx={{
+                  fontWeight: 400,
+                  fontSize: "1rem",
+                  lineHeight: "1rem",
+                  color: "#515255",
+                }}
+              >{`${rest.nomeUsuario}`}</Typography>
+            </Grid>
+            <Typography
+              sx={{
+                fontWeight: 400,
+                fontSize: "1rem",
+                lineHeight: "1rem",
+                color: "#515255",
+              }}
+            >{`• ${rest.dataProjeto}`}</Typography>
+          </Grid>
+          <Grid
+            overflow="hidden"
+            sx={{
+              display: "flex",
+              direction: "row-reverse",
+              gap: "0.5rem",
+            }}
+          >
+            {rest.tags.map((tag, i) => (
+              <Chip key={`${tag}-${i}`} size="small" label={tag} />
+            ))}
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }
