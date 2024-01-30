@@ -10,9 +10,22 @@ import { Header } from "../_helpers/header";
 import { Cabecalho } from "../_helpers/meus-projetos/cabecalho";
 import clsx from "clsx";
 import { Projetos } from "../_helpers/meus-projetos/projetos";
+import img_perfil from "@/app/_helpers/assets/perfil.png";
+import img_projeto from "@/app/_helpers/assets/projeto_generico.png";
 
 function MeusProjetosPage() {
-  const projetos: any[] = [];
+  const projetos: any[] = [
+    {
+      nomeUsuario: "maria luisa",
+      imgUsuario:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      tituloProjeto: "projeto em next",
+      imgProjeto:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      dataProjeto: "14/12",
+      tags: ["javascript", "next"],
+    },
+  ];
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
     | "editado"
