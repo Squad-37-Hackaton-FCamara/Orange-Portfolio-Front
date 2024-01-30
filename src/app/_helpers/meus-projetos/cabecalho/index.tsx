@@ -26,7 +26,7 @@ export function DadosPessoais({
       <div
         className={clsx(
           "flex items-center gap-[42px] mt-[112px]",
-          "lg: flex-col lg:gap-4 lg:mt-[56px]"
+          "lg:flex-col lg:gap-4 lg:mt-[56px]"
         )}
       >
         <Image

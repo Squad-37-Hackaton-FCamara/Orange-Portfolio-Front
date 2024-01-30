@@ -23,6 +23,36 @@ function MeusProjetosPage() {
       dataProjeto: "14/12",
       tags: ["javascript", "next"],
     },
+    {
+      nomeUsuario: "maria luisa",
+      imgUsuario:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      tituloProjeto: "projeto em next",
+      imgProjeto:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      dataProjeto: "14/12",
+      tags: ["javascript", "next"],
+    },
+    {
+      nomeUsuario: "maria luisa",
+      imgUsuario:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      tituloProjeto: "projeto em next",
+      imgProjeto:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      dataProjeto: "14/12",
+      tags: ["javascript", "next"],
+    },
+    {
+      nomeUsuario: "maria luisa",
+      imgUsuario:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      tituloProjeto: "projeto em next",
+      imgProjeto:
+        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
+      dataProjeto: "14/12",
+      tags: ["javascript", "next"],
+    },
   ];
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
@@ -86,7 +116,7 @@ function MeusProjetosPage() {
       </ComponenteModal>
       <div
         className={clsx(
-          "max-w-6xl w-full flex flex-col items-center justify-between gap-14",
+          "max-w-8xl w-full flex flex-col items-center justify-between gap-14",
           "mx-auto py-4 lg:pt-4"
         )}
       >

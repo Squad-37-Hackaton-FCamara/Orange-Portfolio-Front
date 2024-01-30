@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import CartaoPortfolioMeusProjetos from "../card_projeto";
 import { CardPrimeiroProjeto } from "../card_primeiro_projeto";
 import { TextField, Typography } from "@mui/material";
+import { useWindowDimensions } from "@/services/window_size";
 
 export function Projetos({
   projetos,
@@ -23,8 +24,11 @@ export function Projetos({
     >
   >;
 }) {
+  const { width } = useWindowDimensions();
+
   return (
     <div className="flex flex-col gap-10">
+      {width < 800 && <p>MOBILEEE</p>}
       <div className="flex flex-col gap-4">
         <Typography
           variant="h6"
@@ -58,7 +62,6 @@ export function Projetos({
         <div className="grid grid-cols-3 gap-6">
           {projetos.map((projeto, i) => {
             return (
-              // <ProjetoCard setIsOpen={setIsOpen} setModal={setModal} key={i} />
               <CartaoPortfolioMeusProjetos
                 key={i}
                 setIsOpen={setIsOpen}
