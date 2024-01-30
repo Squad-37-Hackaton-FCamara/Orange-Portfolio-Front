@@ -15,6 +15,7 @@ export function MenuEditar({
       | "deletado"
       | "confirmar_deletar"
       | "add_projeto"
+      | "editar_projeto"
     >
   >;
 }) {
@@ -32,7 +33,7 @@ export function MenuEditar({
       </div>
       <button
         onClick={() => {
-          setModal("confirmar_deletar");
+          setModal("editar_projeto");
           setIsOpen(true);
         }}
         className={clsx(

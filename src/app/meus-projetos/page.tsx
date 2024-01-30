@@ -5,13 +5,11 @@ import ComponenteModal from "@/app/_helpers/modal";
 import { useState } from "react";
 import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
 import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
-import { ConteudoModalAddProjeto } from "../_helpers/modal/conteudo_modal/adicionar_projeto";
+import { ConteudoModalProjeto } from "../_helpers/modal/conteudo_modal/add_editar_projeto";
 import { Header } from "../_helpers/header";
 import { Cabecalho } from "../_helpers/meus-projetos/cabecalho";
 import clsx from "clsx";
 import { Projetos } from "../_helpers/meus-projetos/projetos";
-import img_perfil from "@/app/_helpers/assets/perfil.png";
-import img_projeto from "@/app/_helpers/assets/projeto_generico.png";
 
 function MeusProjetosPage() {
   const projetos: any[] = [
@@ -32,6 +30,7 @@ function MeusProjetosPage() {
     | "adicionado"
     | "deletado"
     | "confirmar_deletar"
+    | "editar_projeto"
     | "add_projeto"
     | ""
   >("");
@@ -43,6 +42,7 @@ function MeusProjetosPage() {
       | "deletado"
       | "confirmar_deletar"
       | "add_projeto"
+      | "editar_projeto"
       | ""
   ) {
     switch (modal) {
@@ -55,7 +55,9 @@ function MeusProjetosPage() {
       case "confirmar_deletar":
         return <ConteudoModalConfirmarDeletar />;
       case "add_projeto":
-        return <ConteudoModalAddProjeto />;
+        return <ConteudoModalProjeto />;
+      case "editar_projeto":
+        return <ConteudoModalProjeto projeto={projetos[0]} />;
       default:
         return <></>;
     }

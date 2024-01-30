@@ -16,6 +16,7 @@ export function Cabecalho({
       | "deletado"
       | "confirmar_deletar"
       | "add_projeto"
+      | "editar_projeto"
     >
   >;
 }) {
