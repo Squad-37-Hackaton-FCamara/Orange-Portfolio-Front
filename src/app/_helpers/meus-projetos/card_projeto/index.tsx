@@ -13,6 +13,7 @@ import { EditarIcon } from "../../svg/editarIcon";
 import { SetaIcon } from "../../svg/setaIcon";
 import { Dispatch, SetStateAction, useState } from "react";
 import { MenuEditar } from "./menu_editar";
+import { useWindowDimensions } from "@/services/window_size";
 
 interface ICartaoPortfolioMeusProjetos {
   nomeUsuario: string;
@@ -39,9 +40,10 @@ export default function CartaoPortifolioMeusProjetos({
   ...rest
 }: ICartaoPortfolioMeusProjetos) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const { width } = useWindowDimensions();
 
   return (
-    <Card sx={{ width: 389, height: 290 }} className="relative">
+    <Card className="relative w-full flex flex-col gap-2 shadow-none">
       <CardActionArea>
         <div
           className={clsx(
@@ -62,6 +64,7 @@ export default function CartaoPortifolioMeusProjetos({
         component="img"
         image={rest.imgProjeto}
         alt={`imagem projeto ${rest.tituloProjeto}`}
+        className="rounded-[4px]"
       />
       <CardContent
         sx={{
@@ -121,7 +124,7 @@ export default function CartaoPortifolioMeusProjetos({
             }}
           >
             {rest.tags.map((tag, i) => (
-              <Chip key={`${tag}-${i}`} size="small" label={tag} />
+              <Chip key={`${tag}-${i}`} size="medium" label={tag} />
             ))}
           </Grid>
         </Grid>
