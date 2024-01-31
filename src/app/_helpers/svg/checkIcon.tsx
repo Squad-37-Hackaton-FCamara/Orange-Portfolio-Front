@@ -15,7 +15,7 @@ export function CheckIcon({
     >
       <path
         fill-rule="evenodd"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         d="M16.1777 27.1543L31.666 11.666L34.0227 14.0227L16.1777 31.8677L6.66602 22.356L9.02268 19.9993L16.1777 27.1543Z"
         fill={color}
       />

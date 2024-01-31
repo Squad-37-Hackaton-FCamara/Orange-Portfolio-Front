@@ -3,38 +3,49 @@ import img_perfil from "@/app/_helpers/assets/perfil.png";
 import Image from "next/image";
 import { Notifications } from "@mui/icons-material";
 import clsx from "clsx";
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
+import { useWindowDimensions } from "@/services/window_size";
 
 export function Header() {
+  const { width } = useWindowDimensions();
+
   return (
     <header className="w-screen flex bg-color-principal-100">
       <div
         className={clsx(
           "max-w-6xl w-full flex items-center justify-between",
-          "mx-auto py-4 lg:pt-4"
+          "mx-auto py-4 lg:p-6"
         )}
       >
-        <div className="flex items-center gap-[100px]">
+        <div className="flex items-center gap-[100px] md:gap-0">
+          {width < 767 && (
+            <IconButton>
+              <MenuIcon sx={{ fontSize: 24 }} color="primary" />
+            </IconButton>
+          )}
           <Image
             src={logo_orange}
             alt="Logo Orange Juice"
             className="flex-none w-[111px]"
           />
-          <div className="flex gap-6">
-            <Link
-              href="/meus-projetos"
-              className="text-[20px] text-color-neutral-60"
-            >
-              Meus projetos
-            </Link>
-            <Link
-              href={"/descobrir"}
-              className="text-[20px] text-color-neutral-60"
-            >
-              Descobrir
-            </Link>
-          </div>
+          {width > 767 && (
+            <div className="flex gap-6">
+              <Link
+                href="/meus-projetos"
+                className="text-[20px] text-color-neutral-60"
+              >
+                Meus projetos
+              </Link>
+              <Link
+                href={"/descobrir"}
+                className="text-[20px] text-color-neutral-60"
+              >
+                Descobrir
+              </Link>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-4">
           <Link href="/meus-projetos">

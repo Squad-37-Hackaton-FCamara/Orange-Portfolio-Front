@@ -30,7 +30,7 @@ export function ConteudoModalSucesso({ titulo }: { titulo: string }) {
         variant="contained"
         className={clsx(
           "bg-color-secondary-100 hover:bg-color-secondary-110",
-          "text-[15px] font-medium text-color-neutral-60"
+          "text-[15px] font-medium text-color-neutral-60 lg:whitespace-nowrap"
         )}
         onClick={() => handleClose()}
       >

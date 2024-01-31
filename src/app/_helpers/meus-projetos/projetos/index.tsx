@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { ProjetoCard } from "../card_projeto";
+import CartaoPortfolioMeusProjetos from "../card_projeto";
 import { CardPrimeiroProjeto } from "../card_primeiro_projeto";
 import { TextField, Typography } from "@mui/material";
+import { useWindowDimensions } from "@/services/window_size";
 
 export function Projetos({
   projetos,
@@ -18,9 +19,12 @@ export function Projetos({
       | "deletado"
       | "confirmar_deletar"
       | "add_projeto"
+      | "editar_projeto"
     >
   >;
 }) {
+  const { width } = useWindowDimensions();
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-4">
@@ -35,11 +39,11 @@ export function Projetos({
           label="Buscar tags"
           placeholder="Buscar tags"
           variant="outlined"
-          className="w-[490px]"
+          className="max-w-[490px] w-full lg:w-full"
         />
       </div>
       {projetos.length === 0 ? (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 lg:flex lg:w-full">
           <div
             className="cursor-pointer"
             onClick={() => {
@@ -49,14 +53,29 @@ export function Projetos({
           >
             <CardPrimeiroProjeto />
           </div>
-          <div className="w-full h-full bg-color-neutral-70 opacity-20" />
-          <div className="w-full h-full bg-color-neutral-70 opacity-20" />
+          {width > 1023 && (
+            <>
+              <div className="w-full h-full bg-color-neutral-70 opacity-20" />
+              <div className="w-full h-full bg-color-neutral-70 opacity-20" />
+            </>
+          )}
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 lg:grid-cols-2 md:flex md:flex-col md:items-center">
           {projetos.map((projeto, i) => {
             return (
-              <ProjetoCard setIsOpen={setIsOpen} setModal={setModal} key={i} />
+              <div key={i} className="max-w-[389px]">
+                <CartaoPortfolioMeusProjetos
+                  setIsOpen={setIsOpen}
+                  setModal={setModal}
+                  nomeUsuario={projeto.nomeUsuario}
+                  imgUsuario={projeto.imgUsuario}
+                  tituloProjeto={projeto.tituloProjeto}
+                  imgProjeto={projeto.imgProjeto}
+                  dataProjeto={projeto.dataProjeto}
+                  tags={projeto.tags}
+                />
+              </div>
             );
           })}
         </div>
