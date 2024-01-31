@@ -6,7 +6,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 import * as React from 'react';
 
-export default function CampoSenha() {
+export default function CampoSenha({ onChange }: any) {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -19,6 +19,7 @@ export default function CampoSenha() {
     <FormControl required variant="outlined">
       <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
       <OutlinedInput
+        onChange={onChange}
         id="outlined-adornment-password"
         type={showPassword ? 'text' : 'password'}
         endAdornment={
