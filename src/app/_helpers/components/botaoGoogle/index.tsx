@@ -2,15 +2,26 @@ import { Button, Typography } from "@mui/material";
 import Image from 'next/image'
 import LogoGoogle from '../../assets/logoGoogle.png'
 import { signIn } from "next-auth/react";
+import { SyntheticEvent } from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function BotaoGoogle() {
-  function handleClick() {
-    signIn("google");
+  const router = useRouter(); // Adicionado
+
+  async function entrarGoogle(event: SyntheticEvent) {
+    event.preventDefault();
+    const result = await signIn("google", { callbackUrl: '/meus-projetos' }); 
+
+    if (result?.error) {
+      console.log(result.error);
+    } else {
+      router.push('/meus-projetos'); 
+    }
   }
   return (
     <Button
-      onClick={handleClick}
+      onClick={entrarGoogle}
       className="my-8 p-3 hover:bg-color-neutral-70"
       variant="contained"
       style={{ textTransform: 'none' }}>

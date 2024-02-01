@@ -9,22 +9,16 @@ const nextAuthOptions: NextAuthOptions = {
       name: 'credentials',
       credentials: {
         email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
+        senha: { label: "Senha", type: "password" }
       },
       async authorize(credentials, req) {
-        const response = await fetch('http://localhost:3000/entrar', {
-					method: 'POST',
-					headers: {
-						'Content-type': 'application/json'
-					},
-					body: JSON.stringify({
-						email: credentials?.email,
-						password: credentials?.password
-					})
+        const response = await axios.post('https://nervous-pear-clothes.cyclic.app/documentacao/entrar', {
+					email: credentials?.email,
+					senha: credentials?.senha
 				})
-        const user = await response.json()
+        const user = await response.data
 
-				if (user && response.ok) {
+				if (user && response.status == 200) {
 					return user
 				}
 
@@ -36,20 +30,10 @@ const nextAuthOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
   ],
-  // secret: process.env.SECRET,
+  secret: process.env.SECRET,
   pages: {
     signIn: '/',
-  },
-  callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
-    },
-
-    async session({ session, token }) {
-      session.user = token as any;
-      return session;
-    },
-  },
+  }
 }
 
 const handler = NextAuth(nextAuthOptions);

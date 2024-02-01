@@ -9,18 +9,14 @@ import { Typography } from '@mui/material';
 import BotaoGoogle from '../components/botaoGoogle';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { debug } from 'console';
 
 export default function FormularioLogin() {
-  
-  const [email,setEmail] = useState<string>('');
-  const [senha,setSenha] = useState<string>('');
-
+  const [email, setEmail] = useState<string>('');
+  const [senha, setSenha] = useState<string>('');
 
   const router = useRouter();
-  
+
   async function enviar(event: SyntheticEvent) {
-    debugger
     event.preventDefault();
 
     const result = await signIn('credentials', {
@@ -29,8 +25,7 @@ export default function FormularioLogin() {
       redirect: false
     })
 
-    if(result?.error){
-      console.log(result);
+    if (result?.error) {
       return;
     }
     router.replace('/meus-projetos')
@@ -54,18 +49,17 @@ export default function FormularioLogin() {
         )}
         >Faça login com email</Typography>
         <TextField
+          color='info' 
+          name='email'
           type='email'
           id="outlined-basic"
           label="Email address"
           variant="outlined"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
-          type='password'
-          id="outlined-basic"
-          label="Password"
-          variant="outlined"
-          onChange={(e) => setSenha(e.target.value)}
+        <CampoSenha
+          name='senha'
+          onChange={(e: any) => setSenha(e.target.value)}
         />
         <Button
           variant="contained"
