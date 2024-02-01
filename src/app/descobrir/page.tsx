@@ -107,7 +107,7 @@ function PaginaDescobrir() {
     setProjeto(projeto);
   }
 
-  const getProjetos = () => {
+  const listarProjetos = () => {
     const response = ProjetosAPI.ListarProjetos({ token }).then((response) => {
       console.log(response);
       setProjetos(response);
@@ -119,7 +119,7 @@ function PaginaDescobrir() {
   };
 
   useEffect(() => {
-    getProjetos();
+    listarProjetos();
   }, []);
 
   return (

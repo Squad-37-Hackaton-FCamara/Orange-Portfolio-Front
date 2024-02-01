@@ -1,20 +1,12 @@
 import axios from "axios";
 import 'dotenv/config'
+import { ProjetoProps } from "@/app/@types/Projetos";
 
 export const URL_BASE = "https://nervous-pear-clothes.cyclic.app"
 export const HEADERS = (token?: string) => ({
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
 });
-
-interface ProjetoProps {
-    "titulo": string,
-    "tags": string[],
-    "link": string,
-    "descricao": string,
-    "foto": string,
-    "usuario_id": string
-}
 
 export class ProjetosAPI {
 static async ListarProjetos({ token }: { token: string }) {
@@ -26,13 +18,13 @@ static async ListarProjetos({ token }: { token: string }) {
     return response.data;
   }
 
-// export async function CriarProjeto({ token, projeto }: { token: string, projeto: ProjetoProps }) {
-//     const response = await axios.post(
-//       `${URL_BASE}/projeto`,
-//       projeto,
-//       { headers: HEADERS(token) }
-//     );
+static async CriarProjeto({ token, projeto }: { token: string, projeto: ProjetoProps }) {
+    const response = await axios.post(
+      `${URL_BASE}/projeto`,
+      projeto,
+      { headers: HEADERS(token) }
+    );
 
-//     return response.data;
-//   }
+    return response.data;
+  }
 }
