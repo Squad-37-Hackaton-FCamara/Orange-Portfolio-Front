@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import clsx from "clsx";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import CampoSenha from '../campoSenha';
+import CampoSenha from '../components/campoSenha';
 
 export default function FormularioCadastro() {
   return (
@@ -37,10 +37,14 @@ export default function FormularioCadastro() {
           required
         />
         <CampoSenha />
-        <Button variant="contained" color='secondary' className={clsx(
-          "bg-color-secondary-100 hover:bg-color-secondary-110",
-          "text-[15px] font-medium text-color-neutral-60"
-        )}
+        <Button
+          variant="contained"
+          color='secondary'
+          type='submit'
+          className={clsx(
+            "bg-color-secondary-100 hover:bg-color-secondary-110",
+            "text-[15px] font-medium text-color-neutral-60"
+          )}
         >CADASTRAR</Button>
       </div>
     </form>
