@@ -3,15 +3,16 @@
 import ComponenteModal from "@/app/_helpers/modal";
 import { TextField, Typography } from "@mui/material";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CartaoPortifolio from "../_helpers/components/CartaoClicavel";
 import { Header } from "../_helpers/header";
 import { ConteudoModalDescobrirProjeto } from "../_helpers/modal/conteudo_modal/descobrir_projeto";
 import DescobrirLayout from "./layout";
+import { ProjetosAPI } from "@/services/api_projetos";
 
 interface IProjeto {
-  nomeUsuario: string;
-  imgUsuario: string;
+  // nomeUsuario: string;
+  // imgUsuario: string;
   tituloProjeto: string;
   imgProjeto: string;
   dataProjeto: string;
@@ -21,6 +22,8 @@ interface IProjeto {
 }
 
 function PaginaDescobrir() {
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhMmI2YzRjLTdjNDUtNDMxZS04MWEwLTdhMjgwNWVlMGYwNSIsImlhdCI6MTcwNjgxODI2OCwiZXhwIjoxNzA2OTA0NjY4LCJzdWIiOiIyYTJiNmM0Yy03YzQ1LTQzMWUtODFhMC03YTI4MDVlZTBmMDUifQ.t2YuAQ8yfu1Lb-PIh2iawa8XpXK2YcvAL5S9omj2LJE";
   const projetoObj = [
     //! Mock temporário
     {
@@ -96,13 +99,28 @@ function PaginaDescobrir() {
   ];
 
   const [projeto, setProjeto] = useState<any>(projetoObj); //! Tipagem temporária
-  const [projetos, setProjetos] = useState<any>(projetoObj); //! Tipagem temporária
+  const [projetos, setProjetos] = useState<Array<{}>>([]); //! Tipagem temporária
   const [expandirProjeto, setExpandirProjeto] = useState(false);
 
   function funcaoExpandirProjeto(projeto: IProjeto) {
     setExpandirProjeto(!expandirProjeto);
     setProjeto(projeto);
   }
+
+  const getProjetos = () => {
+    const response = ProjetosAPI.ListarProjetos({ token }).then((response) => {
+      console.log(response);
+      setProjetos(response);
+    });
+    projetos.map((projeto: any, i: number) => {
+      console.log(projeto);
+    });
+    return response;
+  };
+
+  useEffect(() => {
+    getProjetos();
+  }, []);
 
   return (
     <DescobrirLayout>
@@ -147,9 +165,9 @@ function PaginaDescobrir() {
                   <CartaoPortifolio
                     nomeUsuario={projeto.nomeUsuario}
                     imgUsuario={projeto.imgUsuario}
-                    tituloProjeto={projeto.tituloProjeto}
-                    imgProjeto={projeto.imgProjeto}
-                    dataProjeto={projeto.dataProjeto}
+                    tituloProjeto={projeto.titulo}
+                    imgProjeto={projeto.foto}
+                    dataProjeto={projeto.createAt}
                     tags={projeto.tags}
                     onClick={() => funcaoExpandirProjeto(projeto)}
                   />
