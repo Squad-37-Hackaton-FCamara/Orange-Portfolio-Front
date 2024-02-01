@@ -18,12 +18,13 @@ export default function FormularioLogin() {
 
   async function enviar(event: SyntheticEvent) {
     event.preventDefault();
-
+    
     const result = await signIn('credentials', {
       email,
       senha,
       redirect: false
-    })
+    }, { callbackUrl: '/meus-projetos' })
+    console.log(result)
 
     if (result?.error) {
       return;
@@ -49,7 +50,9 @@ export default function FormularioLogin() {
         )}
         >Faça login com email</Typography>
         <TextField
-          color='info' 
+          value={email}
+          className='text-color-info-100'
+          color='info'
           name='email'
           type='email'
           id="outlined-basic"
@@ -57,9 +60,16 @@ export default function FormularioLogin() {
           variant="outlined"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <CampoSenha
+        <TextField
+          value={senha}
+          className='text-color-info-100'
+          color='info'
           name='senha'
-          onChange={(e: any) => setSenha(e.target.value)}
+          type='password'
+          id='outlined-basic'
+          label='Password'
+          variant='outlined'
+          onChange={(e) => setSenha(e.target.value)}
         />
         <Button
           variant="contained"

@@ -19,6 +19,7 @@ export default function CampoSenha({ onChange, name }: any) {
     <FormControl required variant="outlined">
       <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
       <OutlinedInput
+        color='info'
         name={name}
         onChange={onChange}
         id="outlined-adornment-password"

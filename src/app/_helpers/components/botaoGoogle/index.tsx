@@ -31,7 +31,7 @@ export default function BotaoGoogle() {
         className="mr-5" />
       <Typography
         component="p"
-        className="font-roboto font-semibold text-sm text-color-neutral-100">
+        className="font-roboto font-medium text-sm text-black opacity-[0.54]">
         Entrar com Google
       </Typography>
     </Button>
