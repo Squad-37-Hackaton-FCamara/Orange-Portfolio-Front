@@ -21,13 +21,14 @@ interface ICartaoPortifolio {
 
 export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
   return (
-    <Card sx={{ width: 389, height: 290 }}>
+    <Card className="relative w-full flex flex-col gap-2 shadow-none">
       <CardActionArea onClick={rest.onClick}>
         <CardMedia
           sx={{ height: 258 }}
           component="img"
           image={rest.imgProjeto}
           alt={`imagem projeto ${rest.tituloProjeto}`}
+          className="rounded-[4px]"
         />
         <CardContent
           sx={{
@@ -87,7 +88,7 @@ export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
               }}
             >
               {rest.tags.map((tag, i) => (
-                <Chip key={`${tag}-${i}`} size="small" label={tag} />
+                <Chip key={`${tag}-${i}`} size="medium" label={tag} />
               ))}
             </Grid>
           </Grid>
