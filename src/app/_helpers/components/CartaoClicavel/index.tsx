@@ -1,3 +1,5 @@
+import img_perfil from "@/app/_helpers/assets/perfil.png";
+
 import {
   Avatar,
   Card,
@@ -10,8 +12,8 @@ import {
 } from "@mui/material";
 
 interface ICartaoPortifolio {
-  nomeUsuario: string;
-  imgUsuario?: string;
+  nomeUsuario: "Maria";
+  imgUsuario?: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Favatar&psig=AOvVaw0wCvk7frc6ShmhPd_38vzK&ust=1706906502121000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCIith6-Ai4QDFQAAAAAdAAAAABAE";
   tituloProjeto: string;
   imgProjeto: string;
   dataProjeto: string;

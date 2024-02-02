@@ -7,9 +7,18 @@ import { IconButton, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { useWindowDimensions } from "@/services/window_size";
+import { ProjetosAPI } from "@/services/api_projetos";
 
 export function Header() {
   const { width } = useWindowDimensions();
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhMmI2YzRjLTdjNDUtNDMxZS04MWEwLTdhMjgwNWVlMGYwNSIsImlhdCI6MTcwNjgxODI2OCwiZXhwIjoxNzA2OTA0NjY4LCJzdWIiOiIyYTJiNmM0Yy03YzQ1LTQzMWUtODFhMC03YTI4MDVlZTBmMDUifQ.t2YuAQ8yfu1Lb-PIh2iawa8XpXK2YcvAL5S9omj2LJE";
+
+  const getProjetos = () => {
+    const response = ProjetosAPI.ListarProjetos({ token }).then((response) => {
+      console.log(response);
+    });
+  };
 
   return (
     <header className="w-screen flex bg-color-principal-100">
@@ -60,6 +69,7 @@ export function Header() {
           <Notifications color="primary" sx={{ fontSize: 24 }} />
         </div>
       </div>
+      <button onClick={() => getProjetos()}>ooooi</button>
     </header>
   );
 }
