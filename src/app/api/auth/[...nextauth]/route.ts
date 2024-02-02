@@ -8,27 +8,21 @@ const nextAuthOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        email: { label: "email", type: "text" },
-        senha: { label: "senha", type: "password" }
+        email: { label: "Email", type: "text" },
+        senha: { label: "Senha", type: "password" }
       },
       async authorize(credentials, req) {
-
-        const response = await axios.post('https://nervous-pear-clothes.cyclic.app/entrar', {
-          email: 'primeiro@gmail.com',
-          senha: '12345678'
-        }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-
+        const response = await axios.post('https://nervous-pear-clothes.cyclic.app/documentacao/entrar', {
+					email: credentials?.email,
+					senha: credentials?.senha
+				})
         const user = await response.data
-        console.log(user)
-        if (user && response.status == 200) {
-          return user
-        }
 
-        return null
+				if (user && response.status == 200) {
+					return user
+				}
+
+				return null
       }
     }),
     GoogleProvider({
@@ -45,5 +39,4 @@ const nextAuthOptions: NextAuthOptions = {
 const handler = NextAuth(nextAuthOptions);
 
 
-export { handler as GET, handler as POST, nextAuthOptions };
-
+export { handler as GET, handler as POST, nextAuthOptions};
