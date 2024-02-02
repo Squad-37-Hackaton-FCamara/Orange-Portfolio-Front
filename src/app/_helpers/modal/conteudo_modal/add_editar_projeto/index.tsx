@@ -1,11 +1,11 @@
-import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
-import { Button, TextField, Typography, styled } from "@mui/material";
-import clsx from "clsx";
 import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { ProjetosAPI } from "@/services/api_projetos";
-import { ProjetoProps } from "@/app/@types/Projetos";
+import styled from "@emotion/styled";
+import { Button, TextField, Typography } from "@mui/material";
+import clsx from "clsx";
+import Image from "next/image";
+import { FormEvent, useEffect, useState } from "react";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -20,6 +20,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
+  // TODO retirar token quando implementado provider de usuário
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhMmI2YzRjLTdjNDUtNDMxZS04MWEwLTdhMjgwNWVlMGYwNSIsImlhdCI6MTcwNjgxODI2OCwiZXhwIjoxNzA2OTA0NjY4LCJzdWIiOiIyYTJiNmM0Yy03YzQ1LTQzMWUtODFhMC03YTI4MDVlZTBmMDUifQ.t2YuAQ8yfu1Lb-PIh2iawa8XpXK2YcvAL5S9omj2LJE";
   const [tituloProjeto, setTituloProjeto] = useState(projeto?.tituloProjeto);
@@ -28,42 +29,58 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
   const [descricaoProjeto, setDescricaoProjeto] = useState(
     projeto?.descricaoProjeto
   );
-  const [imgProjeto, setImgProjeto] = useState(projeto?.imgProjeto);
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [imageAvatar, setImageAvatar] = useState<File | null>(null);
+
+  function handleFile(e: any) {
+    if (!e.target.files) {
+      return;
+    }
+
+    const image = e.target.files[0];
+
+    if (!image) {
+      return;
+    }
+
+    if (image.type === "image/jpeg" || image.type === "image/png") {
+      setImageAvatar(image);
+      setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+    }
+  }
 
   useEffect(() => {
     console.log(projeto);
   }, []);
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (projeto != undefined) {
       console.log("entrou errado");
       //adicionar
       return;
-    } else {
-      console.log("entrou");
-      const novoProjeto: ProjetoProps = {
-        titulo: tituloProjeto,
-        tags: tagsProjeto,
-        link: linkProjeto,
-        descricao: descricaoProjeto,
-        foto: imgProjeto,
-        usuario_id: "2a2b6c4c-7c45-431e-81a0-7a2805ee0f05",
-      };
-      try {
-        const response = ProjetosAPI.CriarProjeto({
+    }
+
+    try {
+      const listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
+      if (imageAvatar) {
+        await ProjetosAPI.CriarProjeto({
           token,
-          projeto: novoProjeto,
-        }).then((response) => {
-          console.log("projeto criado", response);
+          projeto: {
+            titulo: tituloProjeto,
+            tags: listaTags,
+            link: linkProjeto,
+            descricao: descricaoProjeto,
+            foto: imageAvatar,
+            usuario_id: "2a2b6c4c-7c45-431e-81a0-7a2805ee0f05",
+          },
         });
-        //adicionar
-      } catch (error) {
-        console.log("erro", error);
       }
+      console.log("Projeto cadastrado com sucesso"); // TODO retirar quando implementar resposta visual
+    } catch (error) {
+      console.log("erro", error); // TODO retirar quando implementar resposta visual
     }
   }
-
   return (
     <>
       <div className="w-[890px] flex flex-col gap-6 lg:w-full">
@@ -100,21 +117,24 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
               label="Título"
               placeholder="Título"
               variant="outlined"
-              onChange={(e) => setTituloProjeto(e.target.value)}
+              value={tituloProjeto}
+              onChange={(e: any) => setTituloProjeto(e.target.value)}
             />
             <TextField
               id="outlined-basic"
               label="Tags"
               placeholder="Tags"
               variant="outlined"
-              onChange={(e) => setTagsProjeto(e.target.value)}
+              value={tagsProjeto}
+              onChange={(e: any) => setTagsProjeto(e.target.value)}
             />
             <TextField
               id="outlined-basic"
               label="Link"
               placeholder="Link"
               variant="outlined"
-              onChange={(e) => setLinkProjeto(e.target.value)}
+              value={linkProjeto}
+              onChange={(e: any) => setLinkProjeto(e.target.value)}
             />
             <TextField
               id="outlined-textarea"
@@ -122,14 +142,12 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
               placeholder="Placeholder"
               multiline
               rows={3}
-              onChange={(e) => setDescricaoProjeto(e.target.value)}
+              value={descricaoProjeto}
+              onChange={(e: any) => setDescricaoProjeto(e.target.value)}
             />
             <Button component="label" variant="contained">
               Upload file
-              <VisuallyHiddenInput
-                type="file"
-                onChange={(e) => setImgProjeto(e)}
-              />
+              <VisuallyHiddenInput type="file" onChange={handleFile} />
             </Button>
             <button type="submit">adicionar</button>
           </form>
