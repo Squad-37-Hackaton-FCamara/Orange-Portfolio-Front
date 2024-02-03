@@ -7,17 +7,41 @@ import { useState, } from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import React from 'react';
+import * as yup from 'yup';
 
 export default function FormularioCadastro() {
 
-  const [message, setMessage] = useState<string>('');
+  const [menssagem, setMenssagem] = useState<string>('');
   const [nome, setNome] = useState<string>('');
   const [sobrenome, setSobrenome] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [senha, setSenha] = useState<string>('');
   const [alertSeverity, setAlertSeverity] = useState<'error' | 'info' | 'success' | 'warning' | undefined>();
 
-  const cadastrar = (evento: React.FormEvent<HTMLFormElement>) => {
+  const schema = yup.object().shape({
+    nome:
+      yup.string()
+        .min(3, 'Nome deve ter pelo menos 3 caracteres')
+        .max(15, 'Nome deve ter no máximo 15 caracteres')
+        .matches(/^[A-Za-z]+$/, 'Nome não deve conter espaços ou caracteres especiais'),
+    sobrenome:
+      yup.string()
+        .min(3, 'Sobrenome deve ter pelo menos 3 caracteres')
+        .max(15, 'Sobrenome deve ter no máximo 15 caracteres')
+        .matches(/^[A-Za-z]+$/, 'Sobrenome não deve conter espaços ou caracteres especiais'),
+    email:
+      yup.string()
+        .email('Email inválido'),
+    senha:
+      yup.string()
+        .min(8, 'Senha deve ter pelo menos 8 caracteres')
+        .max(10, 'Senha deve ter no máximo 10 caracteres')
+        .test('senha', 'A senha não deve conter espaços', value => {
+          return value ? !value.includes(' ') : false;
+        }),
+  });
+
+  const cadastrar = async (evento: React.FormEvent<HTMLFormElement>) => {
 
     evento.preventDefault()
     const usuario = {
@@ -28,16 +52,28 @@ export default function FormularioCadastro() {
     }
 
     if (!nome || !sobrenome || !email || !senha) {
-      setMessage('Preencha todos os campos');
+      setMenssagem('Preencha todos os campos!');
       setAlertSeverity('error');
       return;
     }
 
+    try {
+      await schema.validate(usuario, { abortEarly: true });
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        const errorMessage = err.message;
+        setMenssagem(errorMessage);
+        setAlertSeverity('error');
+        setTimeout(() => setMenssagem(''), 6000);
+        return;
+      }
+    }
+
     axios.post('https://nervous-pear-clothes.cyclic.app/cadastro', usuario)
       .then(() => {
-        setMessage("Cadastro feito com sucesso!");
+        setMenssagem("Cadastro feito com sucesso!");
         setAlertSeverity('success');
-        // setTimeout(() => setMessage(''), 6000);
+        setTimeout(() => setMenssagem(''), 6000);
         setNome('');
         setSobrenome('');
         setEmail('');
@@ -46,20 +82,20 @@ export default function FormularioCadastro() {
       })
       .catch((error) => {
         if (error.response && error.response.data && error.response.data.error) {
-          setMessage(error.response.data.error);
+          setMenssagem(error.response.data.error);
         } else {
-          setMessage('Ocorreu um erro desconhecido');
+          setMenssagem('Ocorreu um erro desconhecido');
         }
         setAlertSeverity('error');
-        // setTimeout(() => setMessage(''), 6000);
+        setTimeout(() => setMenssagem(''), 6000);
       })
   }
 
   return (
     <form noValidate className='flex flex-col justify-center items-center w-[100vh] h-[100vh]' onSubmit={cadastrar}>
-      {message && (
+      {menssagem && (
         <Alert severity={alertSeverity} variant="filled" className='absolute top-0 mt-20'>
-          {message}
+          {menssagem}
         </Alert>
       )}
       <Typography component="h1" className={clsx(
@@ -71,6 +107,7 @@ export default function FormularioCadastro() {
       <div className='flex flex-col gap-4 w-[517px] h-[258px] md:w-[312px] md:h-[330px]'>
         <div className='flex justify-between md:flex-col md:gap-4'>
           <TextField
+            color='info'
             value={nome}
             name='nome'
             id="outlined-basic"

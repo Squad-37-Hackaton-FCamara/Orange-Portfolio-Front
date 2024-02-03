@@ -14,7 +14,7 @@ export default function BotaoGoogle() {
     const result = await signIn("google", { callbackUrl: '/meus-projetos' }); 
 
     if (result?.error) {
-      console.log(result.error);
+      return;
     } else {
       router.push('/meus-projetos'); 
     }
