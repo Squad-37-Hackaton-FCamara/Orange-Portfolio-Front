@@ -57,7 +57,11 @@ export default function CartaoPortifolioMeusProjetos({
           <EditarIcon />
         </div>
         {menuIsOpen && (
-          <MenuEditar setIsOpen={rest.setIsOpen} setModal={rest.setModal} />
+          <MenuEditar
+            setIsOpen={rest.setIsOpen}
+            setModal={rest.setModal}
+            id={rest.id}
+          />
         )}
       </CardActionArea>
       <CardMedia

@@ -12,9 +12,12 @@ import clsx from "clsx";
 import { Projetos } from "../_helpers/meus-projetos/projetos";
 import { ProjetosAPI } from "@/services/api_projetos";
 import { ProjetoProps } from "../@types/Projetos";
+import { useAtomValue } from "jotai";
+import { idSelecionadoAtom } from "../_helpers/meus-projetos/card_projeto/menu_editar/atoms";
 
 function MeusProjetosPage() {
   const [projetos, setProjetos] = useState<ProjetoProps[]>([]);
+  const idSelecionado = useAtomValue(idSelecionadoAtom);
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ5NmFhOTY1LTI2MjEtNDJkZC1hMzI1LWJkZWM0MzhlNzFlNyIsImlhdCI6MTcwNjkwNTIxMywiZXhwIjoxNzA2OTkxNjEzLCJzdWIiOiJkOTZhYTk2NS0yNjIxLTQyZGQtYTMyNS1iZGVjNDM4ZTcxZTcifQ.Qz8Scg8Ppkz76-nbQixRi2pI2dBNug7_zKL3GKIch7M";
   const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +62,7 @@ function MeusProjetosPage() {
       case "editar_projeto":
         return (
           <ConteudoModalProjeto
-            projeto={projetos[0]}
+            projeto={projetos.find((projeto) => projeto.id === idSelecionado)}
             setIsOpen={setIsOpen}
             setModal={setModal}
           />

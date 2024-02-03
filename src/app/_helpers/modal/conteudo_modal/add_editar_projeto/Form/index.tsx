@@ -62,7 +62,7 @@ export function FormAddEditarProjeto({
     projeto?.descricao || ""
   );
 
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -196,7 +196,28 @@ export function FormAddEditarProjeto({
               Selecione o conteúdo que você deseja fazer upload
             </label>
             {projeto ? (
-              <Image src={projeto_generico} alt="imagem projeto" />
+              <div className="relative">
+                <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
+                  src={
+                    projeto.foto instanceof File
+                      ? URL.createObjectURL(projeto.foto)
+                      : projeto.foto
+                  }
+                  alt="Imagem do projeto"
+                  width={394}
+                  height={268}
+                  className="w-[433px] h-[268px] lg:w-[394px]  object-cover"
+                />
+                <div
+                  className="absolute top-4 right-4 z-10 cursor-pointer"
+                  onClick={() => {
+                    setAvatarUrl("");
+                    setImageAvatar(null);
+                  }}
+                >
+                  <CloseIcon color="black" />
+                </div>
+              </div>
             ) : (
               <>
                 {avatarUrl ? (

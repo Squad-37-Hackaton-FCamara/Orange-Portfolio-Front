@@ -25,6 +25,9 @@ export function Projetos({
   >;
 }) {
   const { width } = useWindowDimensions();
+  const projetosOrdenados = [...projetos].sort(
+    (a, b) => new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+  );
 
   return (
     <div className="flex flex-col gap-10">
@@ -63,7 +66,7 @@ export function Projetos({
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-6 lg:grid-cols-2 md:flex md:flex-col md:items-center">
-          {projetos.map((projeto, i) => {
+          {projetosOrdenados.map((projeto, i) => {
             // console.log(projeto)
             return (
               <div key={i} className="max-w-[389px]">
@@ -73,7 +76,7 @@ export function Projetos({
                   setModal={setModal}
                   nomeUsuario={projeto.autor}
                   // imgUsuario={projeto.imgUsuario}
-                  tituloProjeto={projeto.tituloProjeto}
+                  tituloProjeto={projeto.titulo}
                   imgProjeto={projeto.foto}
                   dataProjeto={formatarData(projeto.createAt)}
                   tags={projeto.tags}
