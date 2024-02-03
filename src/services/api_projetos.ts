@@ -31,4 +31,18 @@ export class ProjetosAPI {
 
     return response.data;
   }
+
+  static async EditarProjeto({
+    token, 
+    projeto
+}: {
+    token: string, 
+    projeto: ProjetoProps
+}) {
+    const response = await axios.put(`${URL_BASE}/projeto`, projeto, {
+      headers: HEADERS(token),
+    });
+
+    return response.data;
+  }
 }
