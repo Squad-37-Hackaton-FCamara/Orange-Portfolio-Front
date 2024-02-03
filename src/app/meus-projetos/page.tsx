@@ -15,6 +15,8 @@ import { ProjetoProps } from "../@types/Projetos";
 import { useAtomValue } from "jotai";
 import { idSelecionadoAtom } from "../_helpers/meus-projetos/card_projeto/menu_editar/atoms";
 import { useSession } from "next-auth/react";
+import { ConteudoModalDescobrirProjeto } from "../_helpers/modal/conteudo_modal/descobrir_projeto";
+// import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
 
 function MeusProjetosPage() {
   const [projetos, setProjetos] = useState<ProjetoProps[]>([]);
@@ -31,6 +33,7 @@ function MeusProjetosPage() {
     | "editar_projeto"
     | "add_projeto"
     | ""
+    | "visualizar_projeto"
   >("");
 
   function defModal(
@@ -41,6 +44,7 @@ function MeusProjetosPage() {
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
       | ""
   ) {
     switch (modal) {
@@ -69,6 +73,14 @@ function MeusProjetosPage() {
             setModal={setModal}
           />
         );
+      // case "visualizar_projeto":
+      //   return (
+      //     // <ConteudoModalVisualizarProjeto
+      //     //   projeto={projetos.find((projeto) => projeto.id === idSelecionado)}
+      //     //   setIsOpen={setIsOpen}
+      //     //   setModal={setModal}
+      //     // />
+      //   // );
       default:
         return <></>;
     }

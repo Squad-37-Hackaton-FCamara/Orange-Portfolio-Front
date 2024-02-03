@@ -19,6 +19,7 @@ export function ConteudoModalProjeto({
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
   projeto?: any;

@@ -46,6 +46,7 @@ export function FormAddEditarProjeto({
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
 }) {
@@ -275,7 +276,7 @@ export function FormAddEditarProjeto({
             <TextField
               id="outlined-basic"
               label="Tags"
-              placeholder="Tags"
+              placeholder="Tags (Máximo: 2 tags. Ex.: Javascript, React)"
               variant="outlined"
               value={tagsProjeto}
               onChange={(e: any) => setTagsProjeto(e.target.value)}
