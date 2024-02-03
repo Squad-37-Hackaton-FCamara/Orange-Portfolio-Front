@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import CartaoPortfolioMeusProjetos from "../card_projeto";
 import { CardPrimeiroProjeto } from "../card_primeiro_projeto";
 import { TextField, Typography } from "@mui/material";
 import { useWindowDimensions } from "@/services/window_size";
 import { formatarData } from "../../../util/formatarData";
+import { useSession } from "next-auth/react";
 
 export function Projetos({
   projetos,
