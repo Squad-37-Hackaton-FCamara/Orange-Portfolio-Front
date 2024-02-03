@@ -12,6 +12,7 @@ export const HEADERS = () => ({
 });
 
 export class ProjetosAPI {
+    
   static async ListarProjetos({ token }: { token: string }) {
     const response = await axios.get(`${URL_BASE}/projeto`, {
       headers: HEADERS(),
@@ -41,7 +42,7 @@ export class ProjetosAPI {
     token: string, 
     projeto: ProjetoProps
 }) {
-    const response = await axios.put(`${URL_BASE}/projeto`, projeto, {
+    const response = await axios.put(`${URL_BASE}/projeto/${projeto.id}`, projeto, {
       headers: HEADERS(token),
     });
 

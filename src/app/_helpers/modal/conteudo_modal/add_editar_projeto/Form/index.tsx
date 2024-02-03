@@ -61,7 +61,7 @@ export function FormAddEditarProjeto({
     projeto?.descricao || ""
   );
 
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,56 @@ export function FormAddEditarProjeto({
     e.preventDefault();
     if (projeto != undefined) {
       console.log("entrou em editar");
-      // editar projeto
+      try {
+        console.log("entrou notry editar");
+        let listaTags: string[] = [];
+        if (typeof tagsProjeto === "string") {
+          listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
+        }
+
+        if (listaTags.length > 2) {
+          console.log("erro de tags");
+          setLoading(false);
+          setErroView(true);
+          setErroMsg(
+            "Você excedeu o limite máximo de 2 tags por projeto, por favor, selecione apenas as tags mais relevantes."
+          );
+          return;
+        }
+
+        console.log("image:", imageAvatar);
+
+        if (imageAvatar || projeto.foto) {
+          await ProjetosAPI.EditarProjeto({
+            token,
+            projeto: {
+              id: projeto.id,
+              autor: projeto.autor,
+              titulo:
+                tituloProjeto != projeto.titulo
+                  ? tituloProjeto
+                  : projeto.titulo,
+              tags: listaTags != projeto.tags ? listaTags : projeto.tags,
+              link: linkProjeto != projeto.link ? linkProjeto : projeto.link,
+              descricao:
+                descricaoProjeto != projeto.descricao
+                  ? descricaoProjeto
+                  : projeto.descricao,
+              foto: projeto.foto,
+              usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
+            },
+          });
+          console.log("projeto enviado p edicao:", projeto);
+        }
+        setModal("editado");
+        setLoading(false);
+      } catch (error) {
+        console.log("entrou no erro editar");
+        setErroView(true);
+        setErroMsg("Erro ao editar projeto, por favor, tente novamente");
+        setLoading(false);
+        console.log(error);
+      }
       return;
     }
 
@@ -144,7 +193,28 @@ export function FormAddEditarProjeto({
               Selecione o conteúdo que você deseja fazer upload
             </label>
             {projeto ? (
-              <Image src={projeto_generico} alt="imagem projeto" />
+              <div className="relative">
+                <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
+                  src={
+                    projeto.foto instanceof File
+                      ? URL.createObjectURL(projeto.foto)
+                      : projeto.foto
+                  }
+                  alt="Imagem do projeto"
+                  width={394}
+                  height={268}
+                  className="w-[433px] h-[268px] lg:w-[394px]  object-cover"
+                />
+                <div
+                  className="absolute top-4 right-4 z-10 cursor-pointer"
+                  onClick={() => {
+                    setAvatarUrl("");
+                    setImageAvatar(null);
+                  }}
+                >
+                  <CloseIcon color="black" />
+                </div>
+              </div>
             ) : (
               <>
                 {avatarUrl ? (

@@ -1,4 +1,5 @@
 export interface ProjetoProps {
+  id?: string;
   autor: string;
   titulo: string;
   tags: string[];
