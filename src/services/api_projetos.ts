@@ -13,10 +13,10 @@ export const HEADERS = () => ({
 });
 
 export class ProjetosAPI {
-    
-  static async ListarProjetos({ token }: { token: string }) {
-    const response = await axios.get(`${URL_BASE}/projeto`, {
-      headers: HEADERS(),
+
+  static async ListarProjetos({ token }: { token: string }, { tagBusca }: {tagBusca: string}) {
+    const response = await axios.get(`${URL_BASE}/projeto?tag=${tagBusca}`, {
+      headers: HEADERS(token),
     });
     return response.data;
   }
