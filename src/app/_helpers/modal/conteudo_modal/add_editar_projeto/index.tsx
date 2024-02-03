@@ -3,9 +3,9 @@ import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { ProjetosAPI } from "@/services/api_projetos";
 import styled from "@emotion/styled";
-import { X } from "@mui/icons-material";
 import { Button, TextField, Typography } from "@mui/material";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
@@ -21,10 +21,11 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
+  const { data: session } = useSession();
+
   // TODO retirar token quando implementado provider de usuário
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ5NmFhOTY1LTI2MjEtNDJkZC1hMzI1LWJkZWM0MzhlNzFlNyIsImlhdCI6MTcwNjkwNTIxMywiZXhwIjoxNzA2OTkxNjEzLCJzdWIiOiJkOTZhYTk2NS0yNjIxLTQyZGQtYTMyNS1iZGVjNDM4ZTcxZTcifQ.Qz8Scg8Ppkz76-nbQixRi2pI2dBNug7_zKL3GKIch7M";
-  const autor = "Maria Luisa";
+  const autor = `${session?.user.usuario.nome} ${session?.user.usuario.sobrenome}`;
+  const usuario_id = session?.user.usuario.id;
   const [tituloProjeto, setTituloProjeto] = useState(projeto?.tituloProjeto);
   const [tagsProjeto, setTagsProjeto] = useState(projeto?.tags);
   const [linkProjeto, setLinkProjeto] = useState(projeto?.linkProjeto);
@@ -66,9 +67,8 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
 
     try {
       const listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
-      if (imageAvatar) {
+      if (imageAvatar && usuario_id) {
         await ProjetosAPI.CriarProjeto({
-          token,
           projeto: {
             autor: autor,
             titulo: tituloProjeto,
@@ -76,7 +76,7 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
             link: linkProjeto,
             descricao: descricaoProjeto,
             foto: imageAvatar,
-            usuario_id: "d96aa965-2621-42dd-a325-bdec438e71e7",
+            usuario_id: session?.user.usuario.id,
           },
         });
       }
