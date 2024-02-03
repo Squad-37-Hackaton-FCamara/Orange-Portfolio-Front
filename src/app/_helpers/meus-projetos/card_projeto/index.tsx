@@ -16,6 +16,7 @@ import { MenuEditar } from "./menu_editar";
 import { useWindowDimensions } from "@/services/window_size";
 
 interface ICartaoPortfolioMeusProjetos {
+  id: string;
   nomeUsuario: string;
   imgUsuario?: string;
   tituloProjeto: string;
