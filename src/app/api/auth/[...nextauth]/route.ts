@@ -1,4 +1,3 @@
-import IUserSession from "@/app/@types/UserSession";
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -59,7 +58,7 @@ const nextAuthOptions: NextAuthOptions = {
       return { ...token, ...user };
     },
     async session({ token, user, session }) {
-      session.user = token.usuario as IUserSession;
+      session.user = token as any;
 
       return session;
     },

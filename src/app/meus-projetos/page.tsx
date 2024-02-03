@@ -2,7 +2,7 @@
 
 import MeusProjetosPageLayout from "@/app/meus-projetos/layout";
 import ComponenteModal from "@/app/_helpers/modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
 import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
 import { ConteudoModalProjeto } from "../_helpers/modal/conteudo_modal/add_editar_projeto";
@@ -10,51 +10,15 @@ import { Header } from "../_helpers/header";
 import { DadosPessoais } from "../_helpers/meus-projetos/cabecalho";
 import clsx from "clsx";
 import { Projetos } from "../_helpers/meus-projetos/projetos";
+import { ProjetosAPI } from "@/services/api_projetos";
+import { ProjetoProps } from "../@types/Projetos";
 
 function MeusProjetosPage() {
-  const projetos: any[] = [
-    {
-      nomeUsuario: "maria luisa",
-      imgUsuario:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      tituloProjeto: "projeto em next",
-      imgProjeto:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      dataProjeto: "14/12",
-      tags: ["javascript", "next"],
-    },
-    {
-      nomeUsuario: "maria luisa",
-      imgUsuario:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      tituloProjeto: "projeto em next",
-      imgProjeto:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      dataProjeto: "14/12",
-      tags: ["javascript", "next"],
-    },
-    {
-      nomeUsuario: "maria luisa",
-      imgUsuario:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      tituloProjeto: "projeto em next",
-      imgProjeto:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      dataProjeto: "14/12",
-      tags: ["javascript", "next"],
-    },
-    {
-      nomeUsuario: "maria luisa",
-      imgUsuario:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      tituloProjeto: "projeto em next",
-      imgProjeto:
-        "https://img.redbull.com/images/c_crop,w_4160,h_2080,x_0,y_698,f_auto,q_auto/c_scale,w_1200/redbullcom/2023/10/16/urwbcyb8ld26j0cuhhfr/surfe-eclipse-italo-ferreira-1",
-      dataProjeto: "14/12",
-      tags: ["javascript", "next"],
-    },
-  ];
-  // const projetos: any[] = [];
+
+  const [projetos, setProjetos] = useState<ProjetoProps[]>([]);
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ5NmFhOTY1LTI2MjEtNDJkZC1hMzI1LWJkZWM0MzhlNzFlNyIsImlhdCI6MTcwNjkwNTIxMywiZXhwIjoxNzA2OTkxNjEzLCJzdWIiOiJkOTZhYTk2NS0yNjIxLTQyZGQtYTMyNS1iZGVjNDM4ZTcxZTcifQ.Qz8Scg8Ppkz76-nbQixRi2pI2dBNug7_zKL3GKIch7M";
+
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
     | "editado"
@@ -91,9 +55,17 @@ function MeusProjetosPage() {
           />
         );
       case "add_projeto":
-        return <ConteudoModalProjeto />;
+        return (
+          <ConteudoModalProjeto setIsOpen={setIsOpen} setModal={setModal} />
+        );
       case "editar_projeto":
-        return <ConteudoModalProjeto projeto={projetos[0]} />;
+        return (
+          <ConteudoModalProjeto
+            projeto={projetos[0]}
+            setIsOpen={setIsOpen}
+            setModal={setModal}
+          />
+        );
       default:
         return <></>;
     }
@@ -113,6 +85,17 @@ function MeusProjetosPage() {
         return "";
     }
   }
+
+  const listarMeusProjetos = (usuario_id: string) => {
+    const response = ProjetosAPI.ListarProjetosPeloId({ token, usuario_id }).then((response) => {
+      setProjetos([...response]);
+    });
+    return response;
+  };
+
+  useEffect(() => {
+    listarMeusProjetos('7050ad85-9567-4856-914c-21cc699e5e19');
+  }, []);
 
   return (
     <MeusProjetosPageLayout>

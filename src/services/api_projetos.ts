@@ -16,13 +16,33 @@ export class ProjetosAPI {
     const response = await axios.get(`${URL_BASE}/projeto`, {
       headers: HEADERS(),
     });
-    console.log(URL_BASE);
+    return response.data;
+  }
+
+  static async ListarProjetosPeloId({ token, usuario_id }: { token: string, usuario_id:string }) {
+    const response = await axios.get(`${URL_BASE}/projeto/${usuario_id}`, {
+      headers: HEADERS(token),
+    });
     return response.data;
   }
 
   static async CriarProjeto({ projeto }: { projeto: ProjetoProps }) {
     const response = await axios.post(`${URL_BASE}/projeto`, projeto, {
       headers: HEADERS(),
+    });
+
+    return response.data;
+  }
+
+  static async EditarProjeto({
+    token, 
+    projeto
+}: {
+    token: string, 
+    projeto: ProjetoProps
+}) {
+    const response = await axios.put(`${URL_BASE}/projeto`, projeto, {
+      headers: HEADERS(token),
     });
 
     return response.data;
