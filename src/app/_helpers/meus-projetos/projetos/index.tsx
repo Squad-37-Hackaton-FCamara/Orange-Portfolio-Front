@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CartaoPortfolioMeusProjetos from "../card_projeto";
 import { CardPrimeiroProjeto } from "../card_primeiro_projeto";
 import { TextField, Typography } from "@mui/material";
@@ -10,6 +10,8 @@ export function Projetos({
   projetos,
   setIsOpen,
   setModal,
+  setTagBusca,
+  tagBusca,
 }: {
   projetos: any[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -24,11 +26,18 @@ export function Projetos({
       | "editar_projeto"
     >
   >;
+  setTagBusca: Dispatch<SetStateAction<string>>;
+  tagBusca: string;
 }) {
   const { width } = useWindowDimensions();
   const projetosOrdenados = [...projetos].sort(
     (a, b) => new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
   );
+
+  const handleChange = (e: any) => {
+    console.log(e.target.value)
+    setTagBusca(e.target.value)
+  };
 
   return (
     <div className="flex flex-col gap-10">
@@ -45,6 +54,8 @@ export function Projetos({
           placeholder="Buscar tags"
           variant="outlined"
           className="max-w-[490px] w-full lg:w-full"
+          value={tagBusca}
+          onChange={handleChange}
         />
       </div>
       {projetos.length === 0 ? (
