@@ -14,7 +14,13 @@ export class ProjetosAPI {
     const response = await axios.get(`${URL_BASE}/projeto`, {
       headers: HEADERS(token),
     });
-    console.log(URL_BASE);
+    return response.data;
+  }
+
+  static async ListarProjetosPeloId({ token, usuario_id }: { token: string, usuario_id:string }) {
+    const response = await axios.get(`${URL_BASE}/projeto/${usuario_id}`, {
+      headers: HEADERS(token),
+    });
     return response.data;
   }
 
