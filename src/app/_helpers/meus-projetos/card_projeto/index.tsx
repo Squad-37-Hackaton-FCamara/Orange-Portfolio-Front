@@ -16,6 +16,7 @@ import { MenuEditar } from "./menu_editar";
 import { useWindowDimensions } from "@/services/window_size";
 
 interface ICartaoPortfolioMeusProjetos {
+  id: string;
   nomeUsuario: string;
   imgUsuario?: string;
   tituloProjeto: string;
@@ -56,7 +57,11 @@ export default function CartaoPortifolioMeusProjetos({
           <EditarIcon />
         </div>
         {menuIsOpen && (
-          <MenuEditar setIsOpen={rest.setIsOpen} setModal={rest.setModal} />
+          <MenuEditar
+            setIsOpen={rest.setIsOpen}
+            setModal={rest.setModal}
+            id={rest.id}
+          />
         )}
       </CardActionArea>
       <CardMedia

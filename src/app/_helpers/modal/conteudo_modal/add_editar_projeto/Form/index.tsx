@@ -1,9 +1,8 @@
 import { ProjetoProps } from "@/app/@types/Projetos";
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import Image from "next/image";
-import { ProjetosAPI } from "@/services/api_projetos";
 import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
 import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
+import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
+import { ProjetosAPI } from "@/services/api_projetos";
 import {
   Button,
   CircularProgress,
@@ -12,7 +11,9 @@ import {
   styled,
 } from "@mui/material";
 import clsx from "clsx";
-import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -48,12 +49,10 @@ export function FormAddEditarProjeto({
     >
   >;
 }) {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwNTBhZDg1LTk1NjctNDg1Ni05MTRjLTIxY2M2OTllNWUxOSIsImlhdCI6MTcwNjkxMjcwMSwiZXhwIjoxNzA2OTk5MTAxLCJzdWIiOiI3MDUwYWQ4NS05NTY3LTQ4NTYtOTE0Yy0yMWNjNjk5ZTVlMTkifQ.8KF-T_-r9o_9xS0Zize8NljTGouGa1tWGbS5fB-OKc8";
-  const nome = "Maria Luisa";
-
-  //qnd tiver o context:
-  // const {token, nome} = useContextSelector(UserContext, context => context)
+  const { data: session } = useSession();
+  const token = session?.user.token ? session.user.token : "";
+  const autor = `${session?.user.usuario.nome} ${session?.user.usuario.sobrenome}`;
+  const usuario_id = session?.user.usuario.id;
 
   const [tituloProjeto, setTituloProjeto] = useState(projeto?.titulo || "");
   const [tagsProjeto, setTagsProjeto] = useState(projeto?.tags || "");
@@ -62,7 +61,7 @@ export function FormAddEditarProjeto({
     projeto?.descricao || ""
   );
 
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -90,12 +89,60 @@ export function FormAddEditarProjeto({
     e.preventDefault();
     if (projeto != undefined) {
       console.log("entrou em editar");
-      // editar projeto
+      try {
+        console.log("entrou notry editar");
+        let listaTags: string[] = [];
+        if (typeof tagsProjeto === "string") {
+          listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
+        }
+
+        if (listaTags.length > 2) {
+          console.log("erro de tags");
+          setLoading(false);
+          setErroView(true);
+          setErroMsg(
+            "Você excedeu o limite máximo de 2 tags por projeto, por favor, selecione apenas as tags mais relevantes."
+          );
+          return;
+        }
+
+        console.log("image:", imageAvatar);
+
+        if (imageAvatar || projeto.foto) {
+          await ProjetosAPI.EditarProjeto({
+            token,
+            projeto: {
+              id: projeto.id,
+              autor: projeto.autor,
+              titulo:
+                tituloProjeto != projeto.titulo
+                  ? tituloProjeto
+                  : projeto.titulo,
+              tags: listaTags != projeto.tags ? listaTags : projeto.tags,
+              link: linkProjeto != projeto.link ? linkProjeto : projeto.link,
+              descricao:
+                descricaoProjeto != projeto.descricao
+                  ? descricaoProjeto
+                  : projeto.descricao,
+              foto: projeto.foto,
+              usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
+            },
+          });
+          console.log("projeto enviado p edicao:", projeto);
+        }
+        setModal("editado");
+        setLoading(false);
+      } catch (error) {
+        console.log("entrou no erro editar");
+        setErroView(true);
+        setErroMsg("Erro ao editar projeto, por favor, tente novamente");
+        setLoading(false);
+        console.log(error);
+      }
       return;
     }
 
     try {
-      console.log("entrou em adicionar", token);
       let listaTags: string[] = [];
       if (typeof tagsProjeto === "string") {
         listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
@@ -111,17 +158,16 @@ export function FormAddEditarProjeto({
         return;
       }
 
-      if (imageAvatar) {
+      if (imageAvatar && usuario_id) {
         await ProjetosAPI.CriarProjeto({
-          token,
           projeto: {
-            autor: nome,
+            autor: autor,
             titulo: tituloProjeto,
             tags: listaTags,
             link: linkProjeto,
             descricao: descricaoProjeto,
             foto: imageAvatar,
-            usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
+            usuario_id: session?.user.usuario.id,
           },
         });
       }
@@ -147,7 +193,28 @@ export function FormAddEditarProjeto({
               Selecione o conteúdo que você deseja fazer upload
             </label>
             {projeto ? (
-              <Image src={projeto_generico} alt="imagem projeto" />
+              <div className="relative">
+                <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
+                  src={
+                    projeto.foto instanceof File
+                      ? URL.createObjectURL(projeto.foto)
+                      : projeto.foto
+                  }
+                  alt="Imagem do projeto"
+                  width={394}
+                  height={268}
+                  className="w-[433px] h-[268px] lg:w-[394px]  object-cover"
+                />
+                <div
+                  className="absolute top-4 right-4 z-10 cursor-pointer"
+                  onClick={() => {
+                    setAvatarUrl("");
+                    setImageAvatar(null);
+                  }}
+                >
+                  <CloseIcon color="black" />
+                </div>
+              </div>
             ) : (
               <>
                 {avatarUrl ? (

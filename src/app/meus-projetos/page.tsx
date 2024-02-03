@@ -12,13 +12,16 @@ import clsx from "clsx";
 import { Projetos } from "../_helpers/meus-projetos/projetos";
 import { ProjetosAPI } from "@/services/api_projetos";
 import { ProjetoProps } from "../@types/Projetos";
+import { useAtomValue } from "jotai";
+import { idSelecionadoAtom } from "../_helpers/meus-projetos/card_projeto/menu_editar/atoms";
+import { useSession } from "next-auth/react";
 
 function MeusProjetosPage() {
-
   const [projetos, setProjetos] = useState<ProjetoProps[]>([]);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ5NmFhOTY1LTI2MjEtNDJkZC1hMzI1LWJkZWM0MzhlNzFlNyIsImlhdCI6MTcwNjkwNTIxMywiZXhwIjoxNzA2OTkxNjEzLCJzdWIiOiJkOTZhYTk2NS0yNjIxLTQyZGQtYTMyNS1iZGVjNDM4ZTcxZTcifQ.Qz8Scg8Ppkz76-nbQixRi2pI2dBNug7_zKL3GKIch7M";
-
+  const idSelecionado = useAtomValue(idSelecionadoAtom);
+  const { data: session } = useSession();
+  const token = session?.user.token ? session.user.token : "";
+  const user_id = session?.user.usuario.id ? session.user.usuario.id : "";
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<
     | "editado"
@@ -61,7 +64,7 @@ function MeusProjetosPage() {
       case "editar_projeto":
         return (
           <ConteudoModalProjeto
-            projeto={projetos[0]}
+            projeto={projetos.find((projeto) => projeto.id === idSelecionado)}
             setIsOpen={setIsOpen}
             setModal={setModal}
           />
@@ -87,14 +90,17 @@ function MeusProjetosPage() {
   }
 
   const listarMeusProjetos = (usuario_id: string) => {
-    const response = ProjetosAPI.ListarProjetosPeloId({ token, usuario_id }).then((response) => {
+    const response = ProjetosAPI.ListarProjetosPeloId({
+      token,
+      usuario_id,
+    }).then((response) => {
       setProjetos([...response]);
     });
     return response;
   };
 
   useEffect(() => {
-    listarMeusProjetos('7050ad85-9567-4856-914c-21cc699e5e19');
+    listarMeusProjetos(user_id);
   }, []);
 
   return (
