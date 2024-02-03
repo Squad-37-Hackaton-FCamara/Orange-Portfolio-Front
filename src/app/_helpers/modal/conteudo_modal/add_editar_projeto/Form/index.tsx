@@ -1,9 +1,8 @@
 import { ProjetoProps } from "@/app/@types/Projetos";
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import Image from "next/image";
-import { ProjetosAPI } from "@/services/api_projetos";
 import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
 import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
+import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
+import { ProjetosAPI } from "@/services/api_projetos";
 import {
   Button,
   CircularProgress,
@@ -12,7 +11,9 @@ import {
   styled,
 } from "@mui/material";
 import clsx from "clsx";
-import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -48,12 +49,10 @@ export function FormAddEditarProjeto({
     >
   >;
 }) {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwNTBhZDg1LTk1NjctNDg1Ni05MTRjLTIxY2M2OTllNWUxOSIsImlhdCI6MTcwNjkxMjcwMSwiZXhwIjoxNzA2OTk5MTAxLCJzdWIiOiI3MDUwYWQ4NS05NTY3LTQ4NTYtOTE0Yy0yMWNjNjk5ZTVlMTkifQ.8KF-T_-r9o_9xS0Zize8NljTGouGa1tWGbS5fB-OKc8";
-  const nome = "Maria Luisa";
+  const { data: session } = useSession();
 
-  //qnd tiver o context:
-  // const {token, nome} = useContextSelector(UserContext, context => context)
+  const autor = `${session?.user.usuario.nome} ${session?.user.usuario.sobrenome}`;
+  const usuario_id = session?.user.usuario.id;
 
   const [tituloProjeto, setTituloProjeto] = useState(projeto?.titulo || "");
   const [tagsProjeto, setTagsProjeto] = useState(projeto?.tags || "");
@@ -95,7 +94,6 @@ export function FormAddEditarProjeto({
     }
 
     try {
-      console.log("entrou em adicionar", token);
       let listaTags: string[] = [];
       if (typeof tagsProjeto === "string") {
         listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
@@ -111,17 +109,16 @@ export function FormAddEditarProjeto({
         return;
       }
 
-      if (imageAvatar) {
+      if (imageAvatar && usuario_id) {
         await ProjetosAPI.CriarProjeto({
-          token,
           projeto: {
-            autor: nome,
+            autor: autor,
             titulo: tituloProjeto,
             tags: listaTags,
             link: linkProjeto,
             descricao: descricaoProjeto,
             foto: imageAvatar,
-            usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
+            usuario_id: session?.user.usuario.id,
           },
         });
       }
