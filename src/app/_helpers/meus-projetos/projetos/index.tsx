@@ -64,7 +64,7 @@ export function Projetos({
       ) : (
         <div className="grid grid-cols-3 gap-6 lg:grid-cols-2 md:flex md:flex-col md:items-center">
           {projetos.map((projeto, i) => {
-            console.log(projeto)
+            // console.log(projeto)
             return (
               <div key={i} className="max-w-[389px]">
                 <CartaoPortfolioMeusProjetos

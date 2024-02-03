@@ -90,7 +90,56 @@ export function FormAddEditarProjeto({
     e.preventDefault();
     if (projeto != undefined) {
       console.log("entrou em editar");
-      // editar projeto
+      try {
+        console.log("entrou notry editar");
+        let listaTags: string[] = [];
+        if (typeof tagsProjeto === "string") {
+          listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
+        }
+
+        if (listaTags.length > 2) {
+          console.log("erro de tags");
+          setLoading(false);
+          setErroView(true);
+          setErroMsg(
+            "Você excedeu o limite máximo de 2 tags por projeto, por favor, selecione apenas as tags mais relevantes."
+          );
+          return;
+        }
+
+        console.log("image:", imageAvatar);
+
+        if (imageAvatar || projeto.foto) {
+          await ProjetosAPI.EditarProjeto({
+            token,
+            projeto: {
+              id: projeto.id,
+              autor: projeto.autor,
+              titulo:
+                tituloProjeto != projeto.titulo
+                  ? tituloProjeto
+                  : projeto.titulo,
+              tags: listaTags != projeto.tags ? listaTags : projeto.tags,
+              link: linkProjeto != projeto.link ? linkProjeto : projeto.link,
+              descricao:
+                descricaoProjeto != projeto.descricao
+                  ? descricaoProjeto
+                  : projeto.descricao,
+              foto: projeto.foto,
+              usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
+            },
+          });
+          console.log("projeto enviado p edicao:", projeto);
+        }
+        setModal("editado");
+        setLoading(false);
+      } catch (error) {
+        console.log("entrou no erro editar");
+        setErroView(true);
+        setErroMsg("Erro ao editar projeto, por favor, tente novamente");
+        setLoading(false);
+        console.log(error);
+      }
       return;
     }
 
