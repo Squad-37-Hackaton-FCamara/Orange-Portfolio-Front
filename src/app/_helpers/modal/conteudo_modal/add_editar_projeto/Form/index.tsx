@@ -62,12 +62,13 @@ export function FormAddEditarProjeto({
     projeto?.descricao || ""
   );
 
-  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState<string>(projeto?.foto || "");
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
 
   const [loading, setLoading] = useState(false);
 
   function handleFile(e: any) {
+    debugger;
     console.log(e.target.files[0]);
     if (!e.target.files) {
       return;
@@ -83,6 +84,8 @@ export function FormAddEditarProjeto({
       setImageAvatar(image);
       setAvatarUrl(URL.createObjectURL(e.target.files[0]));
     }
+
+    console.log(avatarUrl, imageAvatar);
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -125,7 +128,7 @@ export function FormAddEditarProjeto({
                 descricaoProjeto != projeto.descricao
                   ? descricaoProjeto
                   : projeto.descricao,
-              foto: projeto.foto,
+              foto: avatarUrl != projeto.foto ? avatarUrl : projeto.foto,
               usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
             },
           });
@@ -167,7 +170,7 @@ export function FormAddEditarProjeto({
             tags: listaTags,
             link: linkProjeto,
             descricao: descricaoProjeto,
-            foto: imageAvatar,
+            foto: avatarUrl,
             usuario_id: session?.user.usuario.id,
           },
         });
@@ -190,32 +193,56 @@ export function FormAddEditarProjeto({
       <div className="flex flex-col w-full">
         <div className="flex gap-6 lg:flex-col-reverse ">
           <div className="w-1/2 flex flex-col gap-4 lg:w-full">
-            <label className="text-color-neutral-110">
+            <label
+              onClick={() => console.log(projeto?.foto)}
+              className="text-color-neutral-110"
+            >
               Selecione o conteúdo que você deseja fazer upload
             </label>
             {projeto ? (
-              <div className="relative">
-                <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
-                  src={
-                    projeto.foto instanceof File
-                      ? URL.createObjectURL(projeto.foto)
-                      : projeto.foto
-                  }
-                  alt="Imagem do projeto"
-                  width={394}
-                  height={268}
-                  className="w-[433px] h-[268px] lg:w-[394px]  object-cover"
-                />
-                <div
-                  className="absolute top-4 right-4 z-10 cursor-pointer"
-                  onClick={() => {
-                    setAvatarUrl("");
-                    setImageAvatar(null);
-                  }}
-                >
-                  <CloseIcon color="black" />
+              avatarUrl ? (
+                <div className="relative">
+                  <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
+                    src={avatarUrl}
+                    alt="Imagem do projeto"
+                    width={394}
+                    height={268}
+                    className="w-[433px] h-[268px] lg:w-[394px]  object-cover"
+                  />
+                  <div
+                    className="absolute top-4 right-4 z-10 cursor-pointer"
+                    onClick={() => {
+                      setAvatarUrl("");
+                      setImageAvatar(null);
+                    }}
+                  >
+                    <CloseIcon color="black" />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <Button
+                  component="label"
+                  className={clsx(
+                    "relative w-fit flex flex-col items-center",
+                    "px-[70px] py-[91px] lg:px-1 lg:px-[10px]",
+                    "bg-color-neutral-70 hover:bg-color-neutral-70",
+                    "cursor-pointer"
+                  )}
+                >
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={handleFile}
+                    className="w-full h-full"
+                  />
+                  <ColecoesIcon size={46} />
+                  <Typography
+                    component="p"
+                    className="text-sm text-color-neutral-120 lg:text-center"
+                  >
+                    Compartilhe seu talento com milhares de pessoas
+                  </Typography>
+                </Button>
+              )
             ) : (
               <>
                 {avatarUrl ? (
