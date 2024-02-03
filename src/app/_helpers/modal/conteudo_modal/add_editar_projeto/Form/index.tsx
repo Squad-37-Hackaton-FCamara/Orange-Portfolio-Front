@@ -50,7 +50,7 @@ export function FormAddEditarProjeto({
   >;
 }) {
   const { data: session } = useSession();
-
+  const token = session?.user.token ? session.user.token : "";
   const autor = `${session?.user.usuario.nome} ${session?.user.usuario.sobrenome}`;
   const usuario_id = session?.user.usuario.id;
 

@@ -1,6 +1,10 @@
-import { Button, Typography } from "@mui/material";
+import { idSelecionadoAtom } from "@/app/_helpers/meus-projetos/card_projeto/menu_editar/atoms";
+import { ProjetosAPI } from "@/services/api_projetos";
+import { DeleteSharp } from "@mui/icons-material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import clsx from "clsx";
-import { Dispatch, SetStateAction } from "react";
+import { useAtom } from "jotai";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export function ConteudoModalConfirmarDeletar({
   setIsOpen,
@@ -19,12 +23,31 @@ export function ConteudoModalConfirmarDeletar({
     >
   >;
 }) {
+  const [idSelecionado, setIdSelecionado] = useAtom(idSelecionadoAtom);
+  const [loading, setLoading] = useState(false);
+  const [erroView, setErroView] = useState(false);
+
   function handleClose() {
     window.location.reload();
   }
 
+  async function deletarProjeto(id: string) {
+    setLoading(true);
+    try {
+      await ProjetosAPI.DeletarProjeto(idSelecionado);
+      setLoading(false);
+      console.log("Projeto deletado com sucesso");
+      setModal("deletado");
+      setIsOpen(true);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="flex flex-col gap-6 ">
+      {erroView && <p>Ocorreu um erro ao excluir seu projeto</p>}
       <Typography component="h1" className="text-2xl text-color-neutral-110">
         Deseja excluir?
       </Typography>
@@ -41,20 +64,18 @@ export function ConteudoModalConfirmarDeletar({
             "text-[15px] font-medium text-color-neutral-60"
           )}
           onClick={() => {
-            setModal("deletado");
-            setIsOpen(true);
+            deletarProjeto(idSelecionado);
           }}
         >
-          EXCLUIR
+          {loading ? <CircularProgress size={16} /> : "EXCLUIR"}
         </Button>
         <Button
           size="large"
           color="secondary"
           variant="contained"
-          disabled={true}
           className={clsx(
-            "bg-color-secondary-100 hover:bg-color-secondary-110",
-            "text-[15px] font-medium text-color-neutral-60"
+            "bg-color-neutral-80 hover:bg-color-neutral-100",
+            "text-[15px] font-medium text-color-neutral-110 hover:text-color-neutral-60"
           )}
           onClick={() => handleClose()}
         >
