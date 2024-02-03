@@ -16,7 +16,7 @@ export class ProjetosAPI {
 
   static async ListarProjetos({ token }: { token: string }, { tagBusca }: {tagBusca: string}) {
     const response = await axios.get(`${URL_BASE}/projeto?tag=${tagBusca}`, {
-      headers: HEADERS(token),
+      headers: HEADERS(),
     });
     return response.data;
   }
@@ -44,6 +44,14 @@ export class ProjetosAPI {
       projeto: ProjetoProps
   }) {
       const response = await axios.put(`${URL_BASE}/projeto/${projeto.id}`, projeto, {
+        headers: HEADERS(),
+      });
+
+      return response.data;
+    }
+
+    static async DeletarProjeto(id: string) {
+      const response = await axios.delete(`${URL_BASE}/projeto/${id}`, {
         headers: HEADERS(),
       });
 

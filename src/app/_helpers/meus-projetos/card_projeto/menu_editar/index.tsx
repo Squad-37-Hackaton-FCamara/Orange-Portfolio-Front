@@ -55,6 +55,7 @@ export function MenuEditar({
         onClick={() => {
           setModal("confirmar_deletar");
           setIsOpen(true);
+          setIdSelecionado(id);
         }}
         className={clsx(
           "w-full flex justify-left",
