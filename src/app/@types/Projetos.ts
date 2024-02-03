@@ -5,7 +5,7 @@ export interface ProjetoProps {
   tags: string[];
   link: string;
   descricao: string;
-  foto: string;
+  foto: File | null | string;
   usuario_id: string;
   createAt?: string;
 }

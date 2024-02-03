@@ -1,5 +1,4 @@
 import { ProjetoProps } from "@/app/@types/Projetos";
-import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
 import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { ProjetosAPI } from "@/services/api_projetos";
@@ -62,14 +61,14 @@ export function FormAddEditarProjeto({
     projeto?.descricao || ""
   );
 
-  const [avatarUrl, setAvatarUrl] = useState<string>(projeto?.foto || "");
+  const [avatarUrl, setAvatarUrl] = useState(projeto?.foto || "");
+  console.log("🚀 ~ avatarUrl:", avatarUrl);
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
+  console.log("🚀 ~ imageAvatar:", imageAvatar);
 
   const [loading, setLoading] = useState(false);
 
   function handleFile(e: any) {
-    debugger;
-    console.log(e.target.files[0]);
     if (!e.target.files) {
       return;
     }
@@ -84,14 +83,13 @@ export function FormAddEditarProjeto({
       setImageAvatar(image);
       setAvatarUrl(URL.createObjectURL(e.target.files[0]));
     }
-
-    console.log(avatarUrl, imageAvatar);
   }
 
   async function handleSubmit(e: FormEvent) {
     setLoading(true);
     e.preventDefault();
     if (projeto != undefined) {
+      debugger;
       console.log("entrou em editar");
       try {
         console.log("entrou notry editar");
@@ -128,7 +126,7 @@ export function FormAddEditarProjeto({
                 descricaoProjeto != projeto.descricao
                   ? descricaoProjeto
                   : projeto.descricao,
-              foto: avatarUrl != projeto.foto ? avatarUrl : projeto.foto,
+              foto: imageAvatar,
               usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
             },
           });
@@ -248,7 +246,7 @@ export function FormAddEditarProjeto({
                 {avatarUrl ? (
                   <div className="relative">
                     <Image
-                      src={avatarUrl}
+                      src={avatarUrl as string}
                       alt="Imagem do projeto"
                       width={394}
                       height={268}
