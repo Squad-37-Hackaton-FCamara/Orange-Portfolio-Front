@@ -1,4 +1,3 @@
-import { CheckIcon } from "@/app/_helpers/svg/checkIcon";
 import { Button, Typography } from "@mui/material";
 import clsx from "clsx";
 import { Dispatch, SetStateAction } from "react";

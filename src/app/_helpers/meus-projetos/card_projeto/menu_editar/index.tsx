@@ -1,11 +1,15 @@
 import { SetaIcon } from "@/app/_helpers/svg/setaIcon";
 import { Dispatch, SetStateAction } from "react";
 import clsx from "clsx";
+import { useAtom } from "jotai";
+import { idSelecionadoAtom } from "./atoms";
 
 export function MenuEditar({
+  id,
   setIsOpen,
   setModal,
 }: {
+  id: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setModal: Dispatch<
     SetStateAction<
@@ -19,6 +23,8 @@ export function MenuEditar({
     >
   >;
 }) {
+  const [idSelecionado, setIdSelecionado] = useAtom(idSelecionadoAtom);
+
   return (
     <div
       className={clsx(
@@ -35,6 +41,7 @@ export function MenuEditar({
         onClick={() => {
           setModal("editar_projeto");
           setIsOpen(true);
+          setIdSelecionado(id);
         }}
         className={clsx(
           "w-full flex justify-left",

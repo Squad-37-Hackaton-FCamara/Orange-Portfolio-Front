@@ -1,20 +1,7 @@
 import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
-import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
-import { ProjetosAPI } from "@/services/api_projetos";
-import styled from "@emotion/styled";
-import { X } from "@mui/icons-material";
-import { Button, CircularProgress, TextField, Typography } from "@mui/material";
-import clsx from "clsx";
-import Image from "next/image";
-import sem_imagem from "@/app/_helpers/assets/sem_imagem.png";
+import { Typography } from "@mui/material";
 
-import {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FormAddEditarProjeto } from "./Form";
 
 export function ConteudoModalProjeto({
