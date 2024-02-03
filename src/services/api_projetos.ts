@@ -1,6 +1,7 @@
 import { ProjetoProps } from "@/app/@types/Projetos";
 import axios from "axios";
 import "dotenv/config";
+import { useSession } from "next-auth/react";
 import { parseCookies } from "nookies";
 
 export const URL_BASE = "https://nervous-pear-clothes.cyclic.app";
@@ -22,7 +23,7 @@ export class ProjetosAPI {
 
   static async ListarProjetosPeloId({ token, usuario_id }: { token: string, usuario_id:string }) {
     const response = await axios.get(`${URL_BASE}/projeto/${usuario_id}`, {
-      headers: HEADERS(token),
+      headers: HEADERS(),
     });
     return response.data;
   }
@@ -35,17 +36,17 @@ export class ProjetosAPI {
     return response.data;
   }
 
-  static async EditarProjeto({
-    token, 
-    projeto
-}: {
-    token: string, 
-    projeto: ProjetoProps
-}) {
-    const response = await axios.put(`${URL_BASE}/projeto/${projeto.id}`, projeto, {
-      headers: HEADERS(token),
-    });
+    static async EditarProjeto({
+      token, 
+      projeto
+  }: {
+      token: string, 
+      projeto: ProjetoProps
+  }) {
+      const response = await axios.put(`${URL_BASE}/projeto/${projeto.id}`, projeto, {
+        headers: HEADERS(),
+      });
 
-    return response.data;
-  }
+      return response.data;
+    }
 }
