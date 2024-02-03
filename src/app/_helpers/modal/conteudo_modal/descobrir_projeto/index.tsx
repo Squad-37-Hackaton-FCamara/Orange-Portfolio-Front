@@ -1,14 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
+import { formatarData } from "@/app/util/formatarData";
 import { Avatar, Chip, Grid, Link, Typography } from "@mui/material";
 
 interface IProjeto {
-  nomeUsuario: string;
+  autor: string;
   imgUsuario: string;
-  tituloProjeto: string;
-  imgProjeto: string;
-  dataProjeto: string;
+  titulo: string;
+  foto: string;
+  createAt: string;
   descricacao: string;
-  url: string;
+  link: string;
   tags: string[];
 }
 
@@ -48,7 +49,7 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
           <Avatar
             sx={{ width: 40, height: 40 }}
             src={projeto.imgUsuario}
-            alt={`imagem usuario ${projeto.nomeUsuario}`}
+            alt={`imagem usuario ${projeto.autor}`}
           />
           <Grid
             overflow="hidden"
@@ -72,7 +73,7 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
                 color: "#303133",
               }}
             >
-              {projeto.nomeUsuario}
+              {projeto.autor}
             </Typography>
 
             <Typography
@@ -83,7 +84,7 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
                 color: "#303133",
               }}
             >
-              {projeto.dataProjeto}
+              {formatarData(projeto.createAt)}
             </Typography>
           </Grid>
         </Grid>
@@ -97,7 +98,7 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
               color: "#303133",
             }}
           >
-            {projeto.tituloProjeto}
+            {projeto.titulo}
           </Typography>
         </Grid>
         <Grid
@@ -127,8 +128,8 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
       >
         <img
           className="block object-cover w-full h-full"
-          alt={`Projeto ${projeto.imgProjeto}`}
-          src={projeto.imgProjeto}
+          alt={`Projeto ${projeto.foto}`}
+          src={projeto.foto}
         />
       </Grid>
       <Grid
@@ -170,7 +171,7 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
                   lineHeight: "0.875rem",
                 }}
               >
-                {projeto.url}
+                {projeto.link}
               </Typography>
             }
           </Link>
