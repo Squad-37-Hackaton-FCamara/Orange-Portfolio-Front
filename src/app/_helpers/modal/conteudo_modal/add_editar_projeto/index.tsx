@@ -4,10 +4,18 @@ import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { ProjetosAPI } from "@/services/api_projetos";
 import styled from "@emotion/styled";
 import { X } from "@mui/icons-material";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, TextField, Typography } from "@mui/material";
 import clsx from "clsx";
 import Image from "next/image";
-import { FormEvent, useEffect, useState } from "react";
+import sem_imagem from "@/app/_helpers/assets/sem_imagem.png";
+
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -20,19 +28,48 @@ const VisuallyHiddenInput = styled("input")({
   cursor: "pointer",
 });
 
-export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
-  // TODO retirar token quando implementado provider de usuário
+export function ConteudoModalProjeto({
+  setIsOpen,
+  setModal,
+  projeto,
+}: {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setModal: Dispatch<
+    SetStateAction<
+      | ""
+      | "editado"
+      | "adicionado"
+      | "deletado"
+      | "confirmar_deletar"
+      | "add_projeto"
+      | "editar_projeto"
+    >
+  >;
+  projeto?: any;
+}) {
+  // TODO retirar token e nome quando implementado provider de usuário
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ5NmFhOTY1LTI2MjEtNDJkZC1hMzI1LWJkZWM0MzhlNzFlNyIsImlhdCI6MTcwNjkwNTIxMywiZXhwIjoxNzA2OTkxNjEzLCJzdWIiOiJkOTZhYTk2NS0yNjIxLTQyZGQtYTMyNS1iZGVjNDM4ZTcxZTcifQ.Qz8Scg8Ppkz76-nbQixRi2pI2dBNug7_zKL3GKIch7M";
-  const autor = "Maria Luisa";
-  const [tituloProjeto, setTituloProjeto] = useState(projeto?.tituloProjeto);
-  const [tagsProjeto, setTagsProjeto] = useState(projeto?.tags);
-  const [linkProjeto, setLinkProjeto] = useState(projeto?.linkProjeto);
-  const [descricaoProjeto, setDescricaoProjeto] = useState(
-    projeto?.descricaoProjeto
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwNTBhZDg1LTk1NjctNDg1Ni05MTRjLTIxY2M2OTllNWUxOSIsImlhdCI6MTcwNjkxMjcwMSwiZXhwIjoxNzA2OTk5MTAxLCJzdWIiOiI3MDUwYWQ4NS05NTY3LTQ4NTYtOTE0Yy0yMWNjNjk5ZTVlMTkifQ.8KF-T_-r9o_9xS0Zize8NljTGouGa1tWGbS5fB-OKc8";
+  const nome = "Maria Luisa";
+
+  //qnd tiver o context:
+  // const {token, nome} = useContextSelector(UserContext, context => context)
+
+  const [tituloProjeto, setTituloProjeto] = useState(
+    projeto?.tituloProjeto || ""
   );
+  const [tagsProjeto, setTagsProjeto] = useState(projeto?.tags || "");
+  const [linkProjeto, setLinkProjeto] = useState(projeto?.linkProjeto || "");
+  const [descricaoProjeto, setDescricaoProjeto] = useState(
+    projeto?.descricaoProjeto || ""
+  );
+
   const [avatarUrl, setAvatarUrl] = useState("");
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
+
+  const [erroView, setErroView] = useState(false);
+  const [erroMsg, setErroMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleFile(e: any) {
     console.log(e.target.files[0]);
@@ -52,45 +89,74 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
     }
   }
 
-  useEffect(() => {
-    console.log(projeto);
-  }, []);
+  // useEffect(() => {
+  //   console.log(projeto);
+  // }, []);
 
   async function handleSubmit(e: FormEvent) {
+    setLoading(true);
     e.preventDefault();
     if (projeto != undefined) {
-      console.log("entrou errado");
-      //adicionar
+      console.log("entrou em editar");
+      // editar projeto
       return;
     }
 
     try {
+      console.log("entrou em adicionar", token);
       const listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
+
+      if (listaTags.length > 2) {
+        console.log("erro de tags");
+        setLoading(false);
+        setErroView(true);
+        setErroMsg(
+          "Você excedeu o limite máximo de 2 tags por projeto, por favor, selecione apenas as tags mais relevantes."
+        );
+        return;
+      }
+
       if (imageAvatar) {
         await ProjetosAPI.CriarProjeto({
           token,
           projeto: {
-            autor: autor,
+            autor: nome,
             titulo: tituloProjeto,
             tags: listaTags,
             link: linkProjeto,
             descricao: descricaoProjeto,
             foto: imageAvatar,
-            usuario_id: "d96aa965-2621-42dd-a325-bdec438e71e7",
+            usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
           },
         });
       }
+      setModal("adicionado");
       console.log("Projeto cadastrado com sucesso"); // TODO retirar quando implementar resposta visual
+      setLoading(false);
     } catch (error) {
+      setErroView(true);
+      setErroMsg("Erro ao cadastrar projeto, por favor, tente novamente");
       console.log("erro", error); // TODO retirar quando implementar resposta visual
+      setLoading(false);
     }
   }
+
   return (
     <>
-      <div className="w-[890px] flex flex-col gap-6 lg:w-full">
+      <div className="relative w-[890px] flex flex-col gap-6 lg:w-full">
         <Typography component="h1" className="text-2xl text-color-neutral-110">
           {projeto ? "Editar projeto" : "Adicionar projeto"}
         </Typography>
+        <div
+          data-error={erroView}
+          className="w-full hidden data-[error=true]:flex"
+          onClick={() => setErroView(false)}
+        >
+          <div className="absolute flex gap-4 bg-color-error-80 py-4 px-2 top-0 left-0 z-10">
+            <p>{erroMsg}</p>
+            <CloseIcon />
+          </div>
+        </div>
         <form
           onSubmit={handleSubmit}
           className="flex justify-between gap-4 lg:flex-col-reverse"
@@ -205,7 +271,7 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
                   "text-[15px] font-medium text-color-neutral-60"
                 )}
               >
-                SALVAR
+                {loading ? <CircularProgress size={16} /> : "SALVAR"}
               </Button>
               <Button
                 size="large"
@@ -215,7 +281,7 @@ export function ConteudoModalProjeto({ projeto }: { projeto?: any }) {
                   "bg-color-neutral-80 hover:bg-color-neutral-100",
                   "text-[15px] font-medium text-color-neutral-110 hover:text-color-neutral-60"
                 )}
-                type="submit"
+                onClick={() => setIsOpen(false)}
               >
                 CANCELAR
               </Button>

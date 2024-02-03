@@ -91,9 +91,17 @@ function MeusProjetosPage() {
           />
         );
       case "add_projeto":
-        return <ConteudoModalProjeto />;
+        return (
+          <ConteudoModalProjeto setIsOpen={setIsOpen} setModal={setModal} />
+        );
       case "editar_projeto":
-        return <ConteudoModalProjeto projeto={projetos[0]} />;
+        return (
+          <ConteudoModalProjeto
+            projeto={projetos[0]}
+            setIsOpen={setIsOpen}
+            setModal={setModal}
+          />
+        );
       default:
         return <></>;
     }
