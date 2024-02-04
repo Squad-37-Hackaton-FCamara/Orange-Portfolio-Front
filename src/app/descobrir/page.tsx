@@ -11,6 +11,7 @@ import DescobrirLayout from "./layout";
 import { ProjetosAPI } from "@/services/api_projetos";
 import { formatarData } from "../util/formatarData";
 import { ProjetoProps } from "../@types/Projetos";
+import { ProjectLoading } from "../_helpers/components/Loader";
 
 function PaginaDescobrir() {
   const token =
@@ -83,21 +84,29 @@ function PaginaDescobrir() {
             />
           </div>
           <div className="grid grid-cols-3 gap-6 lg:max-w-[802px] lg:grid-cols-2 md:flex md:w-full md:flex-col md:items-center md:justify-center">
-            {projetos.map((projeto: any, i: number) => {
-              return (
-                <div key={i} className="max-w-[389px] lg:w-full">
-                  <CartaoPortifolio
-                    nomeUsuario={projeto.autor}
-                    imgUsuario={projeto.imgUsuario}
-                    tituloProjeto={projeto.titulo}
-                    imgProjeto={projeto.foto}
-                    dataProjeto={formatarData(projeto.createAt)}
-                    tags={projeto.tags}
-                    onClick={() => funcaoExpandirProjeto(projeto)}
-                  />
-                </div>
-              );
-            })}
+            {projetos.length != 0 ? (
+              projetos.map((projeto: any, i: number) => {
+                return (
+                  <div key={i} className="max-w-[389px] lg:w-full">
+                    <CartaoPortifolio
+                      nomeUsuario={projeto.autor}
+                      imgUsuario={projeto.imgUsuario}
+                      tituloProjeto={projeto.titulo}
+                      imgProjeto={projeto.foto}
+                      dataProjeto={formatarData(projeto.createAt)}
+                      tags={projeto.tags}
+                      onClick={() => funcaoExpandirProjeto(projeto)}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <>
+                <ProjectLoading />
+                <ProjectLoading />
+                <ProjectLoading />
+              </>
+            )}
           </div>
         </div>
       </div>
