@@ -12,6 +12,7 @@ import { ProjetosAPI } from "@/services/api_projetos";
 import { formatarData } from "../util/formatarData";
 import { ProjetoProps } from "../@types/Projetos";
 import { ProjectLoading } from "../_helpers/components/Loader";
+import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
 
 function PaginaDescobrir() {
   const token =
@@ -21,6 +22,7 @@ function PaginaDescobrir() {
   const [projetos, setProjetos] = useState<Array<{}>>([]);
   const [expandirProjeto, setExpandirProjeto] = useState(false);
   const [tagBusca, setTagBusca] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   function funcaoExpandirProjeto(projeto: ProjetoProps) {
     setExpandirProjeto(true);
@@ -52,12 +54,18 @@ function PaginaDescobrir() {
   return (
     <DescobrirLayout>
       <Header />
-      <ComponenteModal
+      {/* <ComponenteModal
         isOpen={expandirProjeto}
         setIsOpen={setExpandirProjeto}
         add_edit={false}
       >
         <ConteudoModalDescobrirProjeto projeto {...projeto} />
+      </ComponenteModal> */}
+      <ComponenteModal add_edit={false} isOpen={isOpen} setIsOpen={setIsOpen}>
+        <ConteudoModalVisualizarProjeto
+          projeto={projeto}
+          setIsOpen={setIsOpen}
+        />
       </ComponenteModal>
       <div
         className={clsx(
@@ -92,7 +100,11 @@ function PaginaDescobrir() {
             {projetos.length != 0 ? (
               projetos.map((projeto: any, i: number) => {
                 return (
-                  <div key={i} className="max-w-[389px] lg:w-full">
+                  <div
+                    key={i}
+                    className="max-w-[389px] lg:w-full"
+                    onClick={() => setIsOpen(true)}
+                  >
                     <CartaoPortifolio
                       nomeUsuario={projeto.autor}
                       imgUsuario={projeto.imgUsuario}

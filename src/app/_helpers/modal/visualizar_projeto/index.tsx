@@ -17,7 +17,7 @@ export function ConteudoModalVisualizarProjeto({
   setIsOpen,
 }: {
   projeto: ProjetoProps;
-  setModal: Dispatch<
+  setModal?: Dispatch<
     SetStateAction<
       | ""
       | "editado"
@@ -46,7 +46,6 @@ export function ConteudoModalVisualizarProjeto({
   const { width } = useWindowDimensions();
 
   function handleClose() {
-    setModal("");
     setIsOpen(false);
   }
 
