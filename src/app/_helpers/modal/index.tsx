@@ -28,10 +28,7 @@ export default function ComponentModal({
 
   return (
     <Modal open={isOpen} onClose={handleClose}>
-      <Box
-        sx={style}
-        className="flex flex-col justify-center gap-6 items-center px-8 py-10"
-      >
+      <Box sx={style} className="flex flex-col gap-6 items-center px-8 py-10 ">
         {children}
       </Box>
     </Modal>
