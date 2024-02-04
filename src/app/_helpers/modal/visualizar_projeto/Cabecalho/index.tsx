@@ -2,12 +2,14 @@ import { ProjetoProps } from "@/app/@types/Projetos";
 import Image from "next/image";
 import img_perfil from "@/app/_helpers/assets/perfil.png";
 import { Chip, Typography } from "@mui/material";
+import { formatarData } from "@/app/util/formatarData";
 
 export function CabecalhoModalVisualizarProjeto({
   projeto,
 }: {
   projeto: ProjetoProps;
 }) {
+  console.log("projeto", projeto);
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
@@ -21,10 +23,15 @@ export function CabecalhoModalVisualizarProjeto({
         </div>
         <div className="flex flex-col">
           <p className="text-color-neutral-120">{projeto.autor}</p>
-          <p className="text-color-neutral-110">{projeto.createAt}</p>
+          <p className="text-color-neutral-110">
+            {projeto.createAt && formatarData(projeto.createAt)}
+          </p>
         </div>
       </div>
-      <Typography variant="h1" className="text-2xl text-color-neutral-130">
+      <Typography
+        variant="h1"
+        className="text-2xl text-color-neutral-130 text-center"
+      >
         {projeto.titulo}
       </Typography>
       <div className="flex gap-2">

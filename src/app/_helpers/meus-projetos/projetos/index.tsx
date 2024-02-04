@@ -12,6 +12,7 @@ export function Projetos({
   setModal,
   setTagBusca,
   tagBusca,
+  setProjeto,
 }: {
   projetos: any[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -29,6 +30,7 @@ export function Projetos({
   >;
   setTagBusca: Dispatch<SetStateAction<string>>;
   tagBusca: string;
+  setProjeto: Dispatch<SetStateAction<any>>;
 }) {
   const { width } = useWindowDimensions();
   const projetosOrdenados = [...projetos].sort(
@@ -85,10 +87,9 @@ export function Projetos({
               <div
                 key={i}
                 className="max-w-[389px] lg:w-full "
-                // onClick={() => {
-                //   setModal("visualizar_projeto");
-                //   setIsOpen(true);
-                // }}
+                onClick={() => {
+                  setProjeto(projeto);
+                }}
               >
                 <CartaoPortfolioMeusProjetos
                   id={projeto.id}

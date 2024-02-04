@@ -14,7 +14,7 @@ export const HEADERS = () => ({
 
 export class ProjetosAPI {
 
-  static async ListarProjetos({ token }: { token: string }, { tagBusca }: {tagBusca: string}) {
+  static async ListarProjetos( { tagBusca }: {tagBusca: string}) {
     const response = await axios.get(`${URL_BASE}/projeto?tag=${tagBusca}`, {
       headers: HEADERS(),
     });

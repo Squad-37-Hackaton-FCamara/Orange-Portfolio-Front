@@ -15,22 +15,15 @@ import { ProjectLoading } from "../_helpers/components/Loader";
 import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
 
 function PaginaDescobrir() {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVhNGY4YWQ5LTBkNTgtNDc0NS1hNWU3LWFhNmYzNWExMmY5NiIsImlhdCI6MTcwNjk2NzEwNiwiZXhwIjoxNzA3MDUzNTA2LCJzdWIiOiJlYTRmOGFkOS0wZDU4LTQ3NDUtYTVlNy1hYTZmMzVhMTJmOTYifQ.LCfmZNbiqSSWoOCOB6NKSt7TYiFN94EAT_XAhc48_9o";
-
   const [projeto, setProjeto] = useState<any>({});
   const [projetos, setProjetos] = useState<Array<{}>>([]);
-  const [expandirProjeto, setExpandirProjeto] = useState(false);
   const [tagBusca, setTagBusca] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  function funcaoExpandirProjeto(projeto: ProjetoProps) {
-    setExpandirProjeto(true);
-    setProjeto(projeto);
-  }
+  console.log("projetos pag descobrir", projetos);
 
   const listarProjetos = () => {
-    const response = ProjetosAPI.ListarProjetos({ token }, { tagBusca }).then(
+    const response = ProjetosAPI.ListarProjetos({ tagBusca }).then(
       (response) => {
         setProjetos(response);
       }
@@ -98,25 +91,25 @@ function PaginaDescobrir() {
           </div>
           <div className="grid grid-cols-3 gap-6 lg:max-w-[802px] lg:grid-cols-2 md:flex md:w-full md:flex-col md:items-center md:justify-center">
             {projetos.length != 0 ? (
+              (console.log(projetos),
               projetos.map((projeto: any, i: number) => {
                 return (
-                  <div
-                    key={i}
-                    className="max-w-[389px] lg:w-full"
-                    onClick={() => setIsOpen(true)}
-                  >
+                  <div key={i} className="max-w-[389px] lg:w-full">
                     <CartaoPortifolio
-                      nomeUsuario={projeto.autor}
+                      autor={projeto.autor}
                       imgUsuario={projeto.imgUsuario}
-                      tituloProjeto={projeto.titulo}
-                      imgProjeto={projeto.foto}
-                      dataProjeto={formatarData(projeto.createAt)}
+                      titulo={projeto.titulo}
+                      foto={projeto.foto}
+                      createAt={formatarData(projeto.createAt)}
                       tags={projeto.tags}
-                      onClick={() => funcaoExpandirProjeto(projeto)}
+                      onClick={() => {
+                        setIsOpen(true), setProjeto(projeto);
+                      }}
+                      clicavel
                     />
                   </div>
                 );
-              })
+              }))
             ) : (
               <>
                 <ProjectLoading />

@@ -13,7 +13,15 @@ import {
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import {
+  Component,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from "react";
+import { ConteudoModalVisualizarProjeto } from "../../../visualizar_projeto";
+import ComponentModal from "@/app/_helpers/modal/index";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -25,6 +33,16 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   cursor: "pointer",
 });
+
+interface ProjectPreviewInterface {
+  autor: string;
+  createAt: string;
+  descricao: string;
+  foto: string;
+  titulo: string;
+  tags: any;
+  link: string;
+}
 
 export function FormAddEditarProjeto({
   projeto,
@@ -65,17 +83,13 @@ export function FormAddEditarProjeto({
   const [avatarUrl, setAvatarUrl] = useState(projeto?.foto || "");
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
 
-  const [loading, setLoading] = useState(false);
+  const [projectPreview, setProjectPreview] = useState<ProjectPreviewInterface>(
+    {} as ProjectPreviewInterface
+  );
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const tagsString = typeof tagsProjeto == "string" && tagsProjeto.split(",");
 
-  function extrairMensagemDeErro(html: string): string | null {
-    const regex = /<pre>Error: (.*?)<\/pre>/s;
-    const match = html.match(regex);
-    if (match && match[1]) {
-      return match[1];
-    } else {
-      return null;
-    }
-  }
+  const [loading, setLoading] = useState(false);
 
   function handleFile(e: any) {
     if (!e.target.files) {
@@ -211,6 +225,16 @@ export function FormAddEditarProjeto({
       onSubmit={handleSubmit}
       className="flex justify-between gap-4 lg:flex-col-reverse"
     >
+      <ComponentModal
+        isOpen={previewOpen}
+        setIsOpen={setPreviewOpen}
+        add_edit={false}
+      >
+        <ConteudoModalVisualizarProjeto
+          projeto={projectPreview}
+          setIsOpen={setPreviewOpen}
+        />
+      </ComponentModal>
       <div className="flex flex-col w-full">
         <div className="flex gap-6 lg:flex-col-reverse ">
           <div className="w-1/2 flex flex-col gap-4 lg:w-full">
@@ -364,7 +388,16 @@ export function FormAddEditarProjeto({
             component="p"
             className="text-color-neutral-110  my-4"
             onClick={() => {
-              setModal("visualizar_projeto"), setIsOpen(true);
+              setPreviewOpen(true),
+                setProjectPreview({
+                  autor: autor,
+                  createAt: new Date().toISOString(),
+                  descricao: descricaoProjeto,
+                  foto: typeof avatarUrl == "string" ? avatarUrl : "",
+                  titulo: tituloProjeto,
+                  tags: tagsString,
+                  link: linkProjeto,
+                });
             }}
           >
             Visualizar publicação
