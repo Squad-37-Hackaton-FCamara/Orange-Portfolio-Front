@@ -24,6 +24,7 @@ export function Projetos({
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
   setTagBusca: Dispatch<SetStateAction<string>>;

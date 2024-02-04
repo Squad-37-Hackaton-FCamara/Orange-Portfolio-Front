@@ -1,20 +1,21 @@
 "use client";
 
-import MeusProjetosPageLayout from "@/app/meus-projetos/layout";
 import ComponenteModal from "@/app/_helpers/modal";
+import MeusProjetosPageLayout from "@/app/meus-projetos/layout";
+import { ProjetosAPI } from "@/services/api_projetos";
+import clsx from "clsx";
+import { useAtomValue } from "jotai";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
-import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
-import { ConteudoModalProjeto } from "../_helpers/modal/conteudo_modal/add_editar_projeto";
+import { ProjetoProps } from "../@types/Projetos";
 import { Header } from "../_helpers/header";
 import { DadosPessoais } from "../_helpers/meus-projetos/cabecalho";
-import clsx from "clsx";
-import { Projetos } from "../_helpers/meus-projetos/projetos";
-import { ProjetosAPI } from "@/services/api_projetos";
-import { ProjetoProps } from "../@types/Projetos";
-import { useAtomValue } from "jotai";
 import { idSelecionadoAtom } from "../_helpers/meus-projetos/card_projeto/menu_editar/atoms";
-import { useSession } from "next-auth/react";
+import { Projetos } from "../_helpers/meus-projetos/projetos";
+import { ConteudoModalProjeto } from "../_helpers/modal/conteudo_modal/add_editar_projeto";
+import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
+import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
+// import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
 
 function MeusProjetosPage() {
   const [projetos, setProjetos] = useState<ProjetoProps[]>([]);
@@ -23,7 +24,7 @@ function MeusProjetosPage() {
   const token = session?.user.token ? session.user.token : "";
   const user_id = session?.user.usuario.id ? session.user.usuario.id : "";
   const [isOpen, setIsOpen] = useState(false);
-  const [tagBusca, setTagBusca] = useState('');
+  const [tagBusca, setTagBusca] = useState("");
   const [modal, setModal] = useState<
     | "editado"
     | "adicionado"
@@ -32,6 +33,7 @@ function MeusProjetosPage() {
     | "editar_projeto"
     | "add_projeto"
     | ""
+    | "visualizar_projeto"
   >("");
 
   function defModal(
@@ -42,6 +44,7 @@ function MeusProjetosPage() {
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
       | ""
   ) {
     switch (modal) {
@@ -70,6 +73,14 @@ function MeusProjetosPage() {
             setModal={setModal}
           />
         );
+      // case "visualizar_projeto":
+      //   return (
+      //     // <ConteudoModalVisualizarProjeto
+      //     //   projeto={projetos.find((projeto) => projeto.id === idSelecionado)}
+      //     //   setIsOpen={setIsOpen}
+      //     //   setModal={setModal}
+      //     // />
+      //   // );
       default:
         return <></>;
     }
@@ -94,7 +105,7 @@ function MeusProjetosPage() {
     const response = ProjetosAPI.ListarProjetosPeloId({
       token,
       usuario_id,
-      tagBusca
+      tagBusca,
     }).then((response) => {
       setProjetos([...response]);
     });
@@ -108,6 +119,7 @@ function MeusProjetosPage() {
     return () => {
       clearTimeout(timerId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tagBusca]);
 
   return (

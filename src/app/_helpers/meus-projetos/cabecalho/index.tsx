@@ -18,6 +18,7 @@ export function DadosPessoais({
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
 }) {

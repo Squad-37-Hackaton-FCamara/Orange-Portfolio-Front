@@ -33,6 +33,7 @@ interface ICartaoPortfolioMeusProjetos {
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
 }
