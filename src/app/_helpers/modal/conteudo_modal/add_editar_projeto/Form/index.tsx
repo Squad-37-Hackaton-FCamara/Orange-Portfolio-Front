@@ -91,7 +91,15 @@ export function FormAddEditarProjeto({
     if (image.type === "image/jpeg" || image.type === "image/png") {
       setImageAvatar(image);
       setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+      setLoading(false);
+      return;
     }
+
+    setErroView(true);
+    setErroMsg(
+      "Erro ao carregar imagem. Por favor, selecione uma imagem no formato .jpeg ou .png de, no máximo, 5MB."
+    );
+    setLoading(false);
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -110,6 +118,13 @@ export function FormAddEditarProjeto({
           setErroMsg(
             "Você excedeu o limite máximo de 2 tags por projeto, por favor, selecione apenas as tags mais relevantes."
           );
+          return;
+        }
+
+        if (!imageAvatar) {
+          setLoading(false);
+          setErroMsg("Por favor, adicione uma imagem para o projeto.");
+          setErroView(true);
           return;
         }
 
@@ -137,8 +152,8 @@ export function FormAddEditarProjeto({
         setModal("editado");
         setLoading(false);
       } catch (error) {
-        setErroView(true);
         setErroMsg("Erro ao editar projeto, por favor, tente novamente");
+        setErroView(true);
         setLoading(false);
       }
       return;
@@ -184,8 +199,7 @@ export function FormAddEditarProjeto({
     } catch (error: any) {
       setErroView(true);
       setErroMsg(
-        extrairMensagemDeErro(error.response.data) ||
-          "Erro ao adicionar projeto, por favor, tente novamente"
+        "Erro ao adicionar projeto, por favor, verifique se o preenchimento de todos os campos ou se o projeto já existe."
       );
       setLoading(false);
       console.log(error);
@@ -298,7 +312,7 @@ export function FormAddEditarProjeto({
           <div className="w-1/2 flex flex-col justify-between lg:w-full lg:gap-4">
             <TextField
               id="outlined-basic"
-              label="Título"
+              label="Título*"
               placeholder="Título"
               variant="outlined"
               value={tituloProjeto}
@@ -306,7 +320,7 @@ export function FormAddEditarProjeto({
             />
             <TextField
               id="outlined-basic"
-              label="Tags"
+              label="Tags*"
               placeholder="Tags (Máximo: 2 tags. Ex.: Javascript, React)"
               variant="outlined"
               value={tagsProjeto}
@@ -314,7 +328,7 @@ export function FormAddEditarProjeto({
             />
             <TextField
               id="outlined-basic"
-              label="Link"
+              label="Link*"
               placeholder="Link"
               variant="outlined"
               value={linkProjeto}
@@ -322,13 +336,16 @@ export function FormAddEditarProjeto({
             />
             <TextField
               id="outlined-textarea"
-              label="Descrição"
+              label="Descrição*"
               placeholder="Placeholder"
               multiline
               rows={3}
               value={descricaoProjeto}
               onChange={(e: any) => setDescricaoProjeto(e.target.value)}
             />
+            <p className="text-color-error-90 text-[10px]">
+              *: Preenchimento obrigatório
+            </p>
           </div>
         </div>
         <Typography

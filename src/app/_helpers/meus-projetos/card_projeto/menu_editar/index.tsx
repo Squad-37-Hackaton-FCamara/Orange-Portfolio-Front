@@ -32,7 +32,8 @@ export function MenuEditar({
         "w-[208px] absolute right-4 top-[50px]",
         "flex flex-col gap-2",
         "py-4 rounded-lg",
-        "bg-color-neutral-60 shadow-lg"
+        "bg-color-neutral-60 shadow-lg",
+        "z-50"
       )}
     >
       <div className="absolute right-4 top-[-10px]">

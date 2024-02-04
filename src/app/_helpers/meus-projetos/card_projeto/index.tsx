@@ -14,6 +14,7 @@ import { SetaIcon } from "../../svg/setaIcon";
 import { Dispatch, SetStateAction, useState } from "react";
 import { MenuEditar } from "./menu_editar";
 import { useWindowDimensions } from "@/services/window_size";
+import { SetMealOutlined } from "@mui/icons-material";
 
 interface ICartaoPortfolioMeusProjetos {
   id: string;
@@ -70,7 +71,11 @@ export default function CartaoPortifolioMeusProjetos({
         component="img"
         image={rest.imgProjeto}
         alt={`imagem projeto ${rest.tituloProjeto}`}
-        className="rounded-[4px]"
+        className="rounded-[4px] cursor-pointer"
+        onClick={() => {
+          rest.setModal("visualizar_projeto");
+          rest.setIsOpen(true);
+        }}
       />
       <CardContent
         sx={{
