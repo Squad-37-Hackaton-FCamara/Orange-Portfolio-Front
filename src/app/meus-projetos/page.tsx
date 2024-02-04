@@ -107,8 +107,8 @@ function MeusProjetosPage() {
   }
 
   const listarMeusProjetos = (usuario_id: string) => {
+    console.log("ENTROU");
     const response = ProjetosAPI.ListarProjetosPeloId({
-      token,
       usuario_id,
       tagBusca,
     }).then((response) => {
@@ -119,13 +119,14 @@ function MeusProjetosPage() {
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      listarMeusProjetos(user_id);
+      session?.user.usuario &&
+        listarMeusProjetos(session?.user.usuario.id as string);
     }, 200);
     return () => {
       clearTimeout(timerId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tagBusca]);
+  }, [session, tagBusca]);
 
   return (
     <MeusProjetosPageLayout>
@@ -142,6 +143,7 @@ function MeusProjetosPage() {
           "max-w-6xl w-full flex flex-col items-center justify-between gap-14",
           "mx-auto py-4 lg:p-6"
         )}
+        suppressHydrationWarning
       >
         <DadosPessoais setIsOpen={setIsOpen} setModal={setModal} />
         <Projetos

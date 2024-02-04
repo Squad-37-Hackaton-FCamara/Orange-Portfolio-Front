@@ -52,7 +52,11 @@ function PaginaDescobrir() {
   return (
     <DescobrirLayout>
       <Header />
-      <ComponenteModal isOpen={expandirProjeto} setIsOpen={setExpandirProjeto}>
+      <ComponenteModal
+        isOpen={expandirProjeto}
+        setIsOpen={setExpandirProjeto}
+        add_edit={false}
+      >
         <ConteudoModalDescobrirProjeto projeto {...projeto} />
       </ComponenteModal>
       <div
@@ -60,6 +64,7 @@ function PaginaDescobrir() {
           "max-w-6xl w-full flex flex-col items-center justify-between gap-14",
           "mx-auto py-4 lg:p-6"
         )}
+        suppressHydrationWarning
       >
         <div className="flex items-center gap-[42px] mt-[112px] lg:flex-col lg:gap-4 lg:mt-[56px]">
           <Typography

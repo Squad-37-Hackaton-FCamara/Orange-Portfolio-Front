@@ -23,5 +23,5 @@ export const ConteudoModalVisualizarProjeto = ({
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const { width } = useWindowDimensions();
-  return width > 768 ? <div></div> : <div>mobile</div>;
+  return width > 768 ? <div>projeto visu</div> : <div>mobile</div>;
 };
