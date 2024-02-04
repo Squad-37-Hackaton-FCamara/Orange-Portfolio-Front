@@ -8,6 +8,8 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import React from 'react';
 import * as yup from 'yup';
+import Image from 'next/image';
+import IconeCarregar from '../assets/icone_carregar.png'
 
 export default function FormularioCadastro() {
 
@@ -16,6 +18,7 @@ export default function FormularioCadastro() {
   const [sobrenome, setSobrenome] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [senha, setSenha] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [alertSeverity, setAlertSeverity] = useState<'error' | 'info' | 'success' | 'warning' | undefined>();
 
   const schema = yup.object().shape({
@@ -54,6 +57,7 @@ export default function FormularioCadastro() {
     if (!nome || !sobrenome || !email || !senha) {
       setMensagem('Preencha todos os campos!');
       setAlertSeverity('error');
+      setTimeout(() => setMensagem(''), 6000);
       return;
     }
 
@@ -68,12 +72,13 @@ export default function FormularioCadastro() {
         return;
       }
     }
-
+    setLoading(true);
     axios.post('https://nervous-pear-clothes.cyclic.app/cadastro', usuario)
       .then(() => {
         setMensagem('Cadastro feito com sucesso!');
         setAlertSeverity('success');
         setTimeout(() => setMensagem(''), 6000);
+        setLoading(false);
         setNome('');
         setSobrenome('');
         setEmail('');
@@ -88,6 +93,7 @@ export default function FormularioCadastro() {
         }
         setAlertSeverity('error');
         setTimeout(() => setMensagem(''), 6000);
+        setLoading(false);
       })
   }
 
@@ -157,6 +163,9 @@ export default function FormularioCadastro() {
           )}
         >CADASTRAR</Button>
       </div>
+      {loading && (
+        <Image src={IconeCarregar} alt='Icone de carregamento' className='absolute bottom-40 h-[20px] w-[20px] animate-spin'></Image>
+      )}
     </form>
   );
 }

@@ -24,6 +24,11 @@ export default function FormularioLogin() {
   async function enviar(event: SyntheticEvent) {
     event.preventDefault();
 
+    if (!email || !senha) {
+      setMensagem('Preencha todos os campos!')
+      setTimeout(() => setMensagem(''), 6000);
+      return;
+    }
     setLoading(true);
 
     const result = await signIn('credentials', {
