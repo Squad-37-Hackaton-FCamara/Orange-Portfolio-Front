@@ -36,7 +36,7 @@ export function ConteudoModalProjeto({
 
   return (
     <>
-      <div className="relative w-[890px] flex flex-col gap-6 lg:w-full">
+      <div className="relative w-[890px] flex flex-col gap-6 lg:w-full lg:justify-start">
         <Typography component="h1" className="text-2xl text-color-neutral-110">
           {projeto ? "Editar projeto" : "Adicionar projeto"}
         </Typography>
