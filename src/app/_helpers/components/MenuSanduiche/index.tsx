@@ -1,9 +1,10 @@
 import { Divider, Link, MenuItem, MenuList, Paper } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 
 export function MenuSanduiche({
   setIsOpen,
 }: {
-  setIsOpen: (value: boolean) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <Paper>

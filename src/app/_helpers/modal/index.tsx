@@ -4,11 +4,13 @@ import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction } from "react";
 import { useWindowDimensions } from "@/services/window_size";
 
-export default function ComponentModal({
+export default function ComponenteModal({
+  add_edit,
   children,
   isOpen,
   setIsOpen,
 }: {
+  add_edit: boolean;
   children: React.ReactNode;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -21,7 +23,7 @@ export default function ComponentModal({
 
   const style = {
     position: "absolute" as "absolute",
-    top: width < 1200 ? "70%" : "50%",
+    top: width < 1200 && add_edit ? "70%" : "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     bgcolor: "background.paper",

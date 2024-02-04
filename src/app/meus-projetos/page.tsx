@@ -125,7 +125,11 @@ function MeusProjetosPage() {
   return (
     <MeusProjetosPageLayout>
       <Header />
-      <ComponenteModal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <ComponenteModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        add_edit={modal == "add_projeto" || modal == "editar_projeto"}
+      >
         {defModal(modal)}
       </ComponenteModal>
       <div
