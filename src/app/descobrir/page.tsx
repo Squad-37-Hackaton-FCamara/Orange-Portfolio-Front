@@ -11,6 +11,7 @@ import DescobrirLayout from "./layout";
 import { ProjetosAPI } from "@/services/api_projetos";
 import { formatarData } from "../util/formatarData";
 import { ProjetoProps } from "../@types/Projetos";
+import { ProjectLoading } from "../_helpers/components/Loader";
 
 function PaginaDescobrir() {
   const token =
@@ -19,7 +20,7 @@ function PaginaDescobrir() {
   const [projeto, setProjeto] = useState<any>({});
   const [projetos, setProjetos] = useState<Array<{}>>([]);
   const [expandirProjeto, setExpandirProjeto] = useState(false);
-  const [tagBusca, setTagBusca] = useState('');
+  const [tagBusca, setTagBusca] = useState("");
 
   function funcaoExpandirProjeto(projeto: ProjetoProps) {
     setExpandirProjeto(true);
@@ -27,9 +28,11 @@ function PaginaDescobrir() {
   }
 
   const listarProjetos = () => {
-    const response = ProjetosAPI.ListarProjetos({ token }, { tagBusca }).then((response) => {
-      setProjetos(response);
-    });
+    const response = ProjetosAPI.ListarProjetos({ token }, { tagBusca }).then(
+      (response) => {
+        setProjetos(response);
+      }
+    );
     return response;
   };
 
@@ -43,16 +46,16 @@ function PaginaDescobrir() {
   }, [tagBusca]);
 
   const handleChange = (e: any) => {
-    setTagBusca(e.target.value)
+    setTagBusca(e.target.value);
   };
 
   return (
     <DescobrirLayout>
       <Header />
       <ComponenteModal
-        isClosable
         isOpen={expandirProjeto}
         setIsOpen={setExpandirProjeto}
+        add_edit={false}
       >
         <ConteudoModalDescobrirProjeto projeto {...projeto} />
       </ComponenteModal>
@@ -61,6 +64,7 @@ function PaginaDescobrir() {
           "max-w-6xl w-full flex flex-col items-center justify-between gap-14",
           "mx-auto py-4 lg:p-6"
         )}
+        suppressHydrationWarning
       >
         <div className="flex items-center gap-[42px] mt-[112px] lg:flex-col lg:gap-4 lg:mt-[56px]">
           <Typography
@@ -72,34 +76,42 @@ function PaginaDescobrir() {
             }
           </Typography>
         </div>
-        <div className="flex flex-col gap-10">
+        <div className="w-full flex flex-col gap-10">
           <div className="flex flex-col gap-4">
             <TextField
               id="outlined-basic"
               label="Buscar tags"
               placeholder="Buscar tags"
               variant="outlined"
-              className="max-w-[490px] w-full lg:w-full"
+              className="max-w-[490px] w-full"
               value={tagBusca}
               onChange={handleChange}
             />
           </div>
-          <div className="grid grid-cols-3 gap-6 lg:grid-cols-2 md:flex md:flex-col md:items-center">
-            {projetos.map((projeto: any, i: number) => {
-              return (
-                <div key={i} className="max-w-[389px]">
-                  <CartaoPortifolio
-                    nomeUsuario={projeto.autor}
-                    imgUsuario={projeto.imgUsuario}
-                    tituloProjeto={projeto.titulo}
-                    imgProjeto={projeto.foto}
-                    dataProjeto={formatarData(projeto.createAt)}
-                    tags={projeto.tags}
-                    onClick={() => funcaoExpandirProjeto(projeto)}
-                  />
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-3 gap-6 lg:max-w-[802px] lg:grid-cols-2 md:flex md:w-full md:flex-col md:items-center md:justify-center">
+            {projetos.length != 0 ? (
+              projetos.map((projeto: any, i: number) => {
+                return (
+                  <div key={i} className="max-w-[389px] lg:w-full">
+                    <CartaoPortifolio
+                      nomeUsuario={projeto.autor}
+                      imgUsuario={projeto.imgUsuario}
+                      tituloProjeto={projeto.titulo}
+                      imgProjeto={projeto.foto}
+                      dataProjeto={formatarData(projeto.createAt)}
+                      tags={projeto.tags}
+                      onClick={() => funcaoExpandirProjeto(projeto)}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <>
+                <ProjectLoading />
+                <ProjectLoading />
+                <ProjectLoading />
+              </>
+            )}
           </div>
         </div>
       </div>

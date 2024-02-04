@@ -3,6 +3,7 @@ import img_perfil from "@/app/_helpers/assets/perfil.png";
 import { Button, Typography } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 
 export function DadosPessoais({
   setIsOpen,
@@ -18,9 +19,13 @@ export function DadosPessoais({
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
 }) {
+  const session = useSession();
+  const nome = session.data?.user?.usuario?.nome;
+
   return (
     <div>
       <div
@@ -40,7 +45,7 @@ export function DadosPessoais({
             variant="h5"
             className="text-color-neutral-120 leading-none mb-4 lg:mb-0"
           >
-            Camila Soares
+            {nome}
           </Typography>
           <Typography
             variant="subtitle1"

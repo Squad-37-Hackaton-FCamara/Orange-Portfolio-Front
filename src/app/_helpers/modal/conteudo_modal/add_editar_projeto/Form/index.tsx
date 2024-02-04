@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import { ProjetoProps } from "@/app/@types/Projetos";
-import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
 import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { ProjetosAPI } from "@/services/api_projetos";
@@ -46,6 +46,7 @@ export function FormAddEditarProjeto({
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
 }) {
@@ -61,13 +62,22 @@ export function FormAddEditarProjeto({
     projeto?.descricao || ""
   );
 
-  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState(projeto?.foto || "");
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
 
   const [loading, setLoading] = useState(false);
 
+  function extrairMensagemDeErro(html: string): string | null {
+    const regex = /<pre>Error: (.*?)<\/pre>/s;
+    const match = html.match(regex);
+    if (match && match[1]) {
+      return match[1];
+    } else {
+      return null;
+    }
+  }
+
   function handleFile(e: any) {
-    console.log(e.target.files[0]);
     if (!e.target.files) {
       return;
     }
@@ -81,23 +91,28 @@ export function FormAddEditarProjeto({
     if (image.type === "image/jpeg" || image.type === "image/png") {
       setImageAvatar(image);
       setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+      setLoading(false);
+      return;
     }
+
+    setErroView(true);
+    setErroMsg(
+      "Erro ao carregar imagem. Por favor, selecione uma imagem no formato .jpeg ou .png de, no máximo, 5MB."
+    );
+    setLoading(false);
   }
 
   async function handleSubmit(e: FormEvent) {
     setLoading(true);
     e.preventDefault();
     if (projeto != undefined) {
-      console.log("entrou em editar");
       try {
-        console.log("entrou notry editar");
         let listaTags: string[] = [];
         if (typeof tagsProjeto === "string") {
           listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
         }
 
         if (listaTags.length > 2) {
-          console.log("erro de tags");
           setLoading(false);
           setErroView(true);
           setErroMsg(
@@ -106,7 +121,12 @@ export function FormAddEditarProjeto({
           return;
         }
 
-        console.log("image:", imageAvatar);
+        if (!imageAvatar) {
+          setLoading(false);
+          setErroMsg("Por favor, adicione uma imagem para o projeto.");
+          setErroView(true);
+          return;
+        }
 
         if (imageAvatar || projeto.foto) {
           await ProjetosAPI.EditarProjeto({
@@ -124,20 +144,17 @@ export function FormAddEditarProjeto({
                 descricaoProjeto != projeto.descricao
                   ? descricaoProjeto
                   : projeto.descricao,
-              foto: projeto.foto,
-              usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
+              foto: imageAvatar,
+              usuario_id: session?.user.usuario.id || "",
             },
           });
-          console.log("projeto enviado p edicao:", projeto);
         }
         setModal("editado");
         setLoading(false);
       } catch (error) {
-        console.log("entrou no erro editar");
-        setErroView(true);
         setErroMsg("Erro ao editar projeto, por favor, tente novamente");
+        setErroView(true);
         setLoading(false);
-        console.log(error);
       }
       return;
     }
@@ -149,12 +166,18 @@ export function FormAddEditarProjeto({
       }
 
       if (listaTags.length > 2) {
-        console.log("erro de tags");
         setLoading(false);
         setErroView(true);
         setErroMsg(
           "Você excedeu o limite máximo de 2 tags por projeto, por favor, selecione apenas as tags mais relevantes."
         );
+        return;
+      }
+
+      if (!imageAvatar) {
+        setLoading(false);
+        setErroView(true);
+        setErroMsg("Por favor, adicione uma imagem para o projeto");
         return;
       }
 
@@ -173,9 +196,11 @@ export function FormAddEditarProjeto({
       }
       setModal("adicionado");
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       setErroView(true);
-      setErroMsg("Erro ao cadastrar projeto, por favor, tente novamente");
+      setErroMsg(
+        "Erro ao adicionar projeto, por favor, verifique se o preenchimento de todos os campos ou se o projeto já existe."
+      );
       setLoading(false);
       console.log(error);
     }
@@ -193,34 +218,55 @@ export function FormAddEditarProjeto({
               Selecione o conteúdo que você deseja fazer upload
             </label>
             {projeto ? (
-              <div className="relative">
-                <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
-                  src={
-                    projeto.foto instanceof File
-                      ? URL.createObjectURL(projeto.foto)
-                      : projeto.foto
-                  }
-                  alt="Imagem do projeto"
-                  width={394}
-                  height={268}
-                  className="w-[433px] h-[268px] lg:w-[394px]  object-cover"
-                />
-                <div
-                  className="absolute top-4 right-4 z-10 cursor-pointer"
-                  onClick={() => {
-                    setAvatarUrl("");
-                    setImageAvatar(null);
-                  }}
-                >
-                  <CloseIcon color="black" />
+              avatarUrl ? (
+                <div className="relative">
+                  <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
+                    src={avatarUrl as string}
+                    alt="Imagem do projeto"
+                    width={394}
+                    height={268}
+                    className="w-[433px] h-[268px] lg:w-[394px]  object-cover"
+                  />
+                  <div
+                    className="absolute top-4 right-4 z-10 cursor-pointer"
+                    onClick={() => {
+                      setAvatarUrl("");
+                      setImageAvatar(null);
+                    }}
+                  >
+                    <CloseIcon color="black" />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <Button
+                  component="label"
+                  className={clsx(
+                    "relative w-fit flex flex-col items-center",
+                    "px-[70px] py-[91px] lg:px-[10px]",
+                    "bg-color-neutral-70 hover:bg-color-neutral-70",
+                    "cursor-pointer"
+                  )}
+                >
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={handleFile}
+                    className="w-full h-full"
+                  />
+                  <ColecoesIcon size={46} />
+                  <Typography
+                    component="p"
+                    className="text-sm text-color-neutral-120 lg:text-center"
+                  >
+                    Compartilhe seu talento com milhares de pessoas
+                  </Typography>
+                </Button>
+              )
             ) : (
               <>
                 {avatarUrl ? (
                   <div className="relative">
                     <Image
-                      src={avatarUrl}
+                      src={avatarUrl as string}
                       alt="Imagem do projeto"
                       width={394}
                       height={268}
@@ -241,7 +287,7 @@ export function FormAddEditarProjeto({
                     component="label"
                     className={clsx(
                       "relative w-fit flex flex-col items-center",
-                      "px-[70px] py-[91px] lg:px-1 lg:px-[10px]",
+                      "px-[70px] py-[91px] lg:px-[10px]",
                       "bg-color-neutral-70 hover:bg-color-neutral-70",
                       "cursor-pointer"
                     )}
@@ -266,7 +312,7 @@ export function FormAddEditarProjeto({
           <div className="w-1/2 flex flex-col justify-between lg:w-full lg:gap-4">
             <TextField
               id="outlined-basic"
-              label="Título"
+              label="Título*"
               placeholder="Título"
               variant="outlined"
               value={tituloProjeto}
@@ -274,15 +320,15 @@ export function FormAddEditarProjeto({
             />
             <TextField
               id="outlined-basic"
-              label="Tags"
-              placeholder="Tags"
+              label="Tags*"
+              placeholder="Tags (Máximo: 2 tags. Ex.: Javascript, React)"
               variant="outlined"
               value={tagsProjeto}
               onChange={(e: any) => setTagsProjeto(e.target.value)}
             />
             <TextField
               id="outlined-basic"
-              label="Link"
+              label="Link*"
               placeholder="Link"
               variant="outlined"
               value={linkProjeto}
@@ -290,19 +336,21 @@ export function FormAddEditarProjeto({
             />
             <TextField
               id="outlined-textarea"
-              label="Descrição"
+              label="Descrição*"
               placeholder="Placeholder"
               multiline
               rows={3}
               value={descricaoProjeto}
               onChange={(e: any) => setDescricaoProjeto(e.target.value)}
             />
+            <p className="text-color-error-90 text-[10px]">
+              *: Preenchimento obrigatório
+            </p>
           </div>
         </div>
         <Typography
           component="p"
           className="text-color-neutral-110 cursor-pointer my-4"
-          onClick={() => console.log("oi")}
         >
           Visualizar publicação
         </Typography>

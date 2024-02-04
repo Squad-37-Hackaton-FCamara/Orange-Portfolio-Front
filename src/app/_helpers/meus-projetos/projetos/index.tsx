@@ -24,6 +24,7 @@ export function Projetos({
       | "confirmar_deletar"
       | "add_projeto"
       | "editar_projeto"
+      | "visualizar_projeto"
     >
   >;
   setTagBusca: Dispatch<SetStateAction<string>>;
@@ -35,12 +36,12 @@ export function Projetos({
   );
 
   const handleChange = (e: any) => {
-    console.log(e.target.value)
-    setTagBusca(e.target.value)
+    console.log(e.target.value);
+    setTagBusca(e.target.value);
   };
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="w-full flex flex-col gap-10 lg:justify-center">
       <div className="flex flex-col gap-4">
         <Typography
           variant="h6"
@@ -53,13 +54,13 @@ export function Projetos({
           label="Buscar tags"
           placeholder="Buscar tags"
           variant="outlined"
-          className="max-w-[490px] w-full lg:w-full"
+          className="max-w-[490px] w-full"
           value={tagBusca}
           onChange={handleChange}
         />
       </div>
       {projetos.length === 0 ? (
-        <div className="grid grid-cols-3 gap-6 lg:flex lg:w-full">
+        <div className="grid grid-cols-3 gap-6 lg:flex lg:w-full ">
           <div
             className="cursor-pointer"
             onClick={() => {
@@ -77,11 +78,18 @@ export function Projetos({
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-6 lg:grid-cols-2 md:flex md:flex-col md:items-center">
+        <div className="grid grid-cols-3 gap-6 lg:max-w-[802px] lg:grid-cols-2 md:flex md:w-full md:flex-col md:items-center md:justify-center">
           {projetosOrdenados.map((projeto, i) => {
             // console.log(projeto)
             return (
-              <div key={i} className="max-w-[389px]">
+              <div
+                key={i}
+                className="max-w-[389px] lg:w-full "
+                // onClick={() => {
+                //   setModal("visualizar_projeto");
+                //   setIsOpen(true);
+                // }}
+              >
                 <CartaoPortfolioMeusProjetos
                   id={projeto.id}
                   setIsOpen={setIsOpen}

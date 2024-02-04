@@ -29,7 +29,7 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
     >
       <Grid
         sx={{
-          width: "54.25rem",
+          maxWidth: "54.25rem",
           height: "3.125rem",
           display: "inline-flex",
           padding: "0px",
