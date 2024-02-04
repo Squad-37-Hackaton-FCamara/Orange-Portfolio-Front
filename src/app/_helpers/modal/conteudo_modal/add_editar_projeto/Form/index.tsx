@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ProjetoProps } from "@/app/@types/Projetos";
 import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
@@ -62,9 +63,7 @@ export function FormAddEditarProjeto({
   );
 
   const [avatarUrl, setAvatarUrl] = useState(projeto?.foto || "");
-  console.log("🚀 ~ avatarUrl:", avatarUrl);
   const [imageAvatar, setImageAvatar] = useState<File | null>(null);
-  console.log("🚀 ~ imageAvatar:", imageAvatar);
 
   const [loading, setLoading] = useState(false);
 
@@ -89,17 +88,13 @@ export function FormAddEditarProjeto({
     setLoading(true);
     e.preventDefault();
     if (projeto != undefined) {
-      debugger;
-      console.log("entrou em editar");
       try {
-        console.log("entrou notry editar");
         let listaTags: string[] = [];
         if (typeof tagsProjeto === "string") {
           listaTags = tagsProjeto.split(",").map((tag: string) => tag.trim());
         }
 
         if (listaTags.length > 2) {
-          console.log("erro de tags");
           setLoading(false);
           setErroView(true);
           setErroMsg(
@@ -107,8 +102,6 @@ export function FormAddEditarProjeto({
           );
           return;
         }
-
-        console.log("image:", imageAvatar);
 
         if (imageAvatar || projeto.foto) {
           await ProjetosAPI.EditarProjeto({
@@ -130,16 +123,13 @@ export function FormAddEditarProjeto({
               usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
             },
           });
-          console.log("projeto enviado p edicao:", projeto);
         }
         setModal("editado");
         setLoading(false);
       } catch (error) {
-        console.log("entrou no erro editar");
         setErroView(true);
         setErroMsg("Erro ao editar projeto, por favor, tente novamente");
         setLoading(false);
-        console.log(error);
       }
       return;
     }
@@ -151,7 +141,6 @@ export function FormAddEditarProjeto({
       }
 
       if (listaTags.length > 2) {
-        console.log("erro de tags");
         setLoading(false);
         setErroView(true);
         setErroMsg(
@@ -179,7 +168,6 @@ export function FormAddEditarProjeto({
       setErroView(true);
       setErroMsg("Erro ao cadastrar projeto, por favor, tente novamente");
       setLoading(false);
-      console.log(error);
     }
   }
 
@@ -191,17 +179,14 @@ export function FormAddEditarProjeto({
       <div className="flex flex-col w-full">
         <div className="flex gap-6 lg:flex-col-reverse ">
           <div className="w-1/2 flex flex-col gap-4 lg:w-full">
-            <label
-              onClick={() => console.log(projeto?.foto)}
-              className="text-color-neutral-110"
-            >
+            <label className="text-color-neutral-110">
               Selecione o conteúdo que você deseja fazer upload
             </label>
             {projeto ? (
               avatarUrl ? (
                 <div className="relative">
                   <img //foi necessário substituir a tag img por Image para que a imagem fosse exibida corretamente
-                    src={avatarUrl}
+                    src={avatarUrl as string}
                     alt="Imagem do projeto"
                     width={394}
                     height={268}
@@ -222,7 +207,7 @@ export function FormAddEditarProjeto({
                   component="label"
                   className={clsx(
                     "relative w-fit flex flex-col items-center",
-                    "px-[70px] py-[91px] lg:px-1 lg:px-[10px]",
+                    "px-[70px] py-[91px] lg:px-[10px]",
                     "bg-color-neutral-70 hover:bg-color-neutral-70",
                     "cursor-pointer"
                   )}
@@ -267,7 +252,7 @@ export function FormAddEditarProjeto({
                     component="label"
                     className={clsx(
                       "relative w-fit flex flex-col items-center",
-                      "px-[70px] py-[91px] lg:px-1 lg:px-[10px]",
+                      "px-[70px] py-[91px] lg:px-[10px]",
                       "bg-color-neutral-70 hover:bg-color-neutral-70",
                       "cursor-pointer"
                     )}
@@ -328,7 +313,6 @@ export function FormAddEditarProjeto({
         <Typography
           component="p"
           className="text-color-neutral-110 cursor-pointer my-4"
-          onClick={() => console.log("oi")}
         >
           Visualizar publicação
         </Typography>
