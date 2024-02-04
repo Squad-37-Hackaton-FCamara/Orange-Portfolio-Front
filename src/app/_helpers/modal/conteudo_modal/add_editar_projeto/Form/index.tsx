@@ -67,6 +67,16 @@ export function FormAddEditarProjeto({
 
   const [loading, setLoading] = useState(false);
 
+  function extrairMensagemDeErro(html: string): string | null {
+    const regex = /<pre>Error: (.*?)<\/pre>/s;
+    const match = html.match(regex);
+    if (match && match[1]) {
+      return match[1];
+    } else {
+      return null;
+    }
+  }
+
   function handleFile(e: any) {
     if (!e.target.files) {
       return;
@@ -120,7 +130,7 @@ export function FormAddEditarProjeto({
                   ? descricaoProjeto
                   : projeto.descricao,
               foto: imageAvatar,
-              usuario_id: "7050ad85-9567-4856-914c-21cc699e5e19",
+              usuario_id: session?.user.usuario.id || "",
             },
           });
         }
@@ -149,6 +159,13 @@ export function FormAddEditarProjeto({
         return;
       }
 
+      if (!imageAvatar) {
+        setLoading(false);
+        setErroView(true);
+        setErroMsg("Por favor, adicione uma imagem para o projeto");
+        return;
+      }
+
       if (imageAvatar && usuario_id) {
         await ProjetosAPI.CriarProjeto({
           projeto: {
@@ -157,17 +174,21 @@ export function FormAddEditarProjeto({
             tags: listaTags,
             link: linkProjeto,
             descricao: descricaoProjeto,
-            foto: avatarUrl,
+            foto: imageAvatar,
             usuario_id: session?.user.usuario.id,
           },
         });
       }
       setModal("adicionado");
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       setErroView(true);
-      setErroMsg("Erro ao cadastrar projeto, por favor, tente novamente");
+      setErroMsg(
+        extrairMensagemDeErro(error.response.data) ||
+          "Erro ao adicionar projeto, por favor, tente novamente"
+      );
       setLoading(false);
+      console.log(error);
     }
   }
 

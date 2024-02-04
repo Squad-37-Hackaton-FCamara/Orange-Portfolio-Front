@@ -82,7 +82,14 @@ export function Projetos({
           {projetosOrdenados.map((projeto, i) => {
             // console.log(projeto)
             return (
-              <div key={i} className="max-w-[389px] lg:w-full ">
+              <div
+                key={i}
+                className="max-w-[389px] lg:w-full "
+                // onClick={() => {
+                //   setModal("visualizar_projeto");
+                //   setIsOpen(true);
+                // }}
+              >
                 <CartaoPortfolioMeusProjetos
                   id={projeto.id}
                   setIsOpen={setIsOpen}

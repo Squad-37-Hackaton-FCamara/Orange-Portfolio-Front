@@ -15,6 +15,7 @@ import { Projetos } from "../_helpers/meus-projetos/projetos";
 import { ConteudoModalProjeto } from "../_helpers/modal/conteudo_modal/add_editar_projeto";
 import { ConteudoModalConfirmarDeletar } from "../_helpers/modal/conteudo_modal/confirmar_deletar";
 import { ConteudoModalSucesso } from "../_helpers/modal/conteudo_modal/sucesso";
+import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
 // import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
 
 function MeusProjetosPage() {
@@ -73,14 +74,18 @@ function MeusProjetosPage() {
             setModal={setModal}
           />
         );
-      // case "visualizar_projeto":
-      //   return (
-      //     // <ConteudoModalVisualizarProjeto
-      //     //   projeto={projetos.find((projeto) => projeto.id === idSelecionado)}
-      //     //   setIsOpen={setIsOpen}
-      //     //   setModal={setModal}
-      //     // />
-      //   // );
+      case "visualizar_projeto":
+        return (
+          <ConteudoModalVisualizarProjeto
+            projeto={
+              projetos.find(
+                (projeto) => projeto.id === idSelecionado
+              ) as ProjetoProps
+            }
+            setIsOpen={setIsOpen}
+            setModal={setModal}
+          />
+        );
       default:
         return <></>;
     }
@@ -125,7 +130,11 @@ function MeusProjetosPage() {
   return (
     <MeusProjetosPageLayout>
       <Header />
-      <ComponenteModal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <ComponenteModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        add_edit={modal == "add_projeto" || modal == "editar_projeto"}
+      >
         {defModal(modal)}
       </ComponenteModal>
       <div
