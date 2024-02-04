@@ -41,7 +41,7 @@ export function Projetos({
   };
 
   return (
-    <div className="w-full flex flex-col gap-10  lg:justify-center">
+    <div className="w-full flex flex-col gap-10 lg:justify-center">
       <div className="flex flex-col gap-4">
         <Typography
           variant="h6"
@@ -54,7 +54,7 @@ export function Projetos({
           label="Buscar tags"
           placeholder="Buscar tags"
           variant="outlined"
-          className="max-w-[490px] w-full lg:w-full"
+          className="max-w-[490px] w-full"
           value={tagBusca}
           onChange={handleChange}
         />
