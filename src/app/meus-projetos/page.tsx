@@ -24,6 +24,7 @@ function MeusProjetosPage() {
   const token = session?.user.token ? session.user.token : "";
   const user_id = session?.user.usuario.id ? session.user.usuario.id : "";
   const [isOpen, setIsOpen] = useState(false);
+  const [tagBusca, setTagBusca] = useState("");
   const [modal, setModal] = useState<
     | "editado"
     | "adicionado"
@@ -104,6 +105,7 @@ function MeusProjetosPage() {
     const response = ProjetosAPI.ListarProjetosPeloId({
       token,
       usuario_id,
+      tagBusca,
     }).then((response) => {
       setProjetos([...response]);
     });
@@ -111,9 +113,14 @@ function MeusProjetosPage() {
   };
 
   useEffect(() => {
-    listarMeusProjetos(user_id);
+    const timerId = setTimeout(() => {
+      listarMeusProjetos(user_id);
+    }, 200);
+    return () => {
+      clearTimeout(timerId);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [tagBusca]);
 
   return (
     <MeusProjetosPageLayout>
@@ -132,6 +139,8 @@ function MeusProjetosPage() {
           projetos={projetos}
           setIsOpen={setIsOpen}
           setModal={setModal}
+          setTagBusca={setTagBusca}
+          tagBusca={tagBusca}
         />
       </div>
     </MeusProjetosPageLayout>
