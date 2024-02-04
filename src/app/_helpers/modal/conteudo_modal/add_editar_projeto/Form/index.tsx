@@ -339,7 +339,7 @@ export function FormAddEditarProjeto({
               label="Descrição*"
               placeholder="Placeholder"
               multiline
-              rows={3}
+              rows={2}
               value={descricaoProjeto}
               onChange={(e: any) => setDescricaoProjeto(e.target.value)}
             />
