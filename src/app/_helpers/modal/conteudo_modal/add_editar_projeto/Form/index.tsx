@@ -97,7 +97,7 @@ export function FormAddEditarProjeto({
 
     setErroView(true);
     setErroMsg(
-      "Erro ao carregar imagem. Por favor, selecione uma imagem no formato .jpeg ou .png de, no máximo, 5MB."
+      "Erro ao carregar imagem. Por favor, selecione uma imagem no formato .jpeg ou .png de, no máximo, 2MB."
     );
     setLoading(false);
   }
@@ -315,13 +315,14 @@ export function FormAddEditarProjeto({
               label="Título*"
               placeholder="Título"
               variant="outlined"
+              inputProps={{ maxLength: 20 }}
               value={tituloProjeto}
               onChange={(e: any) => setTituloProjeto(e.target.value)}
             />
             <TextField
               id="outlined-basic"
               label="Tags*"
-              placeholder="Tags (Máximo: 2 tags. Ex.: Javascript, React)"
+              placeholder="Tags (Máx.: 2 tags. Ex.: Javascript, React)"
               variant="outlined"
               value={tagsProjeto}
               onChange={(e: any) => setTagsProjeto(e.target.value)}
@@ -340,6 +341,7 @@ export function FormAddEditarProjeto({
               placeholder="Placeholder"
               multiline
               rows={2}
+              inputProps={{ maxLength: 250 }}
               value={descricaoProjeto}
               onChange={(e: any) => setDescricaoProjeto(e.target.value)}
             />
@@ -348,12 +350,26 @@ export function FormAddEditarProjeto({
             </p>
           </div>
         </div>
-        <Typography
-          component="p"
-          className="text-color-neutral-110 cursor-pointer my-4"
+        <button
+          disabled={
+            !avatarUrl ||
+            !tituloProjeto ||
+            !tagsProjeto ||
+            !linkProjeto ||
+            !descricaoProjeto
+          }
+          className="w-fit disabled:cursor-not-allowed"
         >
-          Visualizar publicação
-        </Typography>
+          <Typography
+            component="p"
+            className="text-color-neutral-110  my-4"
+            onClick={() => {
+              setModal("visualizar_projeto"), setIsOpen(true);
+            }}
+          >
+            Visualizar publicação
+          </Typography>
+        </button>
         <div className="flex gap-4">
           <Button
             type="submit"
