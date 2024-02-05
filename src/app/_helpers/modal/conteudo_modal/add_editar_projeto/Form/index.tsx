@@ -216,7 +216,6 @@ export function FormAddEditarProjeto({
         "Erro ao adicionar projeto, por favor, verifique se o preenchimento de todos os campos ou se o projeto já existe."
       );
       setLoading(false);
-      console.log(error);
     }
   }
 
@@ -375,6 +374,7 @@ export function FormAddEditarProjeto({
           </div>
         </div>
         <button
+          type="button"
           disabled={
             !avatarUrl ||
             !tituloProjeto ||
@@ -388,16 +388,16 @@ export function FormAddEditarProjeto({
             component="p"
             className="text-color-neutral-110  my-4"
             onClick={() => {
-              setPreviewOpen(true),
-                setProjectPreview({
-                  autor: autor,
-                  createAt: new Date().toISOString(),
-                  descricao: descricaoProjeto,
-                  foto: typeof avatarUrl == "string" ? avatarUrl : "",
-                  titulo: tituloProjeto,
-                  tags: tagsString,
-                  link: linkProjeto,
-                });
+              setPreviewOpen(true);
+              setProjectPreview({
+                autor: autor,
+                createAt: new Date().toISOString(),
+                descricao: descricaoProjeto,
+                foto: typeof avatarUrl == "string" ? avatarUrl : "",
+                titulo: tituloProjeto,
+                tags: tagsString,
+                link: linkProjeto,
+              });
             }}
           >
             Visualizar publicação

@@ -38,7 +38,6 @@ const nextAuthOptions: NextAuthOptions = {
         ) {
           return user;
         }
-        console.log(response);
         return null;
       },
     }),

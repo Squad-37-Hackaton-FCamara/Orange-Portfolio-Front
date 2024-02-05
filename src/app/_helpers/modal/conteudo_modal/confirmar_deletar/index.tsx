@@ -37,11 +37,9 @@ export function ConteudoModalConfirmarDeletar({
     try {
       await ProjetosAPI.DeletarProjeto(idSelecionado);
       setLoading(false);
-      console.log("Projeto deletado com sucesso");
       setModal("deletado");
       setIsOpen(true);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   }

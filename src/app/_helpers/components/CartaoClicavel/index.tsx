@@ -24,7 +24,6 @@ interface ICartaoPortifolio {
 }
 
 export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
-  console.log("rest", rest);
   return (
     <Card className="relative w-full flex flex-col gap-2 shadow-none">
       <CardActionArea disabled={!rest.clicavel} onClick={rest.onClick}>

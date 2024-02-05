@@ -20,8 +20,6 @@ function PaginaDescobrir() {
   const [tagBusca, setTagBusca] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log("projetos pag descobrir", projetos);
-
   const listarProjetos = () => {
     const response = ProjetosAPI.ListarProjetos({ tagBusca }).then(
       (response) => {
@@ -91,7 +89,6 @@ function PaginaDescobrir() {
           </div>
           <div className="grid grid-cols-3 gap-6 lg:max-w-[802px] lg:grid-cols-2 md:flex md:w-full md:flex-col md:items-center md:justify-center">
             {projetos.length != 0 ? (
-              (console.log(projetos),
               projetos.map((projeto: any, i: number) => {
                 return (
                   <div key={i} className="max-w-[389px] lg:w-full">
@@ -109,7 +106,7 @@ function PaginaDescobrir() {
                     />
                   </div>
                 );
-              }))
+              })
             ) : (
               <>
                 <ProjectLoading />

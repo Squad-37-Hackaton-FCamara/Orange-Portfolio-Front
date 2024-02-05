@@ -9,7 +9,6 @@ export function CabecalhoModalVisualizarProjeto({
 }: {
   projeto: ProjetoProps;
 }) {
-  console.log("projeto", projeto);
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">

@@ -104,7 +104,6 @@ function MeusProjetosPage() {
   }
 
   const listarMeusProjetos = (usuario_id: string) => {
-    console.log("ENTROU");
     const response = ProjetosAPI.ListarProjetosPeloId({
       usuario_id,
       tagBusca,

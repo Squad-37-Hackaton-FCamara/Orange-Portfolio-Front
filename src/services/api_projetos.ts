@@ -22,7 +22,6 @@ export class ProjetosAPI {
   }
 
   static async ListarProjetosPeloId({ usuario_id, tagBusca }: { usuario_id:string, tagBusca?: string }) {
-    console.log(usuario_id)
     const response = await axios.get(`${URL_BASE}/projeto/${usuario_id}?tag=${tagBusca}`, {
       headers: HEADERS(),
     });
