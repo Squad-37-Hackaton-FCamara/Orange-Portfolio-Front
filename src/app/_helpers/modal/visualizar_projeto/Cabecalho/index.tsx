@@ -8,7 +8,10 @@ export function CabecalhoModalVisualizarProjeto({
   projeto,
 }: {
   projeto: ProjetoProps;
+
+  
 }) {
+  console.log('NO CABEÇALO AQUI', projeto)
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
@@ -34,7 +37,7 @@ export function CabecalhoModalVisualizarProjeto({
         {projeto.titulo}
       </Typography>
       <div className="flex gap-2">
-        {projeto.tags.map((tag, index) => {
+        {projeto.tags && projeto.tags.map((tag, index) => {
           return <Chip key={index} label={tag} size="medium" />;
         })}
       </div>

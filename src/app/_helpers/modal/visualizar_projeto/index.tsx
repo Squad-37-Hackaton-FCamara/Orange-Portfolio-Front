@@ -33,6 +33,8 @@ export function ConteudoModalVisualizarProjeto({
     setIsOpen(false);
   }
 
+  console.log(projeto, 'projetoNOeDIT')
+
   return width > 1200 ? (
     projeto ? (
       <div className="w-full relative flex flex-col gap-8 p-4 max-w-[838px] overflow-y-auto">
