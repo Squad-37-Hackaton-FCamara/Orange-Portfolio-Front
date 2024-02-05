@@ -20,6 +20,7 @@ import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_pro
 
 function MeusProjetosPage() {
   const [projetos, setProjetos] = useState<ProjetoProps[]>([]);
+  const [projeto, setProjeto] = useState<any>({});
   const idSelecionado = useAtomValue(idSelecionadoAtom);
   const { data: session } = useSession();
   const token = session?.user.token ? session.user.token : "";
@@ -77,11 +78,7 @@ function MeusProjetosPage() {
       case "visualizar_projeto":
         return (
           <ConteudoModalVisualizarProjeto
-            projeto={
-              projetos.find(
-                (projeto) => projeto.id === idSelecionado
-              ) as ProjetoProps
-            }
+            projeto={projeto}
             setIsOpen={setIsOpen}
             setModal={setModal}
           />
@@ -107,7 +104,6 @@ function MeusProjetosPage() {
   }
 
   const listarMeusProjetos = (usuario_id: string) => {
-    console.log("ENTROU");
     const response = ProjetosAPI.ListarProjetosPeloId({
       usuario_id,
       tagBusca,
@@ -152,6 +148,7 @@ function MeusProjetosPage() {
           setModal={setModal}
           setTagBusca={setTagBusca}
           tagBusca={tagBusca}
+          setProjeto={setProjeto}
         />
       </div>
     </MeusProjetosPageLayout>

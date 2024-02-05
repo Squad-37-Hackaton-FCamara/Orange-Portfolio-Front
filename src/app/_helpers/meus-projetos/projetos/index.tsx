@@ -12,6 +12,7 @@ export function Projetos({
   setModal,
   setTagBusca,
   tagBusca,
+  setProjeto,
 }: {
   projetos: any[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -29,6 +30,7 @@ export function Projetos({
   >;
   setTagBusca: Dispatch<SetStateAction<string>>;
   tagBusca: string;
+  setProjeto: Dispatch<SetStateAction<any>>;
 }) {
   const { width } = useWindowDimensions();
   const projetosOrdenados = [...projetos].sort(
@@ -36,7 +38,6 @@ export function Projetos({
   );
 
   const handleChange = (e: any) => {
-    console.log(e.target.value);
     setTagBusca(e.target.value);
   };
 
@@ -80,15 +81,13 @@ export function Projetos({
       ) : (
         <div className="grid grid-cols-3 gap-6 lg:max-w-[802px] lg:grid-cols-2 md:flex md:w-full md:flex-col md:items-center md:justify-center">
           {projetosOrdenados.map((projeto, i) => {
-            // console.log(projeto)
             return (
               <div
                 key={i}
                 className="max-w-[389px] lg:w-full "
-                // onClick={() => {
-                //   setModal("visualizar_projeto");
-                //   setIsOpen(true);
-                // }}
+                onClick={() => {
+                  setProjeto(projeto);
+                }}
               >
                 <CartaoPortfolioMeusProjetos
                   id={projeto.id}

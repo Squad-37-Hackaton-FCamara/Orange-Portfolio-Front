@@ -1,4 +1,5 @@
 import img_perfil from "@/app/_helpers/assets/perfil.png";
+import { formatarData } from "@/app/util/formatarData";
 
 import {
   Avatar,
@@ -12,24 +13,25 @@ import {
 } from "@mui/material";
 
 interface ICartaoPortifolio {
-  nomeUsuario: "Maria";
+  autor: "Maria";
   imgUsuario?: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Favatar&psig=AOvVaw0wCvk7frc6ShmhPd_38vzK&ust=1706906502121000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCIith6-Ai4QDFQAAAAAdAAAAABAE";
-  tituloProjeto: string;
-  imgProjeto: string;
-  dataProjeto: string;
+  titulo: string;
+  foto: string;
+  createAt: string;
   tags: string[];
   onClick: () => void;
+  clicavel?: boolean;
 }
 
 export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
   return (
     <Card className="relative w-full flex flex-col gap-2 shadow-none">
-      <CardActionArea onClick={rest.onClick}>
+      <CardActionArea disabled={!rest.clicavel} onClick={rest.onClick}>
         <CardMedia
           sx={{ height: 258 }}
           component="img"
-          image={rest.imgProjeto}
-          alt={`imagem projeto ${rest.tituloProjeto}`}
+          image={rest.foto}
+          alt={`imagem projeto ${rest.titulo}`}
           className="rounded-[4px]"
         />
         <CardContent
@@ -60,7 +62,7 @@ export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
               <Avatar
                 sx={{ width: 24, height: 24 }}
                 src={rest.imgUsuario}
-                alt={`imagem usuario ${rest.nomeUsuario}`}
+                alt={`imagem usuario ${rest.imgUsuario}`}
               />
               <Grid overflow="hidden">
                 <Typography
@@ -70,7 +72,7 @@ export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
                     lineHeight: "1rem",
                     color: "#515255",
                   }}
-                >{`${rest.nomeUsuario}`}</Typography>
+                >{`${rest.autor}`}</Typography>
               </Grid>
               <Typography
                 sx={{
@@ -79,7 +81,7 @@ export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
                   lineHeight: "1rem",
                   color: "#515255",
                 }}
-              >{`• ${rest.dataProjeto}`}</Typography>
+              >{`• ${formatarData(rest.createAt)}`}</Typography>
             </Grid>
             <Grid
               overflow="hidden"
