@@ -4,9 +4,11 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as yup from "yup";
+import IconeCarregar from "../assets/icone_carregar.png";
 import CampoSenha from "../components/campoSenha";
 
 export default function FormularioCadastro() {
@@ -17,6 +19,7 @@ export default function FormularioCadastro() {
   const [sobrenome, setSobrenome] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [alertSeverity, setAlertSeverity] = useState<
     "error" | "info" | "success" | "warning" | undefined
   >();
@@ -60,6 +63,7 @@ export default function FormularioCadastro() {
     if (!nome || !sobrenome || !email || !senha) {
       setMensagem("Preencha todos os campos!");
       setAlertSeverity("error");
+      setTimeout(() => setMensagem(""), 6000);
       return;
     }
 
@@ -74,13 +78,14 @@ export default function FormularioCadastro() {
         return;
       }
     }
-
+    setLoading(true);
     axios
       .post("https://nervous-pear-clothes.cyclic.app/cadastro", usuario)
       .then(() => {
         setMensagem("Cadastro feito com sucesso!");
         setAlertSeverity("success");
         setTimeout(() => setMensagem(""), 6000);
+        setLoading(false);
         setNome("");
         setSobrenome("");
         setEmail("");
@@ -99,6 +104,7 @@ export default function FormularioCadastro() {
         }
         setAlertSeverity("error");
         setTimeout(() => setMensagem(""), 6000);
+        setLoading(false);
       });
   };
 
@@ -176,7 +182,15 @@ export default function FormularioCadastro() {
             "text-[15px] font-medium text-color-neutral-60"
           )}
         >
-          CADASTRAR
+          {loading ? (
+            <Image
+              src={IconeCarregar}
+              alt="Icone de carregamento"
+              className="h-[20px] w-[20px] animate-spin"
+            />
+          ) : (
+            "CADASTRAR"
+          )}
         </Button>
       </div>
     </form>
