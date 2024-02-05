@@ -1,8 +1,8 @@
 import { ProjetoProps } from "@/app/@types/Projetos";
-import Image from "next/image";
 import img_perfil from "@/app/_helpers/assets/perfil.png";
-import { Chip, Typography } from "@mui/material";
 import { formatarData } from "@/app/util/formatarData";
+import { Chip, Typography } from "@mui/material";
+import Image from "next/image";
 
 export function CabecalhoModalVisualizarProjeto({
   projeto,
@@ -23,7 +23,7 @@ export function CabecalhoModalVisualizarProjeto({
         <div className="flex flex-col">
           <p className="text-color-neutral-120">{projeto.autor}</p>
           <p className="text-color-neutral-110">
-            {projeto.createAt && formatarData(projeto.createAt)}
+            {formatarData(projeto.createAt as string)}
           </p>
         </div>
       </div>

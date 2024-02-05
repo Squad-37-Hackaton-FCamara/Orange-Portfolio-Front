@@ -30,10 +30,6 @@ export function ConteudoModalProjeto({
   const [erroMsg, setErroMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(projeto);
-  // }, []);
-
   return (
     <>
       <div className="relative w-[890px] flex flex-col gap-6 lg:w-full lg:justify-start">

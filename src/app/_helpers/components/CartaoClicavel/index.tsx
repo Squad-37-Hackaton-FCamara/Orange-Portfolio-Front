@@ -1,6 +1,4 @@
-import img_perfil from "@/app/_helpers/assets/perfil.png";
 import { formatarData } from "@/app/util/formatarData";
-
 import {
   Avatar,
   Card,
@@ -13,8 +11,8 @@ import {
 } from "@mui/material";
 
 interface ICartaoPortifolio {
-  autor: "Maria";
-  imgUsuario?: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Favatar&psig=AOvVaw0wCvk7frc6ShmhPd_38vzK&ust=1706906502121000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCIith6-Ai4QDFQAAAAAdAAAAABAE";
+  autor: string;
+  imgUsuario?: string;
   titulo: string;
   foto: string;
   createAt: string;
@@ -61,7 +59,10 @@ export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
             >
               <Avatar
                 sx={{ width: 24, height: 24 }}
-                src={rest.imgUsuario}
+                //* Funcionalidade de imagem ainda não na fase de MVP implementada
+                src={
+                  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Favatar&psig=AOvVaw0wCvk7frc6ShmhPd_38vzK&ust=1706906502121000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCIith6-Ai4QDFQAAAAAdAAAAABAE"
+                }
                 alt={`imagem usuario ${rest.imgUsuario}`}
               />
               <Grid overflow="hidden">

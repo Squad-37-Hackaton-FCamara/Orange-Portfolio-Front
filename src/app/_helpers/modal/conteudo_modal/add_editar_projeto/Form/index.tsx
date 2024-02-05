@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ProjetoProps } from "@/app/@types/Projetos";
+import ComponentModal from "@/app/_helpers/modal/index";
 import { CloseIcon } from "@/app/_helpers/svg/closeIcon";
 import { ColecoesIcon } from "@/app/_helpers/svg/colecoesIcon";
 import { ProjetosAPI } from "@/services/api_projetos";
@@ -13,15 +14,8 @@ import {
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import {
-  Component,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { ConteudoModalVisualizarProjeto } from "../../../visualizar_projeto";
-import ComponentModal from "@/app/_helpers/modal/index";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -165,6 +159,7 @@ export function FormAddEditarProjeto({
         }
         setModal("editado");
         setLoading(false);
+        window.location.reload();
       } catch (error) {
         setErroMsg("Erro ao editar projeto, por favor, tente novamente");
         setErroView(true);
@@ -210,6 +205,7 @@ export function FormAddEditarProjeto({
       }
       setModal("adicionado");
       setLoading(false);
+      window.location.reload();
     } catch (error: any) {
       setErroView(true);
       setErroMsg(

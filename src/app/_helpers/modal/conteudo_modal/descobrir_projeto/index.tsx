@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { formatarData } from "@/app/util/formatarData";
 import { Avatar, Chip, Grid, Link, Typography } from "@mui/material";
 
 interface IProjeto {
@@ -84,7 +83,7 @@ export function ConteudoModalDescobrirProjeto(projeto: IProjeto) {
                 color: "#303133",
               }}
             >
-              {formatarData(projeto.createAt)}
+              {"formatarData(projeto.createAt)"}
             </Typography>
           </Grid>
         </Grid>
