@@ -90,13 +90,9 @@ export default function FormularioLogin() {
             'bg-color-secondary-100 hover:bg-color-secondary-110',
             'text-[15px] font-medium text-color-neutral-60'
           )}
-        >ENTRAR</Button>
+        >{loading ? <Image src={IconeCarregar} alt='Icone de carregamento' className='h-[20px] w-[20px] animate-spin' /> : "ENTRAR"}</Button>
         <Link href="/cadastro" className='text-color-neutral-100 text-base'>Cadastre-se</Link>
-        
       </div>
-      {loading && (
-        <Image src={IconeCarregar} alt='Icone de carregamento' className='absolute bottom-40 h-[20px] w-[20px] animate-spin'></Image>
-        )}
     </form>
   );
 }
