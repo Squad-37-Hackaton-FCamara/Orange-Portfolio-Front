@@ -1,18 +1,15 @@
 "use client";
 
 import ComponenteModal from "@/app/_helpers/modal";
+import { ProjetosAPI } from "@/services/api_projetos";
 import { TextField, Typography } from "@mui/material";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import CartaoPortifolio from "../_helpers/components/CartaoClicavel";
-import { Header } from "../_helpers/header";
-import { ConteudoModalDescobrirProjeto } from "../_helpers/modal/conteudo_modal/descobrir_projeto";
-import DescobrirLayout from "./layout";
-import { ProjetosAPI } from "@/services/api_projetos";
-import { formatarData } from "../util/formatarData";
-import { ProjetoProps } from "../@types/Projetos";
 import { ProjectLoading } from "../_helpers/components/Loader";
+import { Header } from "../_helpers/header";
 import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
+import DescobrirLayout from "./layout";
 
 function PaginaDescobrir() {
   const [projeto, setProjeto] = useState<any>({});
@@ -36,6 +33,7 @@ function PaginaDescobrir() {
     return () => {
       clearTimeout(timerId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tagBusca]);
 
   const handleChange = (e: any) => {
@@ -45,13 +43,6 @@ function PaginaDescobrir() {
   return (
     <DescobrirLayout>
       <Header />
-      {/* <ComponenteModal
-        isOpen={expandirProjeto}
-        setIsOpen={setExpandirProjeto}
-        add_edit={false}
-      >
-        <ConteudoModalDescobrirProjeto projeto {...projeto} />
-      </ComponenteModal> */}
       <ComponenteModal add_edit={false} isOpen={isOpen} setIsOpen={setIsOpen}>
         <ConteudoModalVisualizarProjeto
           projeto={projeto}
@@ -97,7 +88,7 @@ function PaginaDescobrir() {
                       imgUsuario={projeto.imgUsuario}
                       titulo={projeto.titulo}
                       foto={projeto.foto}
-                      createAt={formatarData(projeto.createAt)}
+                      createAt={projeto.createAt}
                       tags={projeto.tags}
                       onClick={() => {
                         setIsOpen(true), setProjeto(projeto);
