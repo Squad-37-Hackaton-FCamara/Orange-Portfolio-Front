@@ -19,6 +19,7 @@ import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_pro
 // import { ConteudoModalVisualizarProjeto } from "../_helpers/modal/visualizar_projeto";
 
 function MeusProjetosPage() {
+  const [loading, setLoading] = useState(true);
   const [projetos, setProjetos] = useState<ProjetoProps[]>([]);
   const [projeto, setProjeto] = useState<any>({});
   const idSelecionado = useAtomValue(idSelecionadoAtom);
@@ -109,6 +110,8 @@ function MeusProjetosPage() {
       tagBusca,
     }).then((response) => {
       setProjetos([...response]);
+    }).finally(() => {
+      setLoading(false);
     });
     return response;
   };
@@ -149,6 +152,7 @@ function MeusProjetosPage() {
           setTagBusca={setTagBusca}
           tagBusca={tagBusca}
           setProjeto={setProjeto}
+          loading={loading}
         />
       </div>
     </MeusProjetosPageLayout>
