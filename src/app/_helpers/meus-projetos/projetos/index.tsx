@@ -5,6 +5,8 @@ import { TextField, Typography } from "@mui/material";
 import { useWindowDimensions } from "@/services/window_size";
 import { formatarData } from "../../../util/formatarData";
 import { useSession } from "next-auth/react";
+import { ProjectLoading } from "../../components/Loader";
+import ContentLoader from "react-content-loader";
 
 export function Projetos({
   projetos,
@@ -13,6 +15,7 @@ export function Projetos({
   setTagBusca,
   tagBusca,
   setProjeto,
+  loading,
 }: {
   projetos: any[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -31,6 +34,7 @@ export function Projetos({
   setTagBusca: Dispatch<SetStateAction<string>>;
   tagBusca: string;
   setProjeto: Dispatch<SetStateAction<any>>;
+  loading: boolean;
 }) {
   const { width } = useWindowDimensions();
   const projetosOrdenados = [...projetos].sort(
@@ -43,6 +47,7 @@ export function Projetos({
 
   return (
     <div className="w-full flex flex-col gap-10 lg:justify-center">
+      
       <div className="flex flex-col gap-4">
         <Typography
           variant="h6"
@@ -60,7 +65,14 @@ export function Projetos({
           onChange={handleChange}
         />
       </div>
-      {projetos.length === 0 ? (
+      {loading && (
+        <div className="grid grid-cols-3 gap-6 lg:max-w-[802px] lg:grid-cols-2 md:flex md:w-full md:flex-col md:items-center md:justify-center">
+          <ProjectLoading />
+          <ProjectLoading />
+          <ProjectLoading />
+        </div>
+      )}
+      {!loading && projetos.length === 0 ? (
         <div className="grid grid-cols-3 gap-6 lg:flex lg:w-full ">
           <div
             className="cursor-pointer"

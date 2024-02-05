@@ -18,14 +18,24 @@ export default function FormularioLogin() {
   const [senha, setSenha] = useState<string>('');
   const [mensagem, setMensagem] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [alertSeverity, setAlertSeverity] = useState<
+    "error" | "info" | "success" | "warning" | undefined
+  >();
 
   const router = useRouter();
+
+  function google() {
+    setMensagem('Essa funcionalidade não se encontra disponível no momento!');
+    setAlertSeverity('warning');
+    setTimeout(() => setMensagem(''), 6000);
+  }
 
   async function enviar(event: SyntheticEvent) {
     event.preventDefault();
 
     if (!email || !senha) {
       setMensagem('Preencha todos os campos!')
+      setAlertSeverity('error');
       setTimeout(() => setMensagem(''), 6000);
       return;
     }
@@ -40,6 +50,7 @@ export default function FormularioLogin() {
     if (result?.error) {
       setLoading(false);
       setMensagem('E-mail ou senha incorretos!')
+      setAlertSeverity('error');
       setTimeout(() => setMensagem(''), 6000);
       return;
     }
@@ -53,7 +64,7 @@ export default function FormularioLogin() {
       onSubmit={enviar}
     >
       {mensagem && (
-        <Alert severity='error' variant="filled" className='absolute top-0 mt-20'>
+        <Alert severity={alertSeverity} variant="filled" className='absolute top-0 mt-20'>
           {mensagem}
         </Alert>
       )}
@@ -62,7 +73,7 @@ export default function FormularioLogin() {
         'text-color-principal-90 '
       )}
       >Entre no Orange Portfólio</Typography>
-      <BotaoGoogle></BotaoGoogle>
+      <BotaoGoogle onClick={google}></BotaoGoogle>
       <div className='flex flex-col justify-between w-[517px] h-[271px] md:w-[312px] lg:w-[312px]'>
         <Typography component="p" className={clsx(
           'text-2xl md:text-base lg:text-base',

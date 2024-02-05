@@ -4,8 +4,9 @@ import LogoGoogle from "../../assets/logoGoogle.png";
 import { signIn } from "next-auth/react";
 import { SyntheticEvent } from "react";
 import { useRouter } from "next/navigation";
+import React from 'react';
 
-export default function BotaoGoogle() {
+export default function BotaoGoogle({ onClick }: { onClick: React.MouseEventHandler<HTMLButtonElement> })  {
   const router = useRouter(); // Adicionado
 
   async function entrarGoogle(event: SyntheticEvent) {
@@ -20,7 +21,7 @@ export default function BotaoGoogle() {
   }
   return (
     <Button
-      onClick={entrarGoogle}
+      onClick={onClick}
       className="my-8 p-3 hover:bg-color-neutral-70"
       variant="contained"
       style={{ textTransform: "none" }}
