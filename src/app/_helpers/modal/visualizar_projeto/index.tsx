@@ -1,15 +1,11 @@
-import { ProjetoProps } from "@/app/@types/Projetos";
+/* eslint-disable @next/next/no-img-element */
 import { useWindowDimensions } from "@/services/window_size";
-import { Dispatch, SetStateAction } from "react";
-import { CabecalhoModalVisualizarProjeto } from "./Cabecalho";
-import Image from "next/image";
-import { ProjectLoading } from "../../components/Loader";
-import projeto_generico from "@/app/_helpers/assets/projeto_generico.png";
-import { Close } from "@mui/icons-material";
-import { CloseIcon } from "../../svg/closeIcon";
 import { Typography } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 import CartaoPortifolio from "../../components/CartaoClicavel";
-import CartaoPortifolioMeusProjetos from "../../meus-projetos/card_projeto";
+import { ProjectLoading } from "../../components/Loader";
+import { CloseIcon } from "../../svg/closeIcon";
+import { CabecalhoModalVisualizarProjeto } from "./Cabecalho";
 
 export function ConteudoModalVisualizarProjeto({
   projeto,
