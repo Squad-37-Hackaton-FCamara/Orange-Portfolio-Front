@@ -10,7 +10,8 @@ export default function middleware(req: NextRequest) {
   if (!token) {
     if (
       req.nextUrl.pathname === "/login" ||
-      req.nextUrl.pathname === "/cadastro"
+      req.nextUrl.pathname === "/cadastro" ||
+      req.nextUrl.pathname === "/"
     ) {
       return NextResponse.next();
     }
@@ -19,7 +20,8 @@ export default function middleware(req: NextRequest) {
 
   if (
     req.nextUrl.pathname === "/login" ||
-    req.nextUrl.pathname === "/cadastro"
+    req.nextUrl.pathname === "/cadastro" ||
+    req.nextUrl.pathname === "/"
   ) {
     return NextResponse.redirect(meusProjetosURL);
   }
