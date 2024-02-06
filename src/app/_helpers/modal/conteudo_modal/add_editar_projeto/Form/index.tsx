@@ -86,7 +86,6 @@ export function FormAddEditarProjeto({
   const [loading, setLoading] = useState(false);
 
   function handleFile(e: any) {
-    debugger
     if (!e.target.files) {
       return;
     }
