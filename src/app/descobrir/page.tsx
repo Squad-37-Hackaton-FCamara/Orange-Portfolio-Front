@@ -20,9 +20,15 @@ function PaginaDescobrir() {
   const listarProjetos = () => {
     const response = ProjetosAPI.ListarProjetos({ tagBusca }).then(
       (response) => {
-        setProjetos(response);
+        setProjetos(
+          response.sort(
+            (a: any, b: any) =>
+              new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+          )
+        );
       }
     );
+
     return response;
   };
 
