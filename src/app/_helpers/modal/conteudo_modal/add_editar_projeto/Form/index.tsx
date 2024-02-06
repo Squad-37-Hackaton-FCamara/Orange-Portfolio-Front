@@ -86,6 +86,7 @@ export function FormAddEditarProjeto({
   const [loading, setLoading] = useState(false);
 
   function handleFile(e: any) {
+    debugger
     if (!e.target.files) {
       return;
     }
@@ -129,7 +130,7 @@ export function FormAddEditarProjeto({
           return;
         }
 
-        if (!imageAvatar) {
+        if (!projeto && !imageAvatar) {
           setLoading(false);
           setErroMsg("Por favor, adicione uma imagem para o projeto.");
           setErroView(true);
@@ -152,7 +153,7 @@ export function FormAddEditarProjeto({
                 descricaoProjeto != projeto.descricao
                   ? descricaoProjeto
                   : projeto.descricao,
-              foto: imageAvatar,
+              foto: imageAvatar? imageAvatar : projeto.foto,
               usuario_id: session?.user.usuario.id || "",
             },
           });
