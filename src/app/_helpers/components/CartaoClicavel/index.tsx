@@ -92,7 +92,7 @@ export default function CartaoPortifolio({ ...rest }: ICartaoPortifolio) {
                 gap: "0.5rem",
               }}
             >
-              {rest.tags.map((tag, i) => (
+              {rest.tags && rest.tags.map((tag, i) => (
                 <Chip key={`${tag}-${i}`} size="medium" label={tag} />
               ))}
             </Grid>
